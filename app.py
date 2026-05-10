@@ -211,4 +211,23 @@ if "chat_session" not in st.session_state:
 # 5. Display Chat History
 for message in st.session_state.chat_session._curated_history:
     if message.parts and hasattr(message.parts[0], 'text') and message.parts[0].text:
-        role = "user" if message.role == "user" el
+        role = "user" if message.role == "user" else "assistant"
+        with st.chat_message(role):
+            st.markdown(message.parts[0].text)
+
+# 6. User Input Box
+if prompt := st.chat_input("Say something to Dennis..."):
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    try:
+        response = st.session_state.chat_session.send_message(prompt)
+        with st.chat_message("assistant"):
+            st.markdown(response.text)
+        
+        save_history(st.session_state.chat_session)
+        
+    except Exception as e:
+        st.error(f"Dennis Error: {e}")
+        if "429" in str(e):
+            st.warning("I'm a bit overwhelmed! Please wait a minute for my circuits to cool down.")
