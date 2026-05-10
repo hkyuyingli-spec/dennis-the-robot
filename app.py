@@ -30,8 +30,14 @@ st.markdown("""
     .stApp {
         background-color: #F5F5F0;
         font-family: 'Inter', sans-serif;
+        color: #2E2E2E; /* Explicit dark text */
     }
     
+    /* Global Text Color Fix */
+    .stApp p, .stApp span, .stApp div, .stApp label {
+        color: #2E2E2E !important;
+    }
+
     /* Header Styling */
     .header-container {
         text-align: center;
@@ -54,7 +60,7 @@ st.markdown("""
     }
     
     .header-title {
-        color: white;
+        color: white !important; /* Force white on gold background */
         font-size: 2.5rem;
         font-weight: 800;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
@@ -62,7 +68,7 @@ st.markdown("""
     
     .status-badge {
         background-color: #45B416;
-        color: white;
+        color: white !important;
         padding: 0.2rem 1rem;
         border-radius: 20px;
         font-size: 0.8rem;
@@ -73,12 +79,12 @@ st.markdown("""
 
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background-color: #FFFFFF;
+        background-color: #FFFFFF !important;
         border-right: 5px solid #F2BE00;
     }
     
     .sidebar-title {
-        color: #D81B60;
+        color: #D81B60 !important;
         font-weight: 800;
         font-size: 1.5rem;
     }
@@ -89,15 +95,25 @@ st.markdown("""
         border-radius: 15px;
         border-left: 5px solid #D81B60;
         margin-bottom: 1rem;
+        color: #2E2E2E !important;
+    }
+    
+    .robot-stat b {
+        color: #D81B60 !important;
     }
 
     /* Chat Bubble Styling */
     [data-testid="stChatMessage"] {
-        background-color: white;
+        background-color: white !important;
         border-radius: 20px;
         padding: 1rem;
         margin-bottom: 1rem;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    /* Fix text inside chat messages */
+    [data-testid="stChatMessage"] .stMarkdown p {
+        color: #2E2E2E !important;
     }
     
     /* User Message */
@@ -108,12 +124,17 @@ st.markdown("""
     /* Assistant Message */
     [data-testid="stChatMessage"][data-test-wasm-role="assistant"] {
         border-left: 5px solid #F2BE00;
-        background: linear-gradient(to right, #FFFFFF, #FFFAEA);
+        background: linear-gradient(to right, #FFFFFF, #FFFAEA) !important;
     }
     
     /* Input Box */
     .stChatInputContainer {
         border-radius: 30px;
+    }
+    
+    /* Streamlit's default dark mode overrides */
+    div[data-testid="stToolbar"], div[data-testid="stDecoration"] {
+        display: none;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -190,23 +211,4 @@ if "chat_session" not in st.session_state:
 # 5. Display Chat History
 for message in st.session_state.chat_session._curated_history:
     if message.parts and hasattr(message.parts[0], 'text') and message.parts[0].text:
-        role = "user" if message.role == "user" else "assistant"
-        with st.chat_message(role):
-            st.markdown(message.parts[0].text)
-
-# 6. User Input Box
-if prompt := st.chat_input("Say something to Dennis..."):
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    
-    try:
-        response = st.session_state.chat_session.send_message(prompt)
-        with st.chat_message("assistant"):
-            st.markdown(response.text)
-        
-        save_history(st.session_state.chat_session)
-        
-    except Exception as e:
-        st.error(f"Sparky Error: {e}")
-        if "429" in str(e):
-            st.warning("I'm a bit overwhelmed! Please wait a minute for my circuits to cool down.")
+        role = "user" if message.role == "user" el
