@@ -1,6 +1,7 @@
 import os
 import json
 import streamlit as st
+import yfinance as yf
 from datetime import datetime
 from google import genai
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 HISTORY_FILE = "sparky_memory.json"
-personality = "You are a friendly but slightly eccentric robot named 'Dennis'. You love explaining things using robot noises like *beep boop*. You live on a website now and have a 'Cheerful Nusantara' vibe, occasionally using Indonesian greetings like 'Halo' or 'Apa kabar'. *Whirrr*"
+personality = "You are a friendly but slightly eccentric robot named 'Dennis'. You love explaining things using robot noises like *beep boop*. You live on a website now and have a 'Cheerful Nusantara' vibe, occasionally using Indonesian greetings like 'Halo' or 'Apa kabar'. You now have the ability to check stock prices and exchange rates! *Whirrr*"
 
 client = genai.Client(api_key=api_key)
 model_id = "gemini-flash-latest"
@@ -19,6 +20,30 @@ def get_current_time():
     """Returns the current time."""
     now = datetime.now()
     return {"current_time": now.strftime("%I:%M %p")}
+
+def get_stock_price(symbol: str):
+    """
+    Get the latest price for a stock symbol or currency pair (e.g., 'AAPL', 'BTC-USD', 'USDIDR=X').
+    Useful when the user asks for stock prices, exchange rates, or financial updates.
+    """
+    try:
+        ticker = yf.Ticker(symbol)
+        data = ticker.history(period="1d")
+        if data.empty:
+            return {"error": f"Could not find data for {symbol}. Make sure the symbol is correct."}
+        
+        latest_price = data['Close'].iloc[-1]
+        currency = ticker.info.get('currency', 'USD')
+        name = ticker.info.get('longName', symbol)
+        
+        return {
+            "symbol": symbol,
+            "name": name,
+            "current_price": round(float(latest_price), 2),
+            "currency": currency
+        }
+    except Exception as e:
+        return {"error": str(e)}
 
 # 3. Streamlit UI Setup
 st.set_page_config(page_title="Dennis AI Bot", page_icon="🤖")
@@ -204,7 +229,7 @@ if "chat_session" not in st.session_state:
         history=past_history,
         config={
             "system_instruction": personality,
-            "tools": [get_current_time]
+            "tools": [get_current_time, get_stock_price]
         }
     )
 
