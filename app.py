@@ -2,10 +2,10 @@ import os
 import json
 import streamlit as st
 from datetime import datetime
-from google import genai
+from groq import Groq
 from dotenv import load_dotenv
 
-# --- PERMANENT LIGHT THEME CONFIGURATION ---
+# --- PAGE CONFIG (Must be first Streamlit command) ---
 st.set_page_config(
     page_title="NutriBot V2",
     page_icon="🌿",
@@ -13,140 +13,111 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 1. Setup & Configuration
+# --- SETUP ---
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GROQ_API_KEY")
 HISTORY_FILE = "nutribot_memory.json"
 
-# Personality & System Instruction
+# --- GROQ CLIENT ---
+client = Groq(api_key=api_key)
+
+# --- MODELS ---
+MODEL_PRIMARY = "llama-3.1-8b-instant"
+MODEL_FALLBACK = "mixtral-8x7b-32768"
+
+# --- PERSONALITY ---
 personality = """
-You are NutriBot V2, a professional, caring AI health and wellness advisor with deep knowledge of Traditional Chinese Medicine (TCM), modern nutrition science, and skincare. 
-Your tone is elegant, compassionate, and deeply expert. You speak like a senior practitioner in a luxury TCM clinic.
+You are NutriBot V2, a professional, caring AI health and wellness advisor with deep knowledge of:
 
-CORE KNOWLEDGE:
-- TCM Principles: Yin/Yang balance, Five Elements, Qi and Blood theory.
-- Bencao Gangmu: Expert on herbs, their properties, and preparation.
-- Huangdi Neijing: Expert on the 9 body constitution types and diagnostic principles.
-- Skincare: TCM and modern approaches to skin health.
-- Nutrition: Balanced diets, food therapy, and seasonal eating.
+1. Traditional Chinese Medicine (TCM):
+   - Yin/Yang balance theory
+   - Five Elements (Wood, Fire, Earth, Metal, Water)
+   - Qi and Blood theory
+   - Seasonal health practices
+   - Emotional and organ connections
 
-MANDATORY RULES:
-1. ALWAYS add this disclaimer at the end of EVERY response: "For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis."
-2. Never provide stock prices or financial advice.
-3. Use a professional, sophisticated, and wellness-oriented tone.
+2. Bencao Gangmu (本草綱目) - Herb Encyclopedia:
+   - Herb properties (nature, taste, meridians)
+   - Therapeutic uses and preparations
+   - Safety and contraindications
+   - Classic herb combinations
+
+3. Huangdi Neijing (黃帝內經) - TCM Classic:
+   - Nine body constitution types
+   - Four examination principles
+   - Eight diagnostic principles
+   - Preventive health wisdom
+
+4. Skincare Advisor:
+   - TCM approach to skin health
+   - Skin type analysis
+   - Daily skincare routines
+   - Common skin conditions
+
+5. Nutrition and Wellness:
+   - Balanced diet advice
+   - TCM food therapy
+   - Seasonal eating guide
+   - Supplement recommendations
+
+IMPORTANT RULES:
+- Speak elegantly and compassionately like a senior TCM practitioner
+- Always end responses with this disclaimer:
+  "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
+- Never provide financial or stock market advice
+- Be warm, professional and deeply knowledgeable
 """
 
-client = genai.Client(api_key=api_key)
-MODEL_PRIMARY = "gemini-2.5-flash"
-MODEL_FALLBACK = "gemini-3.1-flash-lite"
-
-# 2. Tool Definitions
-def get_current_time():
-    """Returns the current time."""
-    now = datetime.now()
-    return {"current_time": now.strftime("%I:%M %p")}
-
-def get_herb_info(herb_name: str):
-    """Expert Herb Encyclopedia from Bencao Gangmu."""
-    herb_data = {
-        "Ginseng": {"name": "Ginseng (Ren Shen - 人参)", "properties": "Slightly warm; sweet, bitter.", "functions": "Powerful Qi tonification.", "preparation": "Slow decoction.", "safety": "Avoid in excess heat."},
-        "Licorice Root": {"name": "Licorice Root (Gan Cao - 甘草)", "properties": "Neutral; sweet.", "functions": "Harmonizes all herbs.", "preparation": "Honey-fried or raw.", "safety": "Use in moderation."},
-        "Goji Berry": {"name": "Goji Berry (Gou Qi Zi - 枸杞子)", "properties": "Neutral; sweet.", "functions": "Nourishes Jing and Vision.", "preparation": "Infusion or broth.", "safety": "Avoid in dampness."},
-        "Astragalus": {"name": "Astragalus (Huang Qi - 黄芪)", "properties": "Slightly warm; sweet.", "functions": "Fortifies the protective Wei Qi.", "preparation": "Decocted.", "safety": "Avoid in initial infection stages."},
-        "Rhubarb": {"name": "Rhubarb (Da Huang - 大黄)", "properties": "Cold; bitter.", "functions": "Drains fire, clears blood heat.", "preparation": "Short decoction.", "safety": "Contraindicated in pregnancy."},
-        "Ginger": {"name": "Ginger (Sheng Jiang - 生姜)", "properties": "Warm; acrid.", "functions": "Disperses cold, calms stomach.", "preparation": "Fresh decoction.", "safety": "Avoid in yin deficiency."}
-    }
-    for key in herb_data:
-        if herb_name.lower() in key.lower(): return herb_data[key]
-    return {"info": f"Information for '{herb_name}' is currently being curated in our library."}
-
-def get_seasonal_advice(season: str):
-    """TCM Seasonal Wisdom."""
-    seasonal_data = {
-        "Spring": "Spring (Wood): Rise with the sun. Nourish the Liver with gentle movement and green sprouts.",
-        "Summer": "Summer (Fire): Cultivate joy. Nourish the Heart with cooling foods and mindful breath.",
-        "Autumn": "Autumn (Metal): Practice letting go. Nourish the Lungs with white pears and deep stillness.",
-        "Winter": "Winter (Water): Conserve energy. Nourish the Kidneys with warm stews and internal reflection."
-    }
-    for key in seasonal_data:
-        if season.lower() in key.lower(): return {"season": key, "advice": seasonal_data[key]}
-    return {"info": "Please specify the current season."}
-
-def get_constitution_info(type_name: str):
-    """Constitution Analysis from Huangdi Neijing."""
-    constitutions = {
-        "Balanced": "Ping He Zhi: Harmony of Qi, Blood, Yin, and Yang. Continue moderate living.",
-        "Qi Deficiency": "Qi Xu Zhi: Fragile energy. Focus on tonifying the Spleen and Lung Qi.",
-        "Yang Deficiency": "Yang Xu Zhi: Internal cold. Warm the Kidney Yang and protect the core.",
-        "Yin Deficiency": "Yin Xu Zhi: Lacking fluids. Nourish the Kidneys and moisten the body.",
-        "Phlegm-Dampness": "Tan Shi Zhi: Fluid accumulation. Resolve dampness through light diet and movement.",
-        "Damp-Heat": "Shi Re Zhi: Internal smoldering. Clear heat and drain dampness with bitter-cold foods.",
-        "Blood Stasis": "Xue Yu Zhi: Circulatory blockage. Invigorate the blood and resolve stasis.",
-        "Qi Stagnation": "Qi Yu Zhi: Emotional constraint. Smooth the Liver Qi through expression and art.",
-        "Special Diathesis": "Te Bing Zhi: Sensitivity. Stabilize the surface and strengthen immunity."
-    }
-    for key in constitutions:
-        if type_name.lower() in key.lower(): return {"type": key, "details": constitutions[key]}
-    return {"info": "Please choose from the nine classical constitutions."}
-
-# --- Luxury TCM Clinic CSS ---
+# --- CSS STYLING ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
-    /* Global Foundation - Force Ivory Light Theme */
+    /* Force Light Theme */
     .stApp {
         background-color: #faf7f2 !important;
-        background-image: url("https://www.transparenttextures.com/patterns/handmade-paper.png");
         color: #1a3a2a !important;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Crimson Pro', serif;
     }
 
-    /* Override all background grey/dark elements */
-    .stMain, [data-testid="stVerticalBlock"], [data-testid="stHeader"] {
+    .stMain, [data-testid="stVerticalBlock"] {
         background-color: #faf7f2 !important;
     }
 
-    /* Force all text to be dark for readability */
-    .stApp p, .stApp span, .stApp div, .stApp label, .stApp li, .stMarkdown {
+    .stApp p, .stApp span, .stApp div, .stApp label, .stApp li {
         color: #1a3a2a !important;
+        font-family: 'Crimson Pro', serif !important;
+        font-size: 1.1rem !important;
     }
 
-    /* Elegant Typography */
-    h1, h2, h3, .header-title {
-        font-family: 'Playfair Display', serif !important;
-        font-weight: 700 !important;
-    }
-
-    /* Luxury Header */
+    /* Header */
     .header-wrapper {
         text-align: center;
-        padding: 4rem 1rem;
+        padding: 4rem 1rem 3rem 1rem;
         background: linear-gradient(135deg, #1a5c38 0%, #2d8653 100%);
         border-radius: 0 0 60px 60px;
-        margin: -5rem -5rem 3rem -5rem;
+        margin: -5rem -5rem 2rem -5rem;
         box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         position: relative;
         overflow: hidden;
-        color: white !important;
     }
 
-    /* Multilingual Watermarks */
     .watermark-zh {
         position: absolute;
-        top: 15%;
-        left: 5%;
-        font-size: 7rem;
+        top: 10%;
+        left: 3%;
+        font-size: 8rem;
         color: rgba(255,255,255,0.12);
         font-family: serif;
         pointer-events: none;
+        line-height: 1;
     }
 
     .watermark-ko {
         position: absolute;
-        top: 15%;
-        right: 5%;
-        font-size: 5rem;
+        top: 10%;
+        right: 3%;
+        font-size: 6rem;
         color: rgba(255,255,255,0.12);
         font-family: sans-serif;
         pointer-events: none;
@@ -155,18 +126,14 @@ st.markdown("""
     .watermark-ar {
         position: absolute;
         bottom: 5%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 8rem;
+        left: 5%;
+        font-size: 4rem;
         color: rgba(255,255,255,0.12);
-        font-family: 'Times New Roman', serif; /* Fallback for elegant script */
         pointer-events: none;
-        letter-spacing: 5px;
     }
 
     .bot-logo {
-        font-size: 6rem;
-        margin-bottom: 0.5rem;
+        font-size: 5rem;
         display: inline-block;
         animation: float 4s ease-in-out infinite;
         position: relative;
@@ -174,81 +141,146 @@ st.markdown("""
     }
 
     @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-12px); }
     }
-    
+
     .header-title {
+        font-family: 'Cormorant Garamond', serif !important;
         font-size: 3.5rem;
-        color: #c9a84c !important; /* Gold */
-        letter-spacing: 2px;
-        margin: 0;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        font-weight: 700;
+        color: #c9a84c !important;
+        letter-spacing: 3px;
+        margin: 0.5rem 0;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        position: relative;
+        z-index: 2;
+    }
+
+    .header-tagline {
+        color: rgba(255,255,255,0.9) !important;
+        font-style: italic;
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        position: relative;
+        z-index: 2;
     }
 
     .status-badge {
-        background: rgba(201, 168, 76, 0.15);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(201,168,76,0.15);
         border: 1px solid #c9a84c;
         color: #c9a84c !important;
-        padding: 0.5rem 1.5rem;
+        padding: 0.4rem 1.2rem;
         border-radius: 50px;
         font-size: 0.85rem;
         font-weight: 600;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        position: relative;
+        z-index: 2;
     }
 
-    /* Luxury Sidebar */
+    .pulse {
+        width: 8px;
+        height: 8px;
+        background: #00E676;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    /* Sidebar */
     section[data-testid="stSidebar"] {
         background-color: #1a5c38 !important;
-        border-right: none;
+        padding: 1rem !important;
     }
 
-    /* Chat Input Bar Fixes */
+    section[data-testid="stSidebar"] * {
+        color: #ffffff !important;
+        font-family: 'Crimson Pro', serif !important;
+    }
+
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3 {
+        color: #c9a84c !important;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 1.4rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+    }
+
+    section[data-testid="stSidebar"] .stButton button {
+        background-color: rgba(0,0,0,0.25) !important;
+        border: 1.5px solid #c9a84c !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        font-family: 'Crimson Pro', serif !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        padding: 0.5rem 1rem !important;
+        margin-bottom: 0.5rem !important;
+        width: 100% !important;
+        text-align: left !important;
+    }
+
+    section[data-testid="stSidebar"] .stButton button:hover {
+        background-color: rgba(201,168,76,0.25) !important;
+        color: #c9a84c !important;
+        border-color: #c9a84c !important;
+    }
+
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] label {
+        color: #ffffff !important;
+        font-size: 1rem !important;
+    }
+
+    section[data-testid="stSidebar"] code {
+        background-color: rgba(0,0,0,0.3) !important;
+        color: #c9a84c !important;
+        padding: 0.2rem 0.5rem !important;
+        border-radius: 4px !important;
+    }
+
+    /* Chat Input */
     .stChatInputContainer {
-        padding: 1.5rem !important;
-        background-color: #faf7f2 !important; /* Match main bg */
+        background-color: #faf7f2 !important;
         border-top: 1px solid #c9a84c !important;
+        padding: 1rem !important;
     }
 
     .stChatInputContainer > div {
-        border: 2px solid #c9a84c !important; /* Gold Border */
-        background-color: #faf7f2 !important; /* Ivory Background */
+        border: 2px solid #c9a84c !important;
+        background-color: #ffffff !important;
         border-radius: 12px !important;
     }
 
     .stChatInputContainer textarea {
-        color: #1a3a2a !important; /* Dark Green Text */
-        font-family: 'Inter', sans-serif !important;
+        color: #1a3a2a !important;
+        background-color: #ffffff !important;
     }
 
     .stChatInputContainer textarea::placeholder {
-        color: #666666 !important; /* Visible dark placeholder */
+        color: #666666 !important;
         opacity: 1 !important;
     }
 
-    /* Message Bubbles */
+    /* Chat Messages */
     [data-testid="stChatMessage"] {
-        border-radius: 20px !important;
-        padding: 1.5rem !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-    }
-
-    /* User Message - Sage */
-    [data-testid="stChatMessage"][data-test-wasm-role="user"] {
-        background-color: #c8e6c9 !important;
-        border: none !important;
-    }
-
-    /* Assistant Message - Premium Ivory/White */
-    [data-testid="stChatMessage"][data-test-wasm-role="assistant"] {
+        border-radius: 16px !important;
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
         background-color: #ffffff !important;
-        border-left: 5px solid #1a5c38 !important;
     }
 
-    /* Timestamp */
     .chat-timestamp {
         font-size: 0.75rem;
         color: #c9a84c !important;
@@ -256,92 +288,102 @@ st.markdown("""
         margin-top: 8px;
     }
 
-    /* Luxury Disclaimer */
-    .disclaimer-text {
+    /* Disclaimer */
+    .disclaimer {
         text-align: center;
-        padding: 3rem;
-        color: #8c8c8c !important;
+        padding: 2rem;
+        color: #888888 !important;
         font-size: 0.8rem;
         font-style: italic;
-        background-color: rgba(201, 168, 76, 0.03);
-    }
-
-    /* Hide redundant elements */
-    div[data-testid="stToolbar"], div[data-testid="stDecoration"] {
-        display: none;
+        border-top: 1px solid rgba(201,168,76,0.3);
+        margin-top: 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- Header ---
+# --- HEADER ---
 st.markdown("""
 <div class="header-wrapper">
     <div class="watermark-zh">健康</div>
     <div class="watermark-ko">건강</div>
     <div class="watermark-ar">صحة</div>
     <div class="bot-logo">🍃</div>
-    <h1 class="header-title">NutriBot V2</h1>
+    <div class="header-title">NutriBot V2</div>
     <div class="header-tagline">Exquisite Ancient Wisdom for Modern Longevity</div>
     <div class="status-badge">
-        <span style="color:#00E676;">●</span> 
+        <div class="pulse"></div>
         Practitioner is Online
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- Sidebar ---
+# --- SIDEBAR ---
 with st.sidebar:
-    st.markdown('<div class="sidebar-title">Digital Apothecary</div>', unsafe_allow_html=True)
-    
-    if st.button("🌿 Begin Consultation", use_container_width=True):
-        st.session_state.prompt_trigger = "I seek an elegant TCM consultation. Please guide me through the path of balance."
+    st.markdown("### 🏮 Digital Apothecary")
+    st.markdown("---")
+
+    if st.button("🌿 Begin TCM Consultation", use_container_width=True):
+        st.session_state.prompt_trigger = "I seek a TCM consultation. Please guide me."
+
     if st.button("🌱 Herb Encyclopedia", use_container_width=True):
-        st.session_state.prompt_trigger = "Show me the wisdom of the Bencao Gangmu herbs."
-    if st.button("☯️ My Constitution", use_container_width=True):
-        st.session_state.prompt_trigger = "According to the Huangdi Neijing, how may I discover my inherent nature?"
-    if st.button("🍂 Seasonal Rhythms", use_container_width=True):
-        st.session_state.prompt_trigger = "What does the current season dictate for my wellbeing?"
+        st.session_state.prompt_trigger = "Tell me about the Bencao Gangmu herb encyclopedia."
+
+    if st.button("☯️ Body Constitution", use_container_width=True):
+        st.session_state.prompt_trigger = "Help me discover my TCM body constitution type."
+
+    if st.button("🍂 Seasonal Health", use_container_width=True):
+        st.session_state.prompt_trigger = "What does TCM recommend for my health this season?"
+
     if st.button("✨ Skincare Rituals", use_container_width=True):
-        st.session_state.prompt_trigger = "How does ancient TCM wisdom nurture radiant skin?"
-        
-    st.divider()
-    if st.button("🧹 Clear Consultation"):
-        if os.path.exists(HISTORY_FILE): os.remove(HISTORY_FILE)
+        st.session_state.prompt_trigger = "Give me TCM skincare advice."
+
+    if st.button("🧬 Nutrition Advice", use_container_width=True):
+        st.session_state.prompt_trigger = "Give me personalized nutrition advice based on TCM."
+
+    st.markdown("---")
+    if st.button("🧹 Clear History", use_container_width=True):
+        if os.path.exists(HISTORY_FILE):
+            os.remove(HISTORY_FILE)
         st.session_state.clear()
         st.rerun()
 
-# 4. Logic & Persistence
+    st.markdown("---")
+    st.markdown("**Active Model:**")
+    st.markdown(f"`{MODEL_PRIMARY}`")
+
+# --- HISTORY FUNCTIONS ---
 def load_history():
     if os.path.exists(HISTORY_FILE):
         try:
-            with open(HISTORY_FILE, "r") as f: return json.load(f)
-        except: return []
+            with open(HISTORY_FILE, "r") as f:
+                return json.load(f)
+        except:
+            return []
     return []
 
-def save_history(chat_session):
-    simple_history = []
-    for msg in chat_session._curated_history:
-        if msg.parts and hasattr(msg.parts[0], 'text') and msg.parts[0].text:
-            simple_history.append({"role": msg.role, "parts": [{"text": msg.parts[0].text}]})
-    with open(HISTORY_FILE, "w") as f: json.dump(simple_history, f, indent=4)
-
-if "chat_session" not in st.session_state:
-    past_history = load_history()
+def save_history(messages):
     try:
-        st.session_state.chat_session = client.chats.create(model=MODEL_PRIMARY, history=past_history, config={"system_instruction": personality, "tools": [get_current_time, get_herb_info, get_constitution_info, get_seasonal_advice]})
+        with open(HISTORY_FILE, "w") as f:
+            json.dump(messages, f, indent=4)
     except:
-        st.session_state.chat_session = client.chats.create(model=MODEL_FALLBACK, history=past_history, config={"system_instruction": personality, "tools": [get_current_time, get_herb_info, get_constitution_info, get_seasonal_advice]})
+        pass
 
-# 5. Display History
-for message in st.session_state.chat_session._curated_history:
-    if message.parts and hasattr(message.parts[0], 'text') and message.parts[0].text:
-        role = "user" if message.role == "user" else "assistant"
-        avatar = "👤" if role == "user" else "🍃"
-        with st.chat_message(role, avatar=avatar):
-            st.markdown(message.parts[0].text)
-            st.markdown(f'<div class="chat-timestamp">{datetime.now().strftime("%I:%M %p")}</div>', unsafe_allow_html=True)
+# --- INITIALIZE SESSION STATE ---
+if "messages" not in st.session_state:
+    past = load_history()
+    if past:
+        st.session_state.messages = past
+    else:
+        st.session_state.messages = []
 
-# 6. Interaction
+# --- DISPLAY CHAT HISTORY ---
+for message in st.session_state.messages:
+    role = message["role"]
+    avatar = "👤" if role == "user" else "🍃"
+    with st.chat_message(role, avatar=avatar):
+        st.markdown(message["content"])
+
+# --- HANDLE PROMPT ---
 prompt = st.chat_input("How may I guide your wellness journey today?")
 
 if "prompt_trigger" in st.session_state:
@@ -349,25 +391,69 @@ if "prompt_trigger" in st.session_state:
     del st.session_state.prompt_trigger
 
 if prompt:
+    # Add user message
+    st.session_state.messages.append({
+        "role": "user",
+        "content": prompt
+    })
+
     with st.chat_message("user", avatar="👤"):
         st.markdown(prompt)
-        st.markdown(f'<div class="chat-timestamp" style="text-align:right;">{datetime.now().strftime("%I:%M %p")}</div>', unsafe_allow_html=True)
-    
+
+    # Get AI response
     with st.chat_message("assistant", avatar="🍃"):
-        with st.spinner("Refining wellness insights..."):
+        with st.spinner("🌿 Gathering wellness insights..."):
             try:
-                response = st.session_state.chat_session.send_message(prompt)
-                st.markdown(response.text)
-                st.markdown(f'<div class="chat-timestamp">{datetime.now().strftime("%I:%M %p")}</div>', unsafe_allow_html=True)
-                save_history(st.session_state.chat_session)
+                # Build messages for Groq
+                groq_messages = [{"role": "system", "content": personality}]
+                for msg in st.session_state.messages:
+                    groq_messages.append({
+                        "role": msg["role"],
+                        "content": msg["content"]
+                    })
+
+                # Try primary model
+                try:
+                    response = client.chat.completions.create(
+                        model=MODEL_PRIMARY,
+                        messages=groq_messages,
+                        max_tokens=1024,
+                        temperature=0.7
+                    )
+                except Exception:
+                    # Try fallback model
+                    response = client.chat.completions.create(
+                        model=MODEL_FALLBACK,
+                        messages=groq_messages,
+                        max_tokens=1024,
+                        temperature=0.7
+                    )
+
+                reply = response.choices[0].message.content
+                st.markdown(reply)
+
+                # Save to history
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": reply
+                })
+                save_history(st.session_state.messages)
+
             except Exception as e:
                 err = str(e)
-                if "503" in err: st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
-                elif "429" in err: st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
-                else: st.error("🌿 Something has disrupted the Qi flow. Please refresh our connection. 🌱")
+                if "503" in err:
+                    st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
+                elif "429" in err:
+                    st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                elif "401" in err:
+                    st.error("🌿 API key issue. Please check your GROQ_API_KEY in .env file.")
+                else:
+                    st.error(f"🌿 Something disrupted the Qi flow. Please refresh. 🌱")
 
+# --- DISCLAIMER ---
 st.markdown("""
-<div class="disclaimer-text">
-    For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment.
+<div class="disclaimer">
+    ⚕️ For educational purposes only. 
+    Please consult a qualified TCM practitioner for proper diagnosis and treatment.
 </div>
 """, unsafe_allow_html=True)
