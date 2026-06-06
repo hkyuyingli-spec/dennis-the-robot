@@ -276,9 +276,33 @@ section[data-testid="stSidebar"] code {
 .stChatInputContainer textarea { color: #1a3a2a !important; background-color: #ffffff !important; font-size: 1rem !important; }
 .stChatInputContainer textarea::placeholder { color: #888888 !important; opacity: 1 !important; }
 
-[data-testid="stChatMessage"] { border-radius: 16px !important; padding: 1rem !important; margin-bottom: 1rem !important; background-color: #ffffff !important; }
+/* Chat bubbles */
+[data-testid="stChatMessage"] { 
+    border-radius: 16px !important; 
+    padding: 1rem !important; 
+    margin-bottom: 1rem !important; 
+    background-color: #ffffff !important;
+    border: 1px solid #e0d5c5 !important;
+}
 
-.stMarkdown p { color: #1a3a2a !important; font-family: 'Crimson Pro', serif !important; font-size: 1.1rem !important; }
+/* Chat message text */
+.stMarkdown p { 
+    color: #1a3a2a !important; 
+    font-family: 'Crimson Pro', serif !important; 
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+}
+
+/* All text inside chat */
+[data-testid="stChatMessage"] p,
+[data-testid="stChatMessage"] li,
+[data-testid="stChatMessage"] ol,
+[data-testid="stChatMessage"] ul {
+    color: #1a3a2a !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
