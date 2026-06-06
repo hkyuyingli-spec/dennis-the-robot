@@ -1,0 +1,18 @@
+# Secrets and environment variables
+.env
+serviceAccountKey.json
+.streamlit/secrets.toml
+
+# Python build/cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Streamlit-specific (excluding secrets which is already listed)
+.streamlit/config.toml
+# You might want to keep config.toml but definitely ignore secrets.toml
