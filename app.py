@@ -257,9 +257,7 @@ header_html = f"""<div style="background:linear-gradient(135deg,#1a5c38 0%,#2d86
     <div style="margin-bottom:0.5rem;">
     <img src="data:image/png;base64,{logo_base64}" 
     style="width:90px;height:90px;
-    border-radius:50%;
-    border:3px solid #c9a84c;
-    box-shadow:0 4px 15px rgba(0,0,0,0.3);">
+    border-radius:50%;">
     </div>
     <div style="font-family:Georgia,serif;font-size:2.8rem;font-weight:700;color:#c9a84c;letter-spacing:3px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);">NutriBot V2</div><div style="color:rgba(255,255,255,0.9);font-style:italic;font-size:1rem;margin:0.4rem 0;">Exquisite Ancient Wisdom for Modern Longevity</div><div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
 st.markdown(header_html, unsafe_allow_html=True)
