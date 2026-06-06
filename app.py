@@ -27,7 +27,18 @@ def get_db():
                 initialize_app(cred)
             # 2. Try Streamlit Secrets (for cloud dev)
             elif "firebase" in st.secrets:
-                key_dict = json.loads(st.secrets["firebase"]["service_account"])
+                key_dict = {
+                    "type": st.secrets["firebase"]["type"],
+                    "project_id": st.secrets["firebase"]["project_id"],
+                    "private_key_id": st.secrets["firebase"]["private_key_id"],
+                    "private_key": st.secrets["firebase"]["private_key"],
+                    "client_email": st.secrets["firebase"]["client_email"],
+                    "client_id": st.secrets["firebase"]["client_id"],
+                    "auth_uri": st.secrets["firebase"]["auth_uri"],
+                    "token_uri": st.secrets["firebase"]["token_uri"],
+                    "client_x509_cert_url": st.secrets["firebase"]["client_x509_cert_url"],
+                    "universe_domain": "googleapis.com"
+                }
                 cred = credentials.Certificate(key_dict)
                 initialize_app(cred)
             else:
