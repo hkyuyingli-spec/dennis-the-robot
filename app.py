@@ -210,46 +210,65 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] > div { 
     background-color: #1a5c38 !important; 
 }
-section[data-testid="stSidebar"] p { 
+
+/* All general text - bright white */
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] div { 
     color: #ffffff !important; 
-    font-size: 1.05rem !important; 
-    font-weight: 600 !important; 
+    font-weight: 500 !important;
 }
+
+/* Headings - gold color */
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
 section[data-testid="stSidebar"] h3 { 
-    color: #f0d080 !important; 
+    color: #f5c842 !important; 
     font-size: 1.4rem !important; 
     font-weight: 700 !important; 
 }
-section[data-testid="stSidebar"] span { 
-    color: #ffffff !important; 
-    font-weight: 600 !important; 
+
+/* Success message - Database Connected */
+section[data-testid="stSidebar"] .stAlert {
+    background-color: #145c30 !important;
+    border: 1px solid #f5c842 !important;
+    border-radius: 8px !important;
 }
-section[data-testid="stSidebar"] label { 
-    color: #ffffff !important; 
-    font-weight: 600 !important; 
-}
-section[data-testid="stSidebar"] .stButton > button {
-    background-color: #2d8653 !important;
-    border: 2px solid #f0d080 !important;
-    color: #ffffff !important;
-    font-size: 1.05rem !important;
+section[data-testid="stSidebar"] .stAlert p {
+    color: #f5c842 !important;
     font-weight: 700 !important;
+    font-size: 1rem !important;
+}
+
+/* Buttons */
+section[data-testid="stSidebar"] .stButton > button {
+    background-color: #145c30 !important;
+    border: 1.5px solid #f5c842 !important;
+    color: #f5c842 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
     border-radius: 10px !important;
     padding: 0.6rem 1rem !important;
     margin-bottom: 8px !important;
     width: 100% !important;
+    transition: all 0.2s ease !important;
 }
+
+/* Button hover */
 section[data-testid="stSidebar"] .stButton > button:hover {
-    background-color: #f0d080 !important;
+    background-color: #f5c842 !important;
     color: #1a5c38 !important;
-    border: 2px solid #ffffff !important;
-}
-section[data-testid="stSidebar"] .stSuccess {
-    background-color: rgba(255,255,255,0.15) !important;
-    color: #ffffff !important;
+    border: 1.5px solid #ffffff !important;
     font-weight: 700 !important;
+}
+
+/* Active model text */
+section[data-testid="stSidebar"] code {
+    background-color: rgba(0,0,0,0.3) !important;
+    color: #f5c842 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
 }
 
 .stChatInputContainer { background-color: #faf7f2 !important; border-top: 2px solid #c9a84c !important; }
