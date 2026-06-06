@@ -204,41 +204,52 @@ st.markdown("""
 .stApp { background-color: #faf7f2 !important; }
 .stMain, [data-testid="stVerticalBlock"] { background-color: #faf7f2 !important; }
 
-section[data-testid="stSidebar"] { background-color: #1a5c38 !important; }
-section[data-testid="stSidebar"] > div { background-color: #1a5c38 !important; }
-section[data-testid="stSidebar"] p { color: #ffffff !important; font-size: 1.05rem !important; font-weight: 500 !important; opacity: 1 !important; }
+section[data-testid="stSidebar"] { 
+    background-color: #1a5c38 !important; 
+}
+section[data-testid="stSidebar"] > div { 
+    background-color: #1a5c38 !important; 
+}
+section[data-testid="stSidebar"] p { 
+    color: #ffffff !important; 
+    font-size: 1.05rem !important; 
+    font-weight: 600 !important; 
+}
 section[data-testid="stSidebar"] h1,
 section[data-testid="stSidebar"] h2,
-section[data-testid="stSidebar"] h3 { color: #c9a84c !important; font-size: 1.4rem !important; font-weight: 700 !important; opacity: 1 !important; }
-section[data-testid="stSidebar"] span { color: #ffffff !important; font-weight: 500 !important; opacity: 1 !important; }
-section[data-testid="stSidebar"] label { color: #ffffff !important; font-weight: 500 !important; opacity: 1 !important; }
+section[data-testid="stSidebar"] h3 { 
+    color: #f0d080 !important; 
+    font-size: 1.4rem !important; 
+    font-weight: 700 !important; 
+}
+section[data-testid="stSidebar"] span { 
+    color: #ffffff !important; 
+    font-weight: 600 !important; 
+}
+section[data-testid="stSidebar"] label { 
+    color: #ffffff !important; 
+    font-weight: 600 !important; 
+}
 section[data-testid="stSidebar"] .stButton > button {
     background-color: #2d8653 !important;
-    border: 2px solid #c9a84c !important;
+    border: 2px solid #f0d080 !important;
     color: #ffffff !important;
     font-size: 1.05rem !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     border-radius: 10px !important;
     padding: 0.6rem 1rem !important;
     margin-bottom: 8px !important;
     width: 100% !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-section[data-testid="stSidebar"] .stButton > button p {
-    color: #ffffff !important;
-    opacity: 1 !important;
 }
 section[data-testid="stSidebar"] .stButton > button:hover {
-    background-color: #c9a84c !important;
+    background-color: #f0d080 !important;
     color: #1a5c38 !important;
     border: 2px solid #ffffff !important;
 }
-section[data-testid="stSidebar"] code {
-    background-color: rgba(0,0,0,0.4) !important;
-    color: #c9a84c !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
+section[data-testid="stSidebar"] .stSuccess {
+    background-color: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
 }
 
 .stChatInputContainer { background-color: #faf7f2 !important; border-top: 2px solid #c9a84c !important; }
