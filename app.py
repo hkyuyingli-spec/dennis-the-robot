@@ -308,32 +308,13 @@ section[data-testid="stSidebar"] code {
 
 # --- HEADER ---
 header_html = f"""<div style="background:linear-gradient(135deg,#1a5c38 0%,#2d8653 100%);border-radius:0 0 60px 60px;margin-bottom:2rem;box-shadow:0 15px 40px rgba(0,0,0,0.15);position:relative;height:450px;width:100%;overflow:hidden;"><span style="position:absolute;top:10px;left:10px;font-size:160px;color:rgba(255,255,255,0.2);font-family:serif;line-height:1;display:block;">健康</span><span style="position:absolute;top:10px;right:10px;font-size:140px;color:rgba(255,255,255,0.2);font-family:sans-serif;line-height:1;display:block;text-align:right;">건강</span><span style="position:absolute;bottom:10px;left:10px;font-size:90px;color:rgba(255,255,255,0.2);line-height:1;display:block;">صحة</span><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;width:100%;">
-    <div style="margin-bottom:0.5rem;
-background:transparent;
-display:flex;
-justify-content:center;">
-    <img src="data:image/png;base64,{logo_base64}" 
-    style="width:360px;height:360px;
-    border-radius:20px;
-    background:transparent;
-    -webkit-filter:drop-shadow(0px 0px 0px transparent);
-    filter:drop-shadow(0px 0px 0px transparent);">
+    <div style="margin-bottom:0.5rem;background:transparent;display:flex;justify-content:center;">
+    <img src="data:image/png;base64,{logo_base64}" style="width:360px;height:360px;border-radius:20px;background:transparent;-webkit-filter:drop-shadow(0px 0px 0px transparent);filter:drop-shadow(0px 0px 0px transparent);">
     </div>
     <div style="font-family:Georgia,serif;font-size:2.8rem;font-weight:700;color:#c9a84c;letter-spacing:3px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);">NutriBot V2</div>
-    <div style="color:rgba(255,255,255,0.9);
-    font-style:italic;
-    font-size:1rem;
-    margin:0.4rem 0;">
-    Holistic Wellness Powered by AI
-    </div>
-
-    <div style="color:#c9a84c;
-    font-size:0.85rem;
-    font-weight:600;
-    letter-spacing:1px;
-    margin-top:0.3rem;">
-    A proprietary wellness platform by NutriBot Co. Ltd.
-    </div><div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
+    <div style="color:rgba(255,255,255,0.9);font-style:italic;font-size:1rem;margin:0.4rem 0;">Holistic Wellness Powered by AI</div>
+    <div style="color:#c9a84c;font-size:0.85rem;font-weight:600;letter-spacing:1px;margin-top:0.3rem;">A proprietary wellness platform by NutriBot Co. Ltd.</div>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
 st.markdown(header_html, unsafe_allow_html=True)
 
 # --- SIDEBAR ---
