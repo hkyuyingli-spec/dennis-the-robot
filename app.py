@@ -319,7 +319,21 @@ justify-content:center;">
     -webkit-filter:drop-shadow(0px 0px 0px transparent);
     filter:drop-shadow(0px 0px 0px transparent);">
     </div>
-    <div style="font-family:Georgia,serif;font-size:2.8rem;font-weight:700;color:#c9a84c;letter-spacing:3px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);">NutriBot V2</div><div style="color:rgba(255,255,255,0.9);font-style:italic;font-size:1rem;margin:0.4rem 0;">Exquisite Ancient Wisdom for Modern Longevity</div><div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
+    <div style="font-family:Georgia,serif;font-size:2.8rem;font-weight:700;color:#c9a84c;letter-spacing:3px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);">NutriBot V2</div>
+    <div style="color:rgba(255,255,255,0.9);
+    font-style:italic;
+    font-size:1rem;
+    margin:0.4rem 0;">
+    Holistic Wellness Powered by AI
+    </div>
+
+    <div style="color:#c9a84c;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:1px;
+    margin-top:0.3rem;">
+    A proprietary wellness platform by NutriBot Co. Ltd.
+    </div><div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
 st.markdown(header_html, unsafe_allow_html=True)
 
 # --- SIDEBAR ---
@@ -421,5 +435,36 @@ if prompt:
         except Exception as e:
             st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
 
-# --- DISCLAIMER ---
-st.markdown('<div style="text-align:center;padding:2rem;color:#888888;font-size:0.85rem;font-style:italic;border-top:1px solid rgba(201,168,76,0.3);margin-top:2rem;">⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment.</div>', unsafe_allow_html=True)
+st.markdown('''
+<div style="text-align:center;
+padding:2rem;
+border-top:2px solid rgba(201,168,76,0.3);
+margin-top:2rem;">
+<div style="color:#c9a84c;
+font-family:Georgia,serif;
+font-size:1.2rem;
+font-weight:700;
+letter-spacing:2px;
+margin-bottom:0.5rem;">
+NutriBot V2 — Holistic Wellness Powered by AI
+</div>
+<div style="color:#1a5c38;
+font-size:1rem;
+font-weight:600;
+margin-bottom:0.3rem;">
+A proprietary wellness platform by NutriBot Co. Ltd.
+</div>
+<div style="color:#555555;
+font-size:0.85rem;
+margin-bottom:0.8rem;">
+© 2026 NutriBot Co. Ltd. All rights reserved.
+</div>
+<div style="color:#888888;
+font-size:0.75rem;
+font-style:italic;">
+⚕️ For educational purposes only. Please consult 
+a qualified healthcare professional for proper 
+diagnosis and treatment.
+</div>
+</div>
+''', unsafe_allow_html=True)
