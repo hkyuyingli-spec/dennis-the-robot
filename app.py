@@ -161,40 +161,155 @@ def log_interaction(event_type, data):
     else:
         st.sidebar.error("❌ Database Not Initialized")
 
-# --- 20s ENGAGEMENT WINDOW ---
-def engagement_window():
-    if "start_time" not in st.session_state:
-        st.session_state.start_time = time.time()
-    
-    elapsed = time.time() - st.session_state.start_time
-    
-    # Show interaction between 10s and 30s of the session (20s window)
-    if 10 <= elapsed <= 30 and "engagement_answered" not in st.session_state:
+# --- WELCOME SCREEN ---
+def welcome_screen():
+    if "welcome_completed" not in st.session_state:
         with st.container():
             st.markdown("""
-                <div style="background-color: #c9a84c; padding: 15px; border-radius: 12px; border-left: 6px solid #1a5c38; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <p style="color: #1a5c38; margin: 0; font-weight: bold; font-size: 1.1rem;">🏮 Quick Pulse: What is your primary wellness goal today?</p>
-                    <p style="color: #1a5c38; font-size: 0.85rem; margin-top: 5px; font-style: italic;">Help us tailor your experience in 1 click.</p>
-                </div>
+            <div style="background:linear-gradient(135deg,#1a5c38,#2d8653);
+            border-radius:20px;
+            padding:2rem;
+            margin-bottom:2rem;
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            border:1px solid #c9a84c;">
+            
+            <div style="text-align:center;margin-bottom:1.5rem;">
+            <div style="color:#c9a84c;
+            font-size:1.5rem;
+            font-weight:700;
+            letter-spacing:2px;">
+            🌿 Welcome to NutriBot V2
+            </div>
+            <div style="color:rgba(255,255,255,0.9);
+            font-size:0.95rem;
+            margin-top:0.5rem;">
+            Help us personalise your wellness experience.
+            Please answer 3 quick questions.
+            </div>
+            </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            # Question 1 - Wellness Goal
+            st.markdown("""
+            <div style="color:#1a5c38;
+            font-weight:700;
+            font-size:1.1rem;
+            margin-bottom:0.5rem;">
+            1️⃣ What is your primary wellness goal today?
+            </div>
             """, unsafe_allow_html=True)
             
-            cols = st.columns(4)
-            if cols[0].button("💆 Stress", use_container_width=True):
-                st.session_state.engagement_answered = "Stress Relief"
-                log_interaction("goal_selection", {"goal": "Stress Relief"})
+            cols1 = st.columns(5)
+            goal = None
+            if cols1[0].button("💆 Stress Relief", 
+                use_container_width=True):
+                goal = "Stress Relief"
+            if cols1[1].button("✨ Better Skin", 
+                use_container_width=True):
+                goal = "Better Skin"
+            if cols1[2].button("🔋 More Energy", 
+                use_container_width=True):
+                goal = "More Energy"
+            if cols1[3].button("🍎 Better Diet", 
+                use_container_width=True):
+                goal = "Better Diet"
+            if cols1[4].button("😴 Better Sleep", 
+                use_container_width=True):
+                goal = "Better Sleep"
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Question 2 - Age Group
+            st.markdown("""
+            <div style="color:#1a5c38;
+            font-weight:700;
+            font-size:1.1rem;
+            margin-bottom:0.5rem;">
+            2️⃣ What is your age group?
+            </div>
+            """, unsafe_allow_html=True)
+            
+            cols2 = st.columns(4)
+            age = None
+            if cols2[0].button("18-25", 
+                use_container_width=True):
+                age = "18-25"
+            if cols2[1].button("26-35", 
+                use_container_width=True):
+                age = "26-35"
+            if cols2[2].button("36-50", 
+                use_container_width=True):
+                age = "36-50"
+            if cols2[3].button("50+", 
+                use_container_width=True):
+                age = "50+"
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # Question 3 - Gender
+            st.markdown("""
+            <div style="color:#1a5c38;
+            font-weight:700;
+            font-size:1.1rem;
+            margin-bottom:0.5rem;">
+            3️⃣ What is your gender?
+            </div>
+            """, unsafe_allow_html=True)
+            
+            cols3 = st.columns(3)
+            gender = None
+            if cols3[0].button("👨 Male", 
+                use_container_width=True):
+                gender = "Male"
+            if cols3[1].button("👩 Female", 
+                use_container_width=True):
+                gender = "Female"
+            if cols3[2].button("⭕ Prefer not to say",
+                use_container_width=True):
+                gender = "Prefer not to say"
+
+            # Save when any answer selected
+            if goal:
+                st.session_state.welcome_goal = goal
+                log_interaction("user_profile", {
+                    "goal": goal,
+                    "age": st.session_state.get(
+                        "welcome_age", "not selected"),
+                    "gender": st.session_state.get(
+                        "welcome_gender", "not selected")
+                })
+                st.session_state.welcome_completed = True
                 st.rerun()
-            if cols[1].button("✨ Skin", use_container_width=True):
-                st.session_state.engagement_answered = "Better Skin"
-                log_interaction("goal_selection", {"goal": "Better Skin"})
+                
+            if age:
+                st.session_state.welcome_age = age
                 st.rerun()
-            if cols[2].button("🔋 Energy", use_container_width=True):
-                st.session_state.engagement_answered = "More Energy"
-                log_interaction("goal_selection", {"goal": "More Energy"})
+                
+            if gender:
+                st.session_state.welcome_gender = gender
+                log_interaction("user_profile", {
+                    "goal": st.session_state.get(
+                        "welcome_goal", "not selected"),
+                    "age": st.session_state.get(
+                        "welcome_age", "not selected"),
+                    "gender": gender
+                })
+                st.session_state.welcome_completed = True
                 st.rerun()
-            if cols[3].button("🍎 Diet", use_container_width=True):
-                st.session_state.engagement_answered = "Better Diet"
-                log_interaction("goal_selection", {"goal": "Better Diet"})
-                st.rerun()
+
+            st.markdown("""
+            <div style="text-align:center;
+            color:#888888;
+            font-size:0.8rem;
+            margin-top:1rem;
+            font-style:italic;">
+            🔒 Your data is private and used only to 
+            improve your wellness experience.
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.stop()
 
 # --- CSS ---
 st.markdown("""
@@ -358,8 +473,8 @@ for message in st.session_state.messages:
     with st.chat_message(role, avatar=avatar):
         st.markdown(message["content"])
 
-# --- ENGAGEMENT WINDOW ---
-engagement_window()
+# --- WELCOME SCREEN ---
+welcome_screen()
 
 # --- CHAT INPUT ---
 prompt = st.chat_input("How may I guide your wellness journey today?")
