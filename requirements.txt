@@ -2,3 +2,8 @@ streamlit
 groq
 python-dotenv
 firebase-admin
+pandas
+numpy
+fpdf
+scikit-learn
+joblib

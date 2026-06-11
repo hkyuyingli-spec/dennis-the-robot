@@ -1,0 +1,7 @@
+SNP_Marker,TCM_Pattern,Correlation_Strength,Description
+MTHFR_CT,Spleen_Qi_Deficiency,STRONG,"Methylation issues often correlate with Spleen Qi deficiency in TCM."
+COMT_AA,Liver_Qi_Stagnation,STRONG,"Slow COMT can lead to catecholamine buildup, manifesting as Liver Qi stagnation (stress)."
+VDR_TA,Kidney_Ying_Deficiency,WEAK,"Vitamin D receptor variations may relate to Kidney Essence and Bone health."
+GSTP1_GG,Phlegm_Dampness,WEAK,"Detoxification efficiency can affect metabolic waste accumulation."
+MTR_AA,Blood_Deficiency,STRONG,"B12 recycling affects Blood production and Heart/Spleen health."
+NOS3_CT,Blood_Stasis,STRONG,"Nitric oxide production is vital for Blood circulation."

@@ -104,6 +104,12 @@ You are NutriBot V2, a professional, caring AI health and wellness advisor with 
    - Seasonal eating guide
    - Supplement recommendations
 
+6. Genetic-TCM Correlation (YuanYingCore):
+   - Understanding SNP markers (MTHFR, COMT, etc.)
+   - How genetic variations (Li) manifest as TCM patterns (Biao)
+   - Quantum-inspired health analysis concepts
+   - Explaining health wavefunction collapse and entanglement
+
 IMPORTANT RULES:
 - Speak elegantly and compassionately like a senior TCM practitioner
 - Always end responses with this disclaimer:
@@ -459,77 +465,215 @@ with st.sidebar:
     st.markdown("**Active Model:**")
     st.markdown(f"`{MODEL_PRIMARY}`")
 
-# --- SESSION STATE ---
-if "session_id" not in st.session_state:
-    st.session_state.session_id = str(uuid.uuid4())
+# --- TABS ---
+tab_chat, tab_quantum = st.tabs(["💬 Chat with NutriBot", "🧬 Genetic TCM Analysis"])
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+with tab_chat:
+    # --- SESSION STATE ---
+    if "session_id" not in st.session_state:
+        st.session_state.session_id = str(uuid.uuid4())
 
-# --- DISPLAY HISTORY ---
-for message in st.session_state.messages:
-    role = message["role"]
-    avatar = "👤" if role == "user" else "🍃"
-    with st.chat_message(role, avatar=avatar):
-        st.markdown(message["content"])
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# --- WELCOME SCREEN ---
-welcome_screen()
+    # --- DISPLAY HISTORY ---
+    for message in st.session_state.messages:
+        role = message["role"]
+        avatar = "👤" if role == "user" else "🍃"
+        with st.chat_message(role, avatar=avatar):
+            st.markdown(message["content"])
 
-# --- CHAT INPUT ---
-prompt = st.chat_input("How may I guide your wellness journey today?")
+    # --- WELCOME SCREEN ---
+    welcome_screen()
 
-if "prompt_trigger" in st.session_state:
-    prompt = st.session_state.prompt_trigger
-    del st.session_state.prompt_trigger
+    # --- CHAT INPUT ---
+    prompt = st.chat_input("How may I guide your wellness journey today?")
 
-if prompt:
-    log_question(prompt)
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user", avatar="👤"):
-        st.markdown(prompt)
+    if "prompt_trigger" in st.session_state:
+        prompt = st.session_state.prompt_trigger
+        del st.session_state.prompt_trigger
 
-    with st.chat_message("assistant", avatar="🍃"):
-        response_placeholder = st.empty()
-        full_response = ""
-        
-        try:
-            # Prepare messages (Limit to last 10 to save tokens/context)
-            groq_messages = [{"role": "system", "content": personality}]
-            for msg in st.session_state.messages[-10:]:
-                groq_messages.append({"role": msg["role"], "content": msg["content"]})
+    if prompt:
+        log_question(prompt)
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user", avatar="👤"):
+            st.markdown(prompt)
+
+        with st.chat_message("assistant", avatar="🍃"):
+            response_placeholder = st.empty()
+            full_response = ""
             
             try:
-                completion = client.chat.completions.create(
-                    model=MODEL_PRIMARY, 
-                    messages=groq_messages, 
-                    max_tokens=1024, 
-                    temperature=0.7,
-                    stream=True
-                )
-            except Exception:
-                completion = client.chat.completions.create(
-                    model=MODEL_FALLBACK, 
-                    messages=groq_messages, 
-                    max_tokens=1024, 
-                    temperature=0.7,
-                    stream=True
-                )
-            
-            for chunk in completion:
-                if chunk.choices[0].delta.content:
-                    full_response += chunk.choices[0].delta.content
-                    response_placeholder.markdown(full_response + "▌")
-            
-            response_placeholder.markdown(full_response)
-            st.session_state.messages.append({"role": "assistant", "content": full_response})
+                # Prepare messages (Limit to last 10 to save tokens/context)
+                groq_messages = [{"role": "system", "content": personality}]
+                for msg in st.session_state.messages[-10:]:
+                    groq_messages.append({"role": msg["role"], "content": msg["content"]})
+                
+                try:
+                    completion = client.chat.completions.create(
+                        model=MODEL_PRIMARY, 
+                        messages=groq_messages, 
+                        max_tokens=1024, 
+                        temperature=0.7,
+                        stream=True
+                    )
+                except Exception:
+                    completion = client.chat.completions.create(
+                        model=MODEL_FALLBACK, 
+                        messages=groq_messages, 
+                        max_tokens=1024, 
+                        temperature=0.7,
+                        stream=True
+                    )
+                
+                for chunk in completion:
+                    if chunk.choices[0].delta.content:
+                        full_response += chunk.choices[0].delta.content
+                        response_placeholder.markdown(full_response + "▌")
+                
+                response_placeholder.markdown(full_response)
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
 
-        except RateLimitError:
-            st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
-        except (InternalServerError, APIStatusError):
-            st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
-        except Exception as e:
-            st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
+            except RateLimitError:
+                st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+            except (InternalServerError, APIStatusError):
+                st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
+            except Exception as e:
+                st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
+
+with tab_quantum:
+    st.markdown("""
+    <div style="background:rgba(201,168,76,0.1); padding:1.5rem; border-radius:15px; border:1px solid #c9a84c;">
+    <h2 style="color:#1a5c38; margin-top:0;">🧬 YuanYingCore Quantum-Genetic Analysis</h2>
+    <p style="color:#555; font-style:italic;">
+    This advanced system uses <b>Quantum-Inspired algorithms</b> to correlate your genetic markers (SNPs) 
+    with Traditional Chinese Medicine (TCM) patterns. It simulates a health wavefunction that explores 
+    all potential recommendations before 'collapsing' into the most effective plan for you.
+    </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        st.markdown("### 🔍 Input Your Data")
+        snp_list = st.multiselect(
+            "Select Genetic Markers (SNPs)",
+            ["MTHFR_CT", "COMT_AA", "VDR_TA", "GSTP1_GG", "MTR_AA", "NOS3_CT"],
+            help="Select the SNP variants from your genetic report."
+        )
+        
+        uploaded_file = st.file_uploader("Or upload raw DNA data (CSV/TXT)", type=['csv', 'txt'])
+        if uploaded_file:
+            st.success("File uploaded! YuanYingCore will parse this for relevant SNPs.")
+
+        lab_values = st.text_area("Lab Values (e.g., B12: 400, Folate: 10)", placeholder="Enter relevant blood marker values...")
+        symptoms = st.text_area("Current Symptoms", placeholder="e.g., fatigue, poor sleep, bloating...")
+        health_goal = st.selectbox(
+            "Primary Health Goal",
+            ["Improve Energy", "Better Sleep", "Stress Reduction", "Digestive Health", "Skin Radiance"]
+        )
+
+        analyze_btn = st.button("🚀 Run YuanYingCore Analysis", use_container_width=True)
+
+    if analyze_btn:
+        if not snp_list:
+            st.error("Please select at least one genetic marker.")
+        else:
+            with st.spinner("🌀 Initializing Quantum Wavefunction..."):
+                core = YuanYingCore()
+                
+                # Cycle 1: Superposition
+                st.info("🔄 **Cycle 1: Superposition (Hadamard Expansion)**")
+                st.write("Creating all possible health states based on your Genetic-TCM entanglement...")
+                status1 = core.cycle_1_superposition(snp_list, lab_values, symptoms)
+                st.success(status1)
+                
+                # Visualization of Matrix
+                st.markdown("#### 🕸️ Entanglement Matrix")
+                st.dataframe(core.correlation_matrix[core.correlation_matrix['SNP_Marker'].isin(snp_list)])
+
+                # Cycle 2: Coherent Processing
+                st.info("🔄 **Cycle 2: Coherent Processing (Interference)**")
+                st.write("Applying Quantum Gates (Pauli-X, CNOT) to resolve contradictions and stabilize coherence...")
+                status2 = core.cycle_2_coherent_processing()
+                st.success(status2)
+
+                # Cycle 3: Collapse
+                st.info("🔄 **Cycle 3: Wavefunction Collapse (Measurement)**")
+                st.write(f"Collapsing all possibilities into a single reality based on your goal: {health_goal}")
+                results = core.cycle_3_collapse(health_goal)
+                st.success("Analysis Complete. Reality stabilized.")
+
+                # Final Recommendations
+                st.markdown("### 📜 Your Personalized Health Plan")
+                
+                # Fetch all recommendation details for display
+                all_recs = core.generate_all_recommendations(snp_list, symptoms)
+                rec_map = {r['id']: r for r in all_recs}
+                
+                final_plan_text = ""
+                for rec_id, prob in results:
+                    if rec_id in rec_map:
+                        rec = rec_map[rec_id]
+                        st.markdown(f"**{rec['text']}** ({rec['type']})")
+                        st.write(f"Confidence Level: {prob*100:.1f}% | Focus: {', '.join(rec['tcm_focus'])}")
+                        final_plan_text += f"- {rec['text']} ({rec['type']}): Focus on {', '.join(rec['tcm_focus'])}\n"
+
+                # AI Explanation using Groq
+                st.markdown("### 🤖 AI Practitioner's Insights")
+                explanation_prompt = f"""
+                As NutriBot V2, explain the results of the YuanYingCore analysis.
+                User SNPs: {', '.join(snp_list)}
+                User Goal: {health_goal}
+                Recommendations: {final_plan_text}
+                
+                Please explain:
+                1. How these genetic markers (SNPs) affect their TCM patterns.
+                2. Why these specific recommendations were chosen in the quantum 'collapse'.
+                3. How this helps them reach their goal of {health_goal}.
+                Use simple, caring language. Explain the quantum terms (Superposition, Entanglement, Collapse) in a TCM context.
+                """
+                
+                try:
+                    explanation_response = client.chat.completions.create(
+                        model=MODEL_PRIMARY,
+                        messages=[
+                            {"role": "system", "content": personality},
+                            {"role": "user", "content": explanation_prompt}
+                        ],
+                        max_tokens=800
+                    )
+                    explanation_text = explanation_response.choices[0].message.content
+                    st.markdown(explanation_text)
+                except Exception as e:
+                    st.error(f"Could not generate AI explanation: {e}")
+                    explanation_text = "AI explanation unavailable."
+
+                # PDF Export
+                st.markdown("---")
+                if st.button("📥 Export Health Plan as PDF"):
+                    pdf = FPDF()
+                    pdf.add_page()
+                    pdf.set_font("Arial", 'B', 16)
+                    pdf.cell(200, 10, txt="NutriBot V2 - Personalized Health Plan", ln=1, align='C')
+                    pdf.set_font("Arial", size=12)
+                    pdf.ln(10)
+                    pdf.cell(200, 10, txt=f"Goal: {health_goal}", ln=1)
+                    pdf.cell(200, 10, txt=f"SNPs: {', '.join(snp_list)}", ln=1)
+                    pdf.ln(5)
+                    pdf.multi_cell(0, 10, txt="Recommendations:\n" + final_plan_text)
+                    pdf.ln(5)
+                    pdf.set_font("Arial", 'I', 10)
+                    pdf.multi_cell(0, 10, txt="AI Insights:\n" + explanation_text)
+                    
+                    pdf_output = pdf.output(dest='S').encode('latin-1')
+                    st.download_button(
+                        label="Click here to download PDF",
+                        data=pdf_output,
+                        file_name="NutriBot_Health_Plan.pdf",
+                        mime="application/pdf"
+                    )
 
 st.markdown('''
 <div style="text-align:center;
