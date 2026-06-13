@@ -4,6 +4,9 @@ python-dotenv
 firebase-admin
 pandas
 numpy
-fpdf
+fpdf2
 scikit-learn
 joblib
+openpyxl
+reportlab
+matplotlib
