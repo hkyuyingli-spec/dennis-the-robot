@@ -16,3 +16,8 @@ ENV/
 # Streamlit-specific (excluding secrets which is already listed)
 .streamlit/config.toml
 # You might want to keep config.toml but definitely ignore secrets.toml
+analytics_report.csv
+analytics_report.xlsx
+insights.json
+category_chart.png
+nutribot_report.pdf
