@@ -1,5 +1,5 @@
 {
-  "startup_header": "--- {model_id} Chatbot (Dennis dengan KEKUATAN KEUANGAN!) ---",
+  "startup_header": "🧬 NutriBot - Penasihat Kesehatan AI Nutrigenomic | Didukung oleh {model_id}",
   "type_quit": "Ketik 'quit' untuk keluar.",
   "goodbye": "Chatbot: *Beep* Mematikan... Sampai jumpa!",
   "assistant_label": "Gemini:",
@@ -74,17 +74,17 @@
   ,"failed_to_log_entry": "   ❌ Gagal mencatat entri {i}: {error}"
   ,"connectivity_test_complete": "--- ✨ Tes Konektivitas Selesai ---"
   ,"check_firebase_console": "Silakan periksa Konsol Firebase Anda untuk melihat 3 dokumen di 'nutribot_logs' dan 1 di 'nutribot_metrics'."
-  ,"digital_apothecary":"🏮 Digital Apothecary"
-  ,"begin_consultation":"🌿 Mulai Konsultasi TCM"
-  ,"herb_encyclopedia":"🌱 Ensiklopedi Obat Herbal"
-  ,"body_constitution":"☯️ Tipe Konstitusi Tubuh"
-  ,"seasonal_health":"🍂 Kesehatan Musiman"
-  ,"skincare_rituals":"✨ Ritual Perawatan Kulit"
-  ,"nutrition_advice":"🧬 Saran Nutrisi"
+  ,"digital_apothecary":"🧬 NutriBot - AI Nutrigenomic"
+  ,"begin_consultation":"💬 Obrolan & Dapatkan Panduan"
+  ,"herb_encyclopedia":"🧬 DNA & Nutrigenomik"
+  ,"body_constitution":"⚖️ Berat & Metabolisme"
+  ,"seasonal_health":"🌿 Nutrisi Musiman"
+  ,"skincare_rituals":"✨ Kesehatan Kulit"
+  ,"nutrition_advice":"🍎 Nutrisi Personal"
   ,"clear_history":"🧹 Hapus Riwayat"
   ,"active_model_label":"**Model Aktif:**"
-  ,"welcome_title":"🌿 Selamat datang di NutriBot V2"
-  ,"welcome_subtitle":"Bantu kami menyesuaikan pengalaman kesehatan Anda. Silakan jawab 3 pertanyaan singkat."
+  ,"welcome_title":"🧬 Selamat datang di NutriBot"
+  ,"welcome_subtitle":"Penasihat nutrisi AI pribadi Anda. Mari pelajari kesehatan Anda untuk memberikan panduan yang lebih baik."
   ,"q1_title":"1️⃣ Apa tujuan kesehatan utama Anda hari ini?"
   ,"q1_option1":"💆 Meredakan Stres"
   ,"q1_option2":"✨ Kulit Lebih Baik"
@@ -103,5 +103,5 @@
   ,"privacy_text":"🔒 Data Anda bersifat pribadi dan hanya digunakan untuk meningkatkan pengalaman kesehatan Anda."
   ,"tab_chat":"💬 Obrolan dengan NutriBot"
   ,"tab_quantum":"🧬 Analisis Genetik-TCM"
-  ,"chat_input_hint":"Bagaimana saya dapat membimbing perjalanan kesehatan Anda hari ini?"
+  ,"chat_input_hint":"Tanyakan kepada saya tentang nutrisi, hasil DNA, atau tujuan kesehatan Anda..."
 }

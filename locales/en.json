@@ -1,5 +1,5 @@
 {
-  "startup_header": "--- {model_id} Chatbot (Dennis with FINANCIAL HANDS!) ---",
+  ,"startup_header": "🧬 NutriBot - AI Nutrigenomic Health Advisor | Powered by {model_id}"
   "type_quit": "Type 'quit' to exit.",
   "goodbye": "Chatbot: *Beep* Powering down... Goodbye!",
   "assistant_label": "Gemini:",
@@ -74,17 +74,17 @@
   ,"failed_to_log_entry": "   ❌ Failed to log entry {i}: {error}"
   ,"connectivity_test_complete": "--- ✨ Connectivity Test Complete ---"
   ,"check_firebase_console": "Please check your Firebase Console to see the 3 documents in 'nutribot_logs' and 1 in 'nutribot_metrics'."
-  ,"digital_apothecary":"🏮 Digital Apothecary"
-  ,"begin_consultation":"🌿 Begin TCM Consultation"
-  ,"herb_encyclopedia":"🌱 Herb Encyclopedia"
-  ,"body_constitution":"☯️ Body Constitution"
-  ,"seasonal_health":"🍂 Seasonal Health"
-  ,"skincare_rituals":"✨ Skincare Rituals"
-  ,"nutrition_advice":"🧬 Nutrition Advice"
+  ,"digital_apothecary":"🧬 NutriBot - Nutrigenomic AI"
+  ,"begin_consultation":"💬 Chat & Get Guidance"
+  ,"herb_encyclopedia":"🧬 DNA & Nutrigenomics"
+  ,"body_constitution":"⚖️ Weight & Metabolism"
+  ,"seasonal_health":"🌿 Seasonal Nutrition"
+  ,"skincare_rituals":"✨ Skin Health"
+  ,"nutrition_advice":"🍎 Personalized Nutrition"
   ,"clear_history":"🧹 Clear History"
   ,"active_model_label":"**Active Model:**"
-  ,"welcome_title":"🌿 Welcome to NutriBot V2"
-  ,"welcome_subtitle":"Help us personalise your wellness experience. Please answer 3 quick questions."
+  ,"welcome_title":"🧬 Welcome to NutriBot"
+  ,"welcome_subtitle":"Your personalized AI nutrition advisor. Let's learn about your health to give you better guidance."
   ,"q1_title":"1️⃣ What is your primary wellness goal today?"
   ,"q1_option1":"💆 Stress Relief"
   ,"q1_option2":"✨ Better Skin"
@@ -103,5 +103,5 @@
   ,"privacy_text":"🔒 Your data is private and used only to improve your wellness experience."
   ,"tab_chat":"💬 Chat with NutriBot"
   ,"tab_quantum":"🧬 Genetic TCM Analysis"
-  ,"chat_input_hint":"How may I guide your wellness journey today?"
+  ,"chat_input_hint":"Ask me about nutrition, DNA results, or your health goals..."
 }

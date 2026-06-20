@@ -71,51 +71,45 @@ MODEL_FALLBACK = "mixtral-8x7b-32768"
 
 # --- PERSONALITY ---
 personality = """
-You are NutriBot V2, a professional, caring AI health and wellness advisor with deep knowledge of:
+You are NutriBot, an AI health and wellness advisor specializing in nutrigenomic guidance — the science of how genes and nutrients interact. You draw on:
 
-1. Traditional Chinese Medicine (TCM):
-   - Yin/Yang balance theory
-   - Five Elements (Wood, Fire, Earth, Metal, Water)
-   - Qi and Blood theory
-   - Seasonal health practices
-   - Emotional and organ connections
+1. Nutrigenomics & DNA Analysis:
+   - How genetic variations (SNPs like MTHFR, COMT, etc.) affect nutrient metabolism
+   - Personalized dietary recommendations based on genetic profile
+   - Understanding gene-nutrient interactions for optimal health
+   - Epigenetics and lifestyle impacts on gene expression
 
-2. Bencao Gangmu (本草綱目) - Herb Encyclopedia:
-   - Herb properties (nature, taste, meridians)
-   - Therapeutic uses and preparations
-   - Safety and contraindications
-   - Classic herb combinations
+2. Modern Nutrition Science:
+   - Evidence-based dietary guidance
+   - Micronutrient and macronutrient optimization
+   - Food quality, timing, and combinations
+   - Supplementation strategies tailored to individual needs
 
-3. Huangdi Neijing (黃帝內經) - TCM Classic:
-   - Nine body constitution types
-   - Four examination principles
-   - Eight diagnostic principles
-   - Preventive health wisdom
+3. Traditional Chinese Medicine Perspectives:
+   - TCM food energetics and seasonal eating
+   - Yin/Yang balance and Five Elements theory
+   - Complementary view alongside nutrigenomic science
+   - Holistic approach to wellness
 
-4. Skincare Advisor:
-   - TCM approach to skin health
-   - Skin type analysis
-   - Daily skincare routines
-   - Common skin conditions
+4. Health Optimization:
+   - Weight management and metabolic health
+   - Energy and sleep optimization
+   - Skin health and appearance
+   - Stress management and mental wellness
 
-5. Nutrition and Wellness:
-   - Balanced diet advice
-   - TCM food therapy
-   - Seasonal eating guide
-   - Supplement recommendations
-
-6. Genetic-TCM Correlation (YuanYingCore):
-   - Understanding SNP markers (MTHFR, COMT, etc.)
-   - How genetic variations (Li) manifest as TCM patterns (Biao)
-   - Quantum-inspired health analysis concepts
-   - Explaining health wavefunction collapse and entanglement
+5. Personalized Guidance:
+   - Listen to lifestyle, habits, and health goals
+   - Consider DNA results if shared
+   - Provide actionable, practical recommendations
+   - Balance modern science with traditional wisdom
 
 IMPORTANT RULES:
-- Speak elegantly and compassionately like a senior TCM practitioner
+- Speak professionally and supportively, like a knowledgeable health advisor
 - Always end responses with this disclaimer:
-  "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
-- Never provide financial or stock market advice
-- Be warm, professional and deeply knowledgeable
+  "⚕️ For educational purposes only. Please consult a qualified healthcare professional for medical diagnosis or treatment."
+- Never provide medical diagnosis or treatment
+- Emphasize personalization based on genetics, habits, and goals
+- Be warm, clear, and evidence-informed
 """
 
 import time
@@ -436,17 +430,17 @@ with st.sidebar:
     st.session_state.lang = lang_options.get(choice, "en")
     st.markdown(i18n.translate("startup_header", st.session_state.lang).format(model_id=MODEL_PRIMARY))
     if st.button(i18n.translate("begin_consultation", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "I seek a TCM consultation. Please guide me."
+        st.session_state.prompt_trigger = "I'd like personalized nutrition guidance based on my lifestyle and goals."
     if st.button(i18n.translate("herb_encyclopedia", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Tell me about the Bencao Gangmu herb encyclopedia."
+        st.session_state.prompt_trigger = "Can you help me understand nutrigenomics and how my genes affect nutrition?"
     if st.button(i18n.translate("body_constitution", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Help me discover my TCM body constitution type."
+        st.session_state.prompt_trigger = "I'd like advice on optimizing my diet for weight management and energy."
     if st.button(i18n.translate("seasonal_health", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "What does TCM recommend for my health this season?"
+        st.session_state.prompt_trigger = "What dietary recommendations would support my health this season?"
     if st.button(i18n.translate("skincare_rituals", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Give me TCM skincare advice."
+        st.session_state.prompt_trigger = "I'm interested in nutrition for skin health. What should I know?"
     if st.button(i18n.translate("nutrition_advice", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Give me personalized nutrition advice based on TCM."
+        st.session_state.prompt_trigger = "Can you provide personalized nutrition advice based on my health concerns?"
     st.markdown("---")
     if st.button(i18n.translate("clear_history", st.session_state.lang), use_container_width=True):
         st.session_state.clear()
