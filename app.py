@@ -425,12 +425,13 @@ with st.sidebar:
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
         st.image("logo.png", width=240)
+    # Ensure language state exists before using it in translations.
+    if "lang" not in st.session_state:
+        st.session_state.lang = os.getenv("NUTRIBOT_LANG", "en")
     st.markdown(i18n.translate("digital_apothecary", st.session_state.lang))
     st.markdown("---")
     # Language selector (visible multi-language control)
     lang_options = {"English": "en", "Bahasa (ID)": "id", "中文": "zh"}
-    if "lang" not in st.session_state:
-        st.session_state.lang = os.getenv("NUTRIBOT_LANG", "en")
     choice = st.selectbox("Language / 语言 / Bahasa", list(lang_options.keys()), index=list(lang_options.values()).index(st.session_state.lang) if st.session_state.lang in list(lang_options.values()) else 0)
     st.session_state.lang = lang_options.get(choice, "en")
     st.markdown(i18n.translate("startup_header", st.session_state.lang).format(model_id=MODEL_PRIMARY))
