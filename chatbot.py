@@ -204,3 +204,47 @@ def start_chat(lang: str = None):
 
 if __name__ == "__main__":
     start_chat()
+
+
+def get_response(prompt: str, lang: str = None):
+    """Return assistant response for a single prompt.
+
+    - Auto-detects language if `lang` is None using `i18n.detect_language`.
+    - Returns a dict: `{\"text\": ..., \"lang\": ...}` or `{\"error\": ...}` on failure.
+    """
+    current_lang = lang if lang else "en"
+    if not lang:
+        detected = i18n.detect_language(prompt)
+        if detected:
+            current_lang = detected
+
+    # If API key is not configured, return a simulated reply for local testing.
+    if not api_key:
+        simulated = f"This is a simulated reply to: {prompt}"
+        return {"text": simulated, "lang": current_lang}
+
+    try:
+        chat = client.chats.create(
+            model=model_id,
+            history=load_chat_history(),
+            config={
+                "system_instruction": personality,
+                "tools": [
+                    get_current_time,
+                    calculate_roi,
+                    calculate_npv,
+                    calculate_wacc,
+                    calculate_irr,
+                    calculate_break_even,
+                ],
+            },
+        )
+        response = chat.send_message(prompt)
+        # persist history
+        try:
+            save_chat_history(chat._curated_history)
+        except Exception:
+            pass
+        return {"text": str(response.text), "lang": current_lang}
+    except Exception as e:
+        return {"error": str(e), "lang": current_lang}

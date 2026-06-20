@@ -119,6 +119,7 @@ IMPORTANT RULES:
 """
 
 import time
+from nutribot import i18n
 
 # --- LOGGING FUNCTIONS ---
 def detect_category(text):
@@ -170,151 +171,132 @@ def log_interaction(event_type, data):
 # --- WELCOME SCREEN ---
 def welcome_screen():
     if "welcome_completed" not in st.session_state:
+        lang = st.session_state.lang
         with st.container():
-            st.markdown("""
+            title = i18n.translate("welcome_title", lang)
+            subtitle = i18n.translate("welcome_subtitle", lang)
+            st.markdown(f"""
             <div style="background:linear-gradient(135deg,#1a5c38,#2d8653);
             border-radius:20px;
             padding:2rem;
             margin-bottom:2rem;
             box-shadow:0 8px 32px rgba(0,0,0,0.2);
             border:1px solid #c9a84c;">
-            
             <div style="text-align:center;margin-bottom:1.5rem;">
             <div style="color:#c9a84c;
             font-size:1.5rem;
             font-weight:700;
             letter-spacing:2px;">
-            🌿 Welcome to NutriBot V2
+            {title}
             </div>
             <div style="color:rgba(255,255,255,0.9);
             font-size:0.95rem;
             margin-top:0.5rem;">
-            Help us personalise your wellness experience.
-            Please answer 3 quick questions.
+            {subtitle}
             </div>
             </div>
             </div>
             """, unsafe_allow_html=True)
 
             # Question 1 - Wellness Goal
-            st.markdown("""
+            st.markdown(f"""
             <div style="color:#1a5c38;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
-            1️⃣ What is your primary wellness goal today?
+            {i18n.translate('q1_title', lang)}
             </div>
             """, unsafe_allow_html=True)
-            
             cols1 = st.columns(5)
             goal = None
-            if cols1[0].button("💆 Stress Relief", 
-                use_container_width=True):
-                goal = "Stress Relief"
-            if cols1[1].button("✨ Better Skin", 
-                use_container_width=True):
-                goal = "Better Skin"
-            if cols1[2].button("🔋 More Energy", 
-                use_container_width=True):
-                goal = "More Energy"
-            if cols1[3].button("🍎 Better Diet", 
-                use_container_width=True):
-                goal = "Better Diet"
-            if cols1[4].button("😴 Better Sleep", 
-                use_container_width=True):
-                goal = "Better Sleep"
+            if cols1[0].button(i18n.translate('q1_option1', lang), use_container_width=True):
+                goal = i18n.translate('q1_option1', lang)
+            if cols1[1].button(i18n.translate('q1_option2', lang), use_container_width=True):
+                goal = i18n.translate('q1_option2', lang)
+            if cols1[2].button(i18n.translate('q1_option3', lang), use_container_width=True):
+                goal = i18n.translate('q1_option3', lang)
+            if cols1[3].button(i18n.translate('q1_option4', lang), use_container_width=True):
+                goal = i18n.translate('q1_option4', lang)
+            if cols1[4].button(i18n.translate('q1_option5', lang), use_container_width=True):
+                goal = i18n.translate('q1_option5', lang)
 
             st.markdown("<br>", unsafe_allow_html=True)
 
             # Question 2 - Age Group
-            st.markdown("""
+            st.markdown(f"""
             <div style="color:#1a5c38;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
-            2️⃣ What is your age group?
+            {i18n.translate('q2_title', lang)}
             </div>
             """, unsafe_allow_html=True)
-            
             cols2 = st.columns(4)
             age = None
-            if cols2[0].button("18-25", 
-                use_container_width=True):
-                age = "18-25"
-            if cols2[1].button("26-35", 
-                use_container_width=True):
-                age = "26-35"
-            if cols2[2].button("36-50", 
-                use_container_width=True):
-                age = "36-50"
-            if cols2[3].button("50+", 
-                use_container_width=True):
-                age = "50+"
+            if cols2[0].button(i18n.translate('q2_opt1', lang), use_container_width=True):
+                age = i18n.translate('q2_opt1', lang)
+            if cols2[1].button(i18n.translate('q2_opt2', lang), use_container_width=True):
+                age = i18n.translate('q2_opt2', lang)
+            if cols2[2].button(i18n.translate('q2_opt3', lang), use_container_width=True):
+                age = i18n.translate('q2_opt3', lang)
+            if cols2[3].button(i18n.translate('q2_opt4', lang), use_container_width=True):
+                age = i18n.translate('q2_opt4', lang)
 
             st.markdown("<br>", unsafe_allow_html=True)
 
             # Question 3 - Gender
-            st.markdown("""
+            st.markdown(f"""
             <div style="color:#1a5c38;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
-            3️⃣ What is your gender?
+            {i18n.translate('q3_title', lang)}
             </div>
             """, unsafe_allow_html=True)
-            
             cols3 = st.columns(3)
             gender = None
-            if cols3[0].button("👨 Male", 
-                use_container_width=True):
-                gender = "Male"
-            if cols3[1].button("👩 Female", 
-                use_container_width=True):
-                gender = "Female"
-            if cols3[2].button("⭕ Prefer not to say",
-                use_container_width=True):
-                gender = "Prefer not to say"
+            if cols3[0].button(i18n.translate('q3_opt1', lang), use_container_width=True):
+                gender = i18n.translate('q3_opt1', lang)
+            if cols3[1].button(i18n.translate('q3_opt2', lang), use_container_width=True):
+                gender = i18n.translate('q3_opt2', lang)
+            if cols3[2].button(i18n.translate('q3_opt3', lang), use_container_width=True):
+                gender = i18n.translate('q3_opt3', lang)
 
             # Save when any answer selected
             if goal:
                 st.session_state.welcome_goal = goal
                 log_interaction("user_profile", {
                     "goal": goal,
-                    "age": st.session_state.get(
-                        "welcome_age", "not selected"),
-                    "gender": st.session_state.get(
-                        "welcome_gender", "not selected")
+                    "age": st.session_state.get("welcome_age", "not selected"),
+                    "gender": st.session_state.get("welcome_gender", "not selected")
                 })
                 st.session_state.welcome_completed = True
                 st.rerun()
-                
+
             if age:
                 st.session_state.welcome_age = age
                 st.rerun()
-                
+
             if gender:
                 st.session_state.welcome_gender = gender
                 log_interaction("user_profile", {
-                    "goal": st.session_state.get(
-                        "welcome_goal", "not selected"),
-                    "age": st.session_state.get(
-                        "welcome_age", "not selected"),
+                    "goal": st.session_state.get("welcome_goal", "not selected"),
+                    "age": st.session_state.get("welcome_age", "not selected"),
                     "gender": gender
                 })
                 st.session_state.welcome_completed = True
                 st.rerun()
 
-            st.markdown("""
+            st.markdown(f"""
             <div style="text-align:center;
             color:#888888;
             font-size:0.8rem;
             margin-top:1rem;
             font-style:italic;">
-            🔒 Your data is private and used only to 
-            improve your wellness experience.
+            {i18n.translate('privacy_text', lang)}
             </div>
             """, unsafe_allow_html=True)
-            
+
             st.stop()
 
 # --- CSS ---
@@ -443,30 +425,37 @@ with st.sidebar:
     col1, col2, col3 = st.columns([1,2,1])
     with col2:
         st.image("logo.png", width=240)
-    st.markdown("### 🏮 Digital Apothecary")
+    st.markdown(i18n.translate("digital_apothecary", st.session_state.lang))
     st.markdown("---")
-    if st.button("🌿 Begin TCM Consultation", use_container_width=True):
+    # Language selector (visible multi-language control)
+    lang_options = {"English": "en", "Bahasa (ID)": "id", "中文": "zh"}
+    if "lang" not in st.session_state:
+        st.session_state.lang = os.getenv("NUTRIBOT_LANG", "en")
+    choice = st.selectbox("Language / 语言 / Bahasa", list(lang_options.keys()), index=list(lang_options.values()).index(st.session_state.lang) if st.session_state.lang in list(lang_options.values()) else 0)
+    st.session_state.lang = lang_options.get(choice, "en")
+    st.markdown(i18n.translate("startup_header", st.session_state.lang).format(model_id=MODEL_PRIMARY))
+    if st.button(i18n.translate("begin_consultation", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "I seek a TCM consultation. Please guide me."
-    if st.button("🌱 Herb Encyclopedia", use_container_width=True):
+    if st.button(i18n.translate("herb_encyclopedia", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "Tell me about the Bencao Gangmu herb encyclopedia."
-    if st.button("☯️ Body Constitution", use_container_width=True):
+    if st.button(i18n.translate("body_constitution", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "Help me discover my TCM body constitution type."
-    if st.button("🍂 Seasonal Health", use_container_width=True):
+    if st.button(i18n.translate("seasonal_health", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "What does TCM recommend for my health this season?"
-    if st.button("✨ Skincare Rituals", use_container_width=True):
+    if st.button(i18n.translate("skincare_rituals", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "Give me TCM skincare advice."
-    if st.button("🧬 Nutrition Advice", use_container_width=True):
+    if st.button(i18n.translate("nutrition_advice", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "Give me personalized nutrition advice based on TCM."
     st.markdown("---")
-    if st.button("🧹 Clear History", use_container_width=True):
+    if st.button(i18n.translate("clear_history", st.session_state.lang), use_container_width=True):
         st.session_state.clear()
         st.rerun()
     st.markdown("---")
-    st.markdown("**Active Model:**")
+    st.markdown(i18n.translate("active_model_label", st.session_state.lang))
     st.markdown(f"`{MODEL_PRIMARY}`")
 
 # --- TABS ---
-tab_chat, tab_quantum = st.tabs(["💬 Chat with NutriBot", "🧬 Genetic TCM Analysis"])
+tab_chat, tab_quantum = st.tabs([i18n.translate("tab_chat", st.session_state.lang), i18n.translate("tab_quantum", st.session_state.lang)])
 
 with tab_chat:
     # --- SESSION STATE ---
@@ -487,7 +476,8 @@ with tab_chat:
     welcome_screen()
 
     # --- CHAT INPUT ---
-    prompt = st.chat_input("How may I guide your wellness journey today?")
+    prompt_placeholder = i18n.translate("chat_input_hint", st.session_state.lang) or i18n.translate("user_prompt", st.session_state.lang)
+    prompt = st.chat_input(prompt_placeholder)
 
     if "prompt_trigger" in st.session_state:
         prompt = st.session_state.prompt_trigger
