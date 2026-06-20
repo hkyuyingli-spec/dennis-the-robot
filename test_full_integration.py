@@ -4,6 +4,11 @@ import time
 from groq import Groq
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from dotenv import load_dotenv
+from nutribot import i18n
+import os
+
+# language
+current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 # --- MOCKING LOGIC FROM APP.PY ---
 def detect_category(text):
@@ -21,7 +26,7 @@ def detect_category(text):
     return "General"
 
 def test_full_cycle():
-    print("--- 🧪 NutriBot End-to-End Integration Test ---")
+    print(i18n.translate('integration_test_header', current_lang))
     
     # 1. Setup
     load_dotenv()
@@ -38,7 +43,7 @@ def test_full_cycle():
     
     db = firestore.client()
     session_id = f"INTEGRATION-TEST-{uuid.uuid4().hex[:8]}"
-    print(f"🔹 Session ID: {session_id}\n")
+    print(i18n.translate('session_id_label', current_lang).format(session_id=session_id) + "\n")
 
     test_scenarios = [
         {"q": "My skin is glowing but a bit dry.", "expected": "Skincare"},
@@ -48,10 +53,10 @@ def test_full_cycle():
 
     for i, scenario in enumerate(test_scenarios, 1):
         query = scenario["q"]
-        print(f"--- [Step {i}] Query: {query} ---")
+        print(i18n.translate('step_query', current_lang).format(step=i, query=query))
         
         # A. Test AI Response (Streaming)
-        print("🤖 AI Response: ", end="", flush=True)
+        print(i18n.translate('ai_response_prefix', current_lang), end="", flush=True)
         full_reply = ""
         completion = client.chat.completions.create(
             model="llama-3.1-8b-instant",
@@ -66,7 +71,7 @@ def test_full_cycle():
         print("\n")
 
         # B. Test Database Logging
-        print("💾 Writing to Database...")
+        print(i18n.translate('writing_to_database', current_lang))
         category = detect_category(query)
         try:
             doc_ref = db.collection("nutribot_logs").add({
@@ -77,10 +82,10 @@ def test_full_cycle():
                 "timestamp": firestore.SERVER_TIMESTAMP,
                 "is_integration_test": True
             })
-            print(f"✅ Success! Document ID: {doc_ref[1].id}")
-            print(f"🏷️ Detected Category: {category} (Expected: {scenario['expected']})")
+            print(i18n.translate('success_document_id', current_lang).format(doc_id=doc_ref[1].id))
+            print(i18n.translate('detected_category', current_lang).format(category=category, expected=scenario['expected']))
         except Exception as e:
-            print(f"❌ Database write failed: {e}")
+            print(i18n.translate('database_write_failed', current_lang).format(error=e))
         print("-" * 40)
         time.sleep(1)
 

@@ -4,6 +4,10 @@ import json
 import time
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from dotenv import load_dotenv
+from nutribot import i18n
+import os
+
+current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 # Mocking the category detection from app.py
 def detect_category(text):
@@ -21,24 +25,24 @@ def detect_category(text):
     return "General"
 
 def test_connectivity():
-    print("--- 🧪 NutriBot Firebase Connectivity Test ---")
+    print(i18n.translate('firebase_connectivity_header', current_lang))
     
     # 1. Initialize Firebase
     try:
         if os.path.exists("serviceAccountKey.json"):
             cred = credentials.Certificate("serviceAccountKey.json")
             initialize_app(cred)
-            print("✅ Firebase Initialized with serviceAccountKey.json")
+            print(i18n.translate('firebase_initialized', current_lang))
         else:
-            print("❌ Error: serviceAccountKey.json not found.")
+            print(i18n.translate('service_account_not_found', current_lang))
             return
     except Exception as e:
-        print(f"❌ Firebase Initialization Failed: {e}")
+        print(i18n.translate('firebase_init_failed', current_lang).format(error=e))
         return
 
     db = firestore.client()
     session_id = str(uuid.uuid4())
-    print(f"🔹 Test Session ID: {session_id}\n")
+    print(i18n.translate('test_session_id_label', current_lang).format(session_id=session_id) + "\n")
 
     test_queries = [
         "I need help with my dry skin.",
@@ -48,7 +52,7 @@ def test_connectivity():
 
     # 2. Test 3 Log Entries
     for i, query in enumerate(test_queries, 1):
-        print(f"Attempt {i}: Logging query -> '{query}'")
+        print(i18n.translate('attempt_logging_query', current_lang).format(i=i, query=query))
         try:
             category = detect_category(query)
             # Log to nutribot_logs
@@ -59,7 +63,7 @@ def test_connectivity():
                 "timestamp": firestore.SERVER_TIMESTAMP,
                 "test_run": True
             })
-            print(f"   ✅ Logged to 'nutribot_logs' (ID: {log_ref[1].id})")
+            print(i18n.translate('logged_to_nutribot_logs', current_lang).format(doc_id=log_ref[1].id))
             
             # Log a mock metric for the first one
             if i == 1:
@@ -70,14 +74,14 @@ def test_connectivity():
                     "timestamp": firestore.SERVER_TIMESTAMP,
                     "test_run": True
                 })
-                print(f"   ✅ Logged interaction to 'nutribot_metrics' (ID: {metric_ref[1].id})")
+                print(i18n.translate('logged_interaction_nutribot_metrics', current_lang).format(metric_id=metric_ref[1].id))
             
             time.sleep(1) # Small delay
         except Exception as e:
-            print(f"   ❌ Failed to log entry {i}: {e}")
+            print(i18n.translate('failed_to_log_entry', current_lang).format(i=i, error=e))
 
-    print("\n--- ✨ Connectivity Test Complete ---")
-    print("Please check your Firebase Console to see the 3 documents in 'nutribot_logs' and 1 in 'nutribot_metrics'.")
+    print("\n" + i18n.translate('connectivity_test_complete', current_lang))
+    print(i18n.translate('check_firebase_console', current_lang))
 
 if __name__ == "__main__":
     test_connectivity()

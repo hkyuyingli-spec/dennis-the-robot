@@ -1,6 +1,11 @@
 import pandas as pd
 import numpy as np
 import os
+from nutribot import i18n
+import os as _os
+
+# language
+current_lang = _os.getenv('NUTRIBOT_LANG') or 'en'
 
 class EntangledState:
     """
@@ -54,7 +59,7 @@ class YuanYingCore:
         Hadamard Gate logic: We expand the search space from a single state to all 
         correlated possibilities.
         """
-        print("Cycle 1: Initiating Superposition (Hadamard Expansion)...")
+        print(i18n.translate('cycle1_superposition', current_lang))
         
         # Identify entangled states based on user genes
         relevant_correlations = self.correlation_matrix[self.correlation_matrix['SNP_Marker'].isin(genes)]
@@ -85,7 +90,7 @@ class YuanYingCore:
         Pauli-X Gate: Inverts a recommendation if it conflicts with lab values.
         CNOT Gate: If A is true, then boost/suppress B.
         """
-        print("Cycle 2: Coherent Processing (Interference & Gate Logic)...")
+        print(i18n.translate('cycle2_coherent_processing', current_lang))
         
         contradictions = self.find_contradictions()
         
@@ -101,7 +106,7 @@ class YuanYingCore:
         The wavefunction collapses into a single personalized health plan based 
         on the 'user_goal' which acts as the 'Measurement Operator'.
         """
-        print(f"Cycle 3: Collapsing Wavefunction for goal: {user_goal}...")
+        print(i18n.translate('cycle3_collapsing', current_lang).format(goal=user_goal))
         
         # Re-calculate probabilities based on goal alignment
         final_recommendations = []

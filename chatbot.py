@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from google import genai
 from dotenv import load_dotenv
+from nutribot import i18n
 
 # 1. Load your secret API key from the .env file
 load_dotenv()
@@ -133,12 +134,13 @@ def save_chat_history(history):
     with open(HISTORY_FILE, "w") as f:
         json.dump(simple_history, f, indent=4)
 
-def start_chat():
-    print(f"--- {model_id} Chatbot (Dennis with FINANCIAL HANDS!) ---")
-    print("Type 'quit' to exit.")
-    
+def start_chat(lang: str = None):
+    current_lang = lang if lang else "en"
+    print(i18n.translate("startup_header", current_lang).format(model_id=model_id))
+    print(i18n.translate("type_quit", current_lang))
+
     past_history = load_chat_history()
-    
+
     try:
         # Start chat with personality, history, AND TOOLS!
         chat = client.chats.create(
@@ -175,25 +177,30 @@ def start_chat():
         )
     
     while True:
-        user_input = input("You: ")
+        user_input = input(i18n.translate("user_prompt", current_lang))
         
         if user_input.lower() == "quit":
-            print("Chatbot: *Beep* Powering down... Goodbye!")
+            print(i18n.translate("goodbye", current_lang))
             break
         
         if not user_input.strip():
             continue
 
         try:
+            # auto-detect language from first non-empty user input when not specified
+            if not lang:
+                detected = i18n.detect_language(user_input)
+                if detected:
+                    current_lang = detected
             # Send message - Gemini will automatically call the function if needed!
             response = chat.send_message(user_input)
-            print(f"Gemini: {response.text}")
+            print(f"{i18n.translate('assistant_label', current_lang)} {response.text}")
             
             # Save history
             save_chat_history(chat._curated_history)
             
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"{i18n.translate('error_prefix', current_lang)} {e}")
 
 if __name__ == "__main__":
     start_chat()

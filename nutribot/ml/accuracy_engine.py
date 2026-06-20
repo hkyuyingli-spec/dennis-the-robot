@@ -4,6 +4,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
 import os
+from nutribot import i18n
+
+current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 class TCMAccuracyEngine:
     """
@@ -21,7 +24,7 @@ class TCMAccuracyEngine:
         This replaces static mapping with probabilistic prediction.
         """
         if not os.path.exists(data_path):
-            print("No training data found. Using baseline rules.")
+            print(i18n.translate('no_training_data_baseline', current_lang))
             return False
             
         df = pd.read_csv(data_path)

@@ -1,9 +1,13 @@
 from firebase_admin import credentials, firestore, initialize_app, get_app
 import uuid
 import os
+from nutribot import i18n
+
+# determine language
+current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 def final_verify():
-    print("--- 🧪 TRIPLE-VERIFICATION START ---")
+    print(i18n.translate('triple_verification_start', current_lang))
     try:
         try:
             get_app()
@@ -26,13 +30,13 @@ def final_verify():
                 'timestamp': firestore.SERVER_TIMESTAMP,
                 'verified_proof': True
             })
-            print(f"✅ DOCUMENT CREATED: {doc_ref[1].id} | Query: {q}")
+            print(i18n.translate('document_created', current_lang).format(doc_id=doc_ref[1].id, query=q))
             
-        print("\n--- ✨ TRIPLE-VERIFICATION SUCCESS ---")
-        print(f"All 3 documents are now live in your 'nutribot_logs' collection under Session: {session_id}")
+        print("\n" + i18n.translate('triple_verification_success', current_lang))
+        print(i18n.translate('documents_live_session', current_lang).format(session_id=session_id))
         
     except Exception as e:
-        print(f"❌ VERIFICATION FAILED: {e}")
+        print(i18n.translate('verification_failed', current_lang).format(error=e))
 
 if __name__ == "__main__":
     final_verify()

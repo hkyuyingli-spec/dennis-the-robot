@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from nutribot import i18n
 import firebase_admin
 from firebase_admin import credentials, firestore
 from groq import Groq
@@ -27,8 +28,9 @@ RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
 # --- INITIALIZE FIREBASE ---
 def init_firebase():
     """Initializes Firebase Firestore connection."""
+    current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
     if not os.path.exists(SERVICE_ACCOUNT_PATH):
-        print(f"Error: {SERVICE_ACCOUNT_PATH} not found.")
+        print(i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH))
         return None
     
     try:
@@ -38,7 +40,7 @@ def init_firebase():
             firebase_admin.initialize_app(cred)
         return firestore.client()
     except Exception as e:
-        print(f"Firebase Initialization Error: {e}")
+        print(i18n.translate('firebase_initialization_error', current_lang).format(error=e))
         return None
 
 # --- FETCH DATA ---
@@ -54,7 +56,7 @@ def fetch_collections(db):
                 d['id'] = doc.id
                 data[key].append(d)
     except Exception as e:
-        print(f"Error fetching data: {e}")
+        print(i18n.translate('error_fetching_data', current_lang).format(error=e))
     return data
 
 # --- GENERATE INSIGHTS ---
@@ -139,7 +141,7 @@ def export_excel(data, insights):
         goals_df = pd.DataFrame(list(insights['popular_health_goals'].items()), columns=['Goal', 'Count'])
         goals_df.to_excel(writer, sheet_name="Popular Topics", index=False)
         
-    print("✅ Exported analytics_report.xlsx")
+    print(i18n.translate('exported_analytics_report', current_lang))
 
 # --- GENERATE PDF ---
 class PDF(FPDF):
@@ -187,12 +189,14 @@ def export_pdf(insights, ai_insights):
     pdf.multi_cell(0, 10, ai_insights.encode('latin-1', 'replace').decode('latin-1'))
     
     pdf.output("nutribot_report.pdf")
-    print("✅ Exported nutribot_report.pdf")
+    print(i18n.translate('exported_nutribot_report', current_lang))
 
 # --- SEND HTML EMAIL ---
 def send_email(insights, ai_insights):
     """Sends a styled HTML email with attachments."""
-    if not GMAIL_USER or not GMAIL_PASSWORD: return print("Email skipped: Credentials missing.")
+    if not GMAIL_USER or not GMAIL_PASSWORD:
+        print(i18n.translate('email_skipped_credentials_missing', current_lang))
+        return
 
     msg = MIMEMultipart()
     msg['From'], msg['To'], msg['Subject'] = GMAIL_USER, RECIPIENT_EMAIL, f"NutriBot Analytics Report - {datetime.now().strftime('%Y-%m-%d')}"
@@ -236,7 +240,8 @@ def send_email(insights, ai_insights):
                 encoders.encode_base64(part)
                 part.add_header('Content-Disposition', f'attachment; filename="{filename}"')
                 msg.attach(part)
-        except Exception as e: print(f"Error attaching {filename}: {e}")
+        except Exception as e:
+            print(i18n.translate('error_attaching_file', current_lang).format(filename=filename, error=e))
 
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -244,12 +249,12 @@ def send_email(insights, ai_insights):
         server.login(GMAIL_USER, GMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
-        print("📧 Email sent successfully!")
+        print(i18n.translate('email_sent_success', current_lang))
     except Exception as e: print(f"SMTP Error: {e}")
 
 # --- MAIN ---
 def main():
-    print("🚀 Starting Enhanced NutriBot Analysis...")
+    print(i18n.translate('starting_enhanced_analysis', current_lang))
     db = init_firebase()
     if not db: return
 
@@ -260,7 +265,7 @@ def main():
     export_excel(data, insights)
     export_pdf(insights, ai_insights)
     send_email(insights, ai_insights)
-    print("✅ All tasks completed.")
+    print(i18n.translate('all_tasks_completed', current_lang))
 
 if __name__ == "__main__":
     main()
