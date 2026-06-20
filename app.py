@@ -466,6 +466,9 @@ with tab_chat:
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    # --- WELCOME SCREEN ---
+    welcome_screen()
+
     # --- DISPLAY HISTORY ---
     for message in st.session_state.messages:
         role = message["role"]
@@ -473,17 +476,14 @@ with tab_chat:
         with st.chat_message(role, avatar=avatar):
             st.markdown(message["content"])
 
-    # --- WELCOME SCREEN ---
-    welcome_screen()
-
-    # --- CHAT INPUT ---
-    prompt_placeholder = i18n.translate("chat_input_hint", st.session_state.lang) or i18n.translate("user_prompt", st.session_state.lang)
-    prompt = st.chat_input(prompt_placeholder)
-
+    # --- GET PROMPT TRIGGER ---
     if "prompt_trigger" in st.session_state:
         prompt = st.session_state.prompt_trigger
         del st.session_state.prompt_trigger
+    else:
+        prompt = None
 
+    # --- HANDLE INCOMING PROMPT ---
     if prompt:
         log_question(prompt)
         st.session_state.messages.append({"role": "user", "content": prompt})
@@ -538,6 +538,14 @@ with tab_chat:
                 st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
             except Exception as e:
                 st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
+
+    # --- CHAT INPUT (RENDERED LAST, ALWAYS AT BOTTOM) ---
+    prompt_placeholder = i18n.translate("chat_input_hint", st.session_state.lang) or i18n.translate("user_prompt", st.session_state.lang)
+    new_prompt = st.chat_input(prompt_placeholder)
+
+    if new_prompt:
+        st.session_state.prompt_trigger = new_prompt
+        st.rerun()
 
 with tab_quantum:
     st.markdown("""
