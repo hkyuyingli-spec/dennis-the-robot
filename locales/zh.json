@@ -1,5 +1,5 @@
 {
-  "startup_header": "🧬 NutriBot - AI 营养基因组学健康顾问 | 由 {model_id} 提供支持",
+  "startup_header": "--- {model_id} 聊天机器人 (Dennis 财务助手!) ---",
   "type_quit": "输入'quit'退出。",
   "goodbye": "聊天机器人: *哔* 关机... 再见！",
   "assistant_label": "Gemini:",
@@ -74,17 +74,17 @@
   ,"failed_to_log_entry": "   ❌ 记录条目 {i} 失败：{error}"
   ,"connectivity_test_complete": "--- ✨ 连接性测试完成 ---"
   ,"check_firebase_console": "请检查您的 Firebase 控制台，查看 'nutribot_logs' 中的 3 个文档和 'nutribot_metrics' 中的 1 个文档。"
-  ,"digital_apothecary":"🧬 NutriBot - 营养基因组学AI"
-  ,"begin_consultation":"💬 对话与指导"
-  ,"herb_encyclopedia":"🧬 DNA 与营养基因组学"
-  ,"body_constitution":"⚖️ 体重与代谢"
-  ,"seasonal_health":"🌿 季节性营养"
-  ,"skincare_rituals":"✨ 皮肤健康"
-  ,"nutrition_advice":"🍎 个性化营养"
+  ,"digital_apothecary":"🏮 Digital Apothecary"
+  ,"begin_consultation":"🌿 开始中医咨询"
+  ,"herb_encyclopedia":"🌱 本草纲目 (草药词典)"
+  ,"body_constitution":"☯️ 身体体质识别"
+  ,"seasonal_health":"🍂 季节性养生"
+  ,"skincare_rituals":"✨ 护肤仪式"
+  ,"nutrition_advice":"🧬 营养建议"
   ,"clear_history":"🧹 清除历史"
   ,"active_model_label":"**活动模型：**"
-  ,"welcome_title":"🧬 欢迎来到 NutriBot"
-  ,"welcome_subtitle":"您的个性化 AI 营养顾问。让我们了解您的健康状况，为您提供更好的指导。"
+  ,"welcome_title":"🌿 欢迎来到 NutriBot V2"
+  ,"welcome_subtitle":"帮助我们个性化您的健康体验。请回答 3 个简短问题。"
   ,"q1_title":"1️⃣ 您今天的主要健康目标是什么？"
   ,"q1_option1":"💆 缓解压力"
   ,"q1_option2":"✨ 改善皮肤"
@@ -103,5 +103,5 @@
   ,"privacy_text":"🔒 您的数据是私密的，仅用于改善您的健康体验。"
   ,"tab_chat":"💬 与 NutriBot 聊天"
   ,"tab_quantum":"🧬 基因-TCM 量子分析"
-  ,"chat_input_hint":"向我询问营养、DNA 结果或您的健康目标..."
+  ,"chat_input_hint":"我今天怎样为您的健康旅程提供帮助？"
 }
