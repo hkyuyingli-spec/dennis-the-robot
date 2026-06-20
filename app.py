@@ -496,7 +496,13 @@ with tab_chat:
             
             try:
                 # Prepare messages (Limit to last 10 to save tokens/context)
-                groq_messages = [{"role": "system", "content": personality}]
+                language_directive = {
+                    "zh": "请始终用中文回答用户的问题。",
+                    "id": "Tolong jawab semua pertanyaan pengguna dalam Bahasa Indonesia.",
+                    "en": "Please answer all user questions in English."
+                }.get(st.session_state.lang, "Please answer all user questions in English.")
+                groq_system = f"{personality}\n\n{language_directive}"
+                groq_messages = [{"role": "system", "content": groq_system}]
                 for msg in st.session_state.messages[-10:]:
                     groq_messages.append({"role": msg["role"], "content": msg["content"]})
                 
