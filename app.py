@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import uuid
 import json
 from firebase_admin import credentials, firestore, initialize_app, get_app
+from yuanying_core import YuanYingCore
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
