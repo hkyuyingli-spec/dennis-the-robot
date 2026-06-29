@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
-from fpdf import FPDF
+from fpdf import FPDF, XPos, YPos
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,11 +24,11 @@ GMAIL_USER = os.getenv("GMAIL_USER")
 GMAIL_PASSWORD = os.getenv("GMAIL_PASSWORD")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
+current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 # --- INITIALIZE FIREBASE ---
 def init_firebase():
     """Initializes Firebase Firestore connection."""
-    current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
     if not os.path.exists(SERVICE_ACCOUNT_PATH):
         print(i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH))
         return None
@@ -62,9 +62,56 @@ def fetch_collections(db):
 # --- GENERATE INSIGHTS ---
 def process_data(data):
     """Processes raw Firebase data into insights."""
-    users = data["users"]
-    logs = data["logs"]
+    # Extract unique users from nutribot_metrics
+    metrics_users = []
+    metrics_profiles = [m for m in data.get("metrics", []) if m.get("event_type") == "user_profile"]
+    if metrics_profiles:
+        def get_ts(profile):
+            ts = profile.get("timestamp")
+            if ts:
+                if hasattr(ts, "replace"):
+                    return ts.replace(tzinfo=None)
+                try:
+                    return datetime.strptime(str(ts)[:19], "%Y-%m-%d %H:%M:%S")
+                except Exception:
+                    pass
+            return datetime.min
+        
+        metrics_profiles.sort(key=get_ts)
+        
+        # Deduplicate by session_id, keeping the latest one
+        session_to_profile = {}
+        for p in metrics_profiles:
+            sid = p.get("session_id")
+            if sid:
+                session_to_profile[sid] = p
+        
+        metrics_users = list(session_to_profile.values())
+        
+    # Combine with any actual users from the users collection
+    combined_users = []
+    seen_sessions = set()
     
+    # Process users from users collection
+    for u in data.get("users", []):
+        if u.get("id") == "users" and not u.get("session_id"):
+            continue
+        sid = u.get("session_id") or u.get("id")
+        if sid:
+            seen_sessions.add(sid)
+            combined_users.append(u)
+            
+    # Add from metrics
+    for u in metrics_users:
+        sid = u.get("session_id")
+        if sid not in seen_sessions:
+            seen_sessions.add(sid)
+            combined_users.append(u)
+            
+    users = combined_users
+    data["users"] = users  # Overwrite data["users"] so Excel/sheets get populated
+    
+    logs = data["logs"]
     total_users = len(users)
     one_week_ago = datetime.now() - timedelta(days=7)
     new_users_count = 0
@@ -72,16 +119,26 @@ def process_data(data):
     # Process New Users
     for u in users:
         ts = u.get('created_at') or u.get('timestamp')
-        if ts and isinstance(ts, datetime) and ts.replace(tzinfo=None) > one_week_ago:
-            new_users_count += 1
+        if ts:
+            if hasattr(ts, "replace"):
+                ts_unaware = ts.replace(tzinfo=None)
+            else:
+                try:
+                    ts_unaware = datetime.strptime(str(ts)[:19], "%Y-%m-%d %H:%M:%S")
+                except Exception:
+                    ts_unaware = datetime.min
+            if ts_unaware > one_week_ago:
+                new_users_count += 1
                 
     # Process Health Goals
     goals_list = []
     for u in users:
         goal = u.get('health_goals') or u.get('health goals') or u.get('goal')
-        if goal:
-            if isinstance(goal, list): goals_list.extend(goal)
-            else: goals_list.append(str(goal))
+        if goal and goal != "not selected":
+            if isinstance(goal, list):
+                goals_list.extend(goal)
+            else:
+                goals_list.append(str(goal))
     top_goals = pd.Series(goals_list).value_counts().head(5).to_dict()
     
     # Process Questions & Categories
@@ -119,9 +176,17 @@ def export_excel(data, insights):
     """Generates a multi-sheet Excel report."""
     def remove_timezone(df):
         """Helper to make datetimes timezone-unaware for Excel."""
+        if df.empty:
+            return df
         for col in df.columns:
             if pd.api.types.is_datetime64_any_dtype(df[col]):
-                df[col] = df[col].dt.tz_localize(None)
+                try:
+                    df[col] = df[col].dt.tz_localize(None)
+                except Exception:
+                    try:
+                        df[col] = df[col].dt.tz_convert(None)
+                    except Exception:
+                        pass
         return df
 
     with pd.ExcelWriter("analytics_report.xlsx", engine="openpyxl") as writer:
@@ -147,7 +212,7 @@ def export_excel(data, insights):
 class PDF(FPDF):
     def header(self):
         self.set_font('helvetica', 'B', 15)
-        self.cell(0, 10, 'NutriBot Analytics Report', 0, 1, 'C')
+        self.cell(0, 10, 'NutriBot Analytics Report', 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
         self.ln(5)
 
 def export_pdf(insights, ai_insights):
@@ -169,13 +234,13 @@ def export_pdf(insights, ai_insights):
     
     # Metrics
     pdf.set_font("helvetica", 'B', 14)
-    pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d')}", 0, 1)
+    pdf.cell(0, 10, f"Date: {datetime.now().strftime('%Y-%m-%d')}", 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(5)
     
     pdf.set_font("helvetica", size=12)
-    pdf.cell(0, 10, f"Total Users: {insights['total_users']}", 0, 1)
-    pdf.cell(0, 10, f"New Users (Week): {insights['new_users_this_week']}", 0, 1)
-    pdf.cell(0, 10, f"Avg Questions/User: {insights['average_questions_per_user']}", 0, 1)
+    pdf.cell(0, 10, f"Total Users: {insights['total_users']}", 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 10, f"New Users (Week): {insights['new_users_this_week']}", 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 10, f"Avg Questions/User: {insights['average_questions_per_user']}", 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(10)
     
     # Image
@@ -184,7 +249,7 @@ def export_pdf(insights, ai_insights):
     
     # AI Insights
     pdf.set_font("helvetica", 'B', 14)
-    pdf.cell(0, 10, "AI Insights & Recommendations", 0, 1)
+    pdf.cell(0, 10, "AI Insights & Recommendations", 0, new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.set_font("helvetica", size=10)
     pdf.multi_cell(0, 10, ai_insights.encode('latin-1', 'replace').decode('latin-1'))
     
