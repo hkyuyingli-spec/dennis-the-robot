@@ -14,6 +14,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 from fpdf import FPDF, XPos, YPos
+import schedule
+import time
+import logging
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,11 +29,14 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
 current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
+# --- LOGGER ---
+logging.basicConfig(filename='email_log.txt', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 # --- INITIALIZE FIREBASE ---
 def init_firebase():
     """Initializes Firebase Firestore connection."""
     if not os.path.exists(SERVICE_ACCOUNT_PATH):
-        print(i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH))
+        logging.error(i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH))
         return None
     
     try:
@@ -40,7 +46,7 @@ def init_firebase():
             firebase_admin.initialize_app(cred)
         return firestore.client()
     except Exception as e:
-        print(i18n.translate('firebase_initialization_error', current_lang).format(error=e))
+        logging.error(i18n.translate('firebase_initialization_error', current_lang).format(error=e))
         return None
 
 # --- FETCH DATA ---
@@ -56,7 +62,7 @@ def fetch_collections(db):
                 d['id'] = doc.id
                 data[key].append(d)
     except Exception as e:
-        print(i18n.translate('error_fetching_data', current_lang).format(error=e))
+        logging.error(i18n.translate('error_fetching_data', current_lang).format(error=e))
     return data
 
 # --- GENERATE INSIGHTS ---
@@ -206,7 +212,7 @@ def export_excel(data, insights):
         goals_df = pd.DataFrame(list(insights['popular_health_goals'].items()), columns=['Goal', 'Count'])
         goals_df.to_excel(writer, sheet_name="Popular Topics", index=False)
         
-    print(i18n.translate('exported_analytics_report', current_lang))
+    logging.info(i18n.translate('exported_analytics_report', current_lang))
 
 # --- GENERATE PDF ---
 class PDF(FPDF):
@@ -254,13 +260,13 @@ def export_pdf(insights, ai_insights):
     pdf.multi_cell(0, 10, ai_insights.encode('latin-1', 'replace').decode('latin-1'))
     
     pdf.output("nutribot_report.pdf")
-    print(i18n.translate('exported_nutribot_report', current_lang))
+    logging.info(i18n.translate('exported_nutribot_report', current_lang))
 
 # --- SEND HTML EMAIL ---
 def send_email(insights, ai_insights):
     """Sends a styled HTML email with attachments."""
     if not GMAIL_USER or not GMAIL_PASSWORD:
-        print(i18n.translate('email_skipped_credentials_missing', current_lang))
+        logging.error(i18n.translate('email_skipped_credentials_missing', current_lang))
         return
 
     msg = MIMEMultipart()
@@ -306,7 +312,7 @@ def send_email(insights, ai_insights):
                 part.add_header('Content-Disposition', f'attachment; filename="{filename}"')
                 msg.attach(part)
         except Exception as e:
-            print(i18n.translate('error_attaching_file', current_lang).format(filename=filename, error=e))
+            logging.error(i18n.translate('error_attaching_file', current_lang).format(filename=filename, error=e))
 
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -314,8 +320,9 @@ def send_email(insights, ai_insights):
         server.login(GMAIL_USER, GMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
-        print(i18n.translate('email_sent_success', current_lang))
-    except Exception as e: print(f"SMTP Error: {e}")
+        logging.info(i18n.translate('email_sent_success', current_lang))
+    except Exception as e: 
+        logging.error(f"SMTP Error: {e}")
 
 # --- MAIN ---
 def main():
@@ -332,5 +339,10 @@ def main():
     send_email(insights, ai_insights)
     print(i18n.translate('all_tasks_completed', current_lang))
 
+# --- SCHEDULER ---
+schedule.every().day.at("08:00").do(main)
+
 if __name__ == "__main__":
-    main()
+    while True:
+        schedule.run_pending()
+        time.sleep(60)  # Check every minute
