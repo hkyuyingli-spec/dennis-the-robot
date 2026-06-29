@@ -17,6 +17,7 @@ from fpdf import FPDF, XPos, YPos
 import schedule
 import time
 import logging
+import argparse
 
 # Load environment variables from .env file
 load_dotenv()
@@ -343,6 +344,14 @@ def main():
 schedule.every().day.at("08:00").do(main)
 
 if __name__ == "__main__":
-    while True:
-        schedule.run_pending()
-        time.sleep(60)  # Check every minute
+    parser = argparse.ArgumentParser(description="Analyze Firebase data and send email report.")
+    parser.add_argument("--test", action="store_true", help="Run the analysis immediately without waiting for the schedule.")
+    
+    args = parser.parse_args()
+    
+    if args.test:
+        main()
+    else:
+        while True:
+            schedule.run_pending()
+            time.sleep(60)  # Check every minute
