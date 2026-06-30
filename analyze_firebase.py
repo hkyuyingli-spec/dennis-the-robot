@@ -58,6 +58,8 @@ def fetch_collections(db):
         # Fetch Collections
         for col_name, key in [("users", "users"), ("nutribot_logs", "logs"), ("nutribot_metrics", "metrics")]:
             docs = db.collection(col_name).stream()
+            if col_name == "nutribot_logs":
+                docs = [doc for doc in docs if not doc.to_dict().get("test_run", False)]
             for doc in docs:
                 d = doc.to_dict()
                 d['id'] = doc.id
