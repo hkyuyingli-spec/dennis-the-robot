@@ -337,6 +337,13 @@ def main():
     insights = process_data(data)
     ai_insights = get_ai_analysis(insights)
     
+    # Count today's entries
+    today = datetime.now().date()
+    today_logs_count = sum(1 for log in data['logs'] if log.get('timestamp', {}).get('date') == today)
+    today_metrics_count = sum(1 for metric in data['metrics'] if metric.get('timestamp', {}).get('date') == today)
+    
+    print(f"Today's new entries: {today_logs_count} logs, {today_metrics_count} metrics")
+    
     export_excel(data, insights)
     export_pdf(insights, ai_insights)
     send_email(insights, ai_insights)
