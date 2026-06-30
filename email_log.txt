@@ -6,3 +6,8 @@
 2026-06-30 17:23:04,740 - INFO - \u2705 Exported analytics_report.xlsx
 2026-06-30 17:23:06,541 - INFO - \u2705 Exported nutribot_report.pdf
 2026-06-30 17:23:12,995 - INFO - \U0001f4e7 Email sent successfully!
+2026-06-30 17:57:03,373 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-30 19:25:14,832 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-30 19:25:15,344 - INFO - \u2705 Exported analytics_report.xlsx
+2026-06-30 19:25:15,706 - INFO - \u2705 Exported nutribot_report.pdf
+2026-06-30 19:25:36,826 - ERROR - SMTP Error: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
