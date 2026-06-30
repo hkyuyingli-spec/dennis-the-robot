@@ -339,8 +339,8 @@ def main():
     
     # Count today's entries
     today = datetime.now().date()
-    today_logs_count = sum(1 for log in data['logs'] if log.get('timestamp', {}).get('date') == today)
-    today_metrics_count = sum(1 for metric in data['metrics'] if metric.get('timestamp', {}).get('date') == today)
+    today_logs_count = sum(1 for log in data['logs'] if isinstance(log.get('timestamp'), datetime) and log['timestamp'].date() == today)
+    today_metrics_count = sum(1 for metric in data['metrics'] if isinstance(metric.get('timestamp'), datetime) and metric['timestamp'].date() == today)
     
     print(f"Today's new entries: {today_logs_count} logs, {today_metrics_count} metrics")
     
