@@ -8,12 +8,10 @@ from nutribot import i18n
 import firebase_admin
 from firebase_admin import credentials, firestore
 from groq import Groq
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
+import base64
+import requests
 from fpdf import FPDF, XPos, YPos
+from pypdf import PdfWriter
 import schedule
 import time
 import logging
@@ -25,7 +23,7 @@ load_dotenv()
 # --- CONFIGURATION ---
 SERVICE_ACCOUNT_PATH = "serviceAccountKey.json"
 GMAIL_USER = os.getenv("GMAIL_USER")
-GMAIL_PASSWORD = os.getenv("GMAIL_PASSWORD")
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
 current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
@@ -182,7 +180,10 @@ def get_ai_analysis(summary):
 
 # --- EXPORT EXCEL ---
 def export_excel(data, insights):
-    """Generates a multi-sheet Excel report."""
+    """Generates or appends to a multi-sheet Excel report."""
+    month_str = datetime.now().strftime('%Y-%m')
+    filename = f"analytics_report_{month_str}.xlsx"
+
     def remove_timezone(df):
         """Helper to make datetimes timezone-unaware for Excel."""
         if df.empty:
@@ -198,21 +199,58 @@ def export_excel(data, insights):
                         pass
         return df
 
-    with pd.ExcelWriter("analytics_report.xlsx", engine="openpyxl") as writer:
-        # Summary Sheet
-        summary_df = pd.DataFrame([insights]).drop(columns=['popular_health_goals', 'common_questions', 'category_counts'], errors='ignore')
+    # Prepare current dataframes
+    new_summary_df = pd.DataFrame([insights]).drop(columns=['popular_health_goals', 'common_questions', 'category_counts'], errors='ignore')
+    new_users_df = remove_timezone(pd.DataFrame(data["users"]))
+    new_logs_df = remove_timezone(pd.DataFrame(data["logs"]))
+    new_goals_df = pd.DataFrame(list(insights['popular_health_goals'].items()), columns=['Goal', 'Count'])
+
+    if os.path.exists(filename):
+        try:
+            # Read existing sheets
+            existing_sheets = pd.read_excel(filename, sheet_name=None)
+            
+            # Append Summary
+            if "Summary" in existing_sheets:
+                summary_df = pd.concat([existing_sheets["Summary"], new_summary_df], ignore_index=True)
+            else:
+                summary_df = new_summary_df
+                
+            # Append Users and deduplicate by 'id'
+            if "Users" in existing_sheets:
+                users_df = pd.concat([existing_sheets["Users"], new_users_df], ignore_index=True)
+                if not users_df.empty and 'id' in users_df.columns:
+                    users_df = users_df.drop_duplicates(subset=['id'], keep='last').reset_index(drop=True)
+            else:
+                users_df = new_users_df
+                
+            # Append Logs and deduplicate by 'id'
+            if "Question Logs" in existing_sheets:
+                logs_df = pd.concat([existing_sheets["Question Logs"], new_logs_df], ignore_index=True)
+                if not logs_df.empty and 'id' in logs_df.columns:
+                    logs_df = logs_df.drop_duplicates(subset=['id'], keep='last').reset_index(drop=True)
+            else:
+                logs_df = new_logs_df
+                
+            # Popular Topics is updated with the latest monthly aggregated totals
+            goals_df = new_goals_df
+            
+        except Exception as e:
+            logging.error(f"Error reading existing Excel file {filename}: {e}. Overwriting instead.")
+            summary_df = new_summary_df
+            users_df = new_users_df
+            logs_df = new_logs_df
+            goals_df = new_goals_df
+    else:
+        summary_df = new_summary_df
+        users_df = new_users_df
+        logs_df = new_logs_df
+        goals_df = new_goals_df
+
+    with pd.ExcelWriter(filename, engine="openpyxl") as writer:
         summary_df.to_excel(writer, sheet_name="Summary", index=False)
-        
-        # Users Sheet
-        users_df = pd.DataFrame(data["users"])
-        remove_timezone(users_df).to_excel(writer, sheet_name="Users", index=False)
-        
-        # Logs Sheet
-        logs_df = pd.DataFrame(data["logs"])
-        remove_timezone(logs_df).to_excel(writer, sheet_name="Question Logs", index=False)
-        
-        # Popular Topics Sheet
-        goals_df = pd.DataFrame(list(insights['popular_health_goals'].items()), columns=['Goal', 'Count'])
+        users_df.to_excel(writer, sheet_name="Users", index=False)
+        logs_df.to_excel(writer, sheet_name="Question Logs", index=False)
         goals_df.to_excel(writer, sheet_name="Popular Topics", index=False)
         
     logging.info(i18n.translate('exported_analytics_report', current_lang))
@@ -225,7 +263,7 @@ class PDF(FPDF):
         self.ln(5)
 
 def export_pdf(insights, ai_insights):
-    """Generates a professional PDF report with charts."""
+    """Generates a professional PDF report with charts, appending to the monthly file."""
     # 1. Create Chart
     plt.figure(figsize=(6, 4))
     cats = list(insights['category_counts'].keys())[:5]
@@ -262,18 +300,39 @@ def export_pdf(insights, ai_insights):
     pdf.set_font("helvetica", size=10)
     pdf.multi_cell(0, 10, ai_insights.encode('latin-1', 'replace').decode('latin-1'))
     
-    pdf.output("nutribot_report.pdf")
+    month_str = datetime.now().strftime('%Y-%m')
+    filename = f"nutribot_report_{month_str}.pdf"
+    temp_filename = "nutribot_report_temp.pdf"
+    
+    pdf.output(temp_filename)
+    
+    if os.path.exists(filename):
+        try:
+            merger = PdfWriter()
+            merger.append(filename)
+            merger.append(temp_filename)
+            merger.write(filename)
+            merger.close()
+            os.remove(temp_filename)
+        except Exception as e:
+            logging.error(f"Error appending PDF page to {filename}: {e}")
+            if os.path.exists(filename):
+                try:
+                    os.remove(filename)
+                except Exception:
+                    pass
+            os.rename(temp_filename, filename)
+    else:
+        os.rename(temp_filename, filename)
+        
     logging.info(i18n.translate('exported_nutribot_report', current_lang))
 
 # --- SEND HTML EMAIL ---
 def send_email(insights, ai_insights):
-    """Sends a styled HTML email with attachments."""
-    if not GMAIL_USER or not GMAIL_PASSWORD:
+    """Sends a styled HTML email with attachments via Brevo API."""
+    if not GMAIL_USER or not BREVO_API_KEY:
         logging.error(i18n.translate('email_skipped_credentials_missing', current_lang))
         return
-
-    msg = MIMEMultipart()
-    msg['From'], msg['To'], msg['Subject'] = GMAIL_USER, RECIPIENT_EMAIL, f"NutriBot Analytics Report - {datetime.now().strftime('%Y-%m-%d')}"
 
     # HTML Body
     goals_html = "".join([f"<tr><td>{k}</td><td>{v}</td></tr>" for k,v in insights['popular_health_goals'].items()])
@@ -303,29 +362,60 @@ def send_email(insights, ai_insights):
     </body>
     </html>
     """
-    msg.attach(MIMEText(html, 'html'))
 
-    # Attachments
-    for filename in ["analytics_report.xlsx", "nutribot_report.pdf"]:
+    month_str = datetime.now().strftime('%Y-%m')
+    excel_file = f"analytics_report_{month_str}.xlsx"
+    pdf_file = f"nutribot_report_{month_str}.pdf"
+
+    # Prepare attachments
+    attachments = []
+    for filename in [excel_file, pdf_file]:
         try:
-            with open(filename, "rb") as f:
-                part = MIMEBase('application', 'octet-stream')
-                part.set_payload(f.read())
-                encoders.encode_base64(part)
-                part.add_header('Content-Disposition', f'attachment; filename="{filename}"')
-                msg.attach(part)
+            if os.path.exists(filename):
+                with open(filename, "rb") as f:
+                    content_base64 = base64.b64encode(f.read()).decode('utf-8')
+                attachments.append({
+                    "name": filename,
+                    "content": content_base64
+                })
+            else:
+                logging.warning(f"Attachment file not found: {filename}")
         except Exception as e:
             logging.error(i18n.translate('error_attaching_file', current_lang).format(filename=filename, error=e))
 
+    # Brevo API Payload
+    url = "https://api.brevo.com/v3/smtp/email"
+    headers = {
+        "accept": "application/json",
+        "api-key": BREVO_API_KEY,
+        "content-type": "application/json"
+    }
+    
+    payload = {
+        "sender": {
+            "name": "NutriBot Analytics",
+            "email": GMAIL_USER
+        },
+        "to": [
+            {
+                "email": RECIPIENT_EMAIL
+            }
+        ],
+        "subject": f"NutriBot Analytics Report - {datetime.now().strftime('%Y-%m-%d')}",
+        "htmlContent": html
+    }
+    
+    if attachments:
+        payload["attachment"] = attachments
+
     try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(GMAIL_USER, GMAIL_PASSWORD)
-        server.send_message(msg)
-        server.quit()
-        logging.info(i18n.translate('email_sent_success', current_lang))
-    except Exception as e: 
-        logging.error(f"SMTP Error: {e}")
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code in [200, 201, 202]:
+            logging.info(i18n.translate('email_sent_success', current_lang))
+        else:
+            logging.error(f"Brevo API Error: Status {response.status_code} - {response.text}")
+    except Exception as e:
+        logging.error(f"Brevo API Connection Error: {e}")
 
 # --- MAIN ---
 def main():
@@ -350,7 +440,7 @@ def main():
     print(i18n.translate('all_tasks_completed', current_lang))
 
 # --- SCHEDULER ---
-schedule.every().day.at("08:00").do(main)
+schedule.every().day.at("12:00").do(main)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze Firebase data and send email report.")

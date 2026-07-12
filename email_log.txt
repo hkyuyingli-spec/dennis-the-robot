@@ -11,3 +11,26 @@
 2026-06-30 19:25:15,344 - INFO - \u2705 Exported analytics_report.xlsx
 2026-06-30 19:25:15,706 - INFO - \u2705 Exported nutribot_report.pdf
 2026-06-30 19:25:36,826 - ERROR - SMTP Error: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2026-06-30 19:30:09,832 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-30 19:30:10,077 - INFO - \u2705 Exported analytics_report.xlsx
+2026-06-30 19:30:10,269 - INFO - \u2705 Exported nutribot_report.pdf
+2026-06-30 19:30:31,364 - ERROR - SMTP Error: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+2026-07-12 11:50:14,587 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-12 11:50:15,262 - INFO - \u2705 Exported analytics_report.xlsx
+2026-07-12 11:50:17,126 - INFO - \u2705 Exported nutribot_report.pdf
+2026-07-12 11:50:18,990 - ERROR - Brevo API Error: Status 401 - {"message":"Key not found","code":"unauthorized"}
+
+2026-07-12 15:03:36,762 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-12 15:03:37,127 - INFO - \u2705 Exported analytics_report.xlsx
+2026-07-12 15:03:38,606 - INFO - \u2705 Exported nutribot_report.pdf
+2026-07-12 15:03:39,541 - ERROR - Brevo API Error: Status 401 - {"message":"Key not found","code":"unauthorized"}
+
+2026-07-12 15:03:54,992 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-12 15:03:55,264 - INFO - \u2705 Exported analytics_report.xlsx
+2026-07-12 15:03:55,485 - INFO - \u2705 Exported nutribot_report.pdf
+2026-07-12 15:03:56,810 - ERROR - Brevo API Error: Status 401 - {"message":"Key not found","code":"unauthorized"}
+
+2026-07-12 15:04:33,078 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-07-12 15:04:33,324 - INFO - \u2705 Exported analytics_report.xlsx
+2026-07-12 15:04:33,555 - INFO - \u2705 Exported nutribot_report.pdf
+2026-07-12 15:04:34,835 - INFO - \U0001f4e7 Email sent successfully!

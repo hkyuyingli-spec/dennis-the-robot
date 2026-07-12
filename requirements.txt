@@ -10,3 +10,5 @@ joblib
 openpyxl
 reportlab
 matplotlib
+requests
+pypdf
