@@ -67,8 +67,8 @@ else:
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
 client = Groq(api_key=api_key)
-MODEL_PRIMARY = "llama-3.1-8b-instant"
-MODEL_FALLBACK = "mixtral-8x7b-32768"
+MODEL_PRIMARY = "openai/gpt-oss-20b"
+MODEL_FALLBACK = "qwen/qwen3.6-27b"
 
 # --- PERSONALITY ---
 personality = """
@@ -516,7 +516,8 @@ with tab_chat:
                         temperature=0.7,
                         stream=True
                     )
-                except Exception:
+                except Exception as e:
+                    print(f"Groq primary model ({MODEL_PRIMARY}) failed: {e}")
                     completion = client.chat.completions.create(
                         model=MODEL_FALLBACK, 
                         messages=groq_messages, 
@@ -535,9 +536,11 @@ with tab_chat:
 
             except RateLimitError:
                 st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
-            except (InternalServerError, APIStatusError):
+            except (InternalServerError, APIStatusError) as e:
+                print(f"Groq API request failed: {e}")
                 st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
             except Exception as e:
+                print(f"Groq chat request failed: {e}")
                 st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
 
     # --- CHAT INPUT (RENDERED LAST, ALWAYS AT BOTTOM) ---
