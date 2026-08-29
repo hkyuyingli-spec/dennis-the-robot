@@ -389,6 +389,12 @@ section[data-testid="stSidebar"] code {
     border: 1px solid #e0d5c5 !important;
 }
 
+/* Ensure all elements inside chat message are fully opaque */
+[data-testid="stChatMessage"] *,
+.stMarkdown * {
+    opacity: 1 !important;
+}
+
 /* Chat message text */
 .stMarkdown p { 
     color: #1a3a2a !important; 
@@ -401,11 +407,106 @@ section[data-testid="stSidebar"] code {
 [data-testid="stChatMessage"] p,
 [data-testid="stChatMessage"] li,
 [data-testid="stChatMessage"] ol,
-[data-testid="stChatMessage"] ul {
+[data-testid="stChatMessage"] ul,
+[data-testid="stChatMessage"] span,
+[data-testid="stChatMessage"] div,
+[data-testid="stChatMessage"] strong,
+[data-testid="stChatMessage"] em,
+[data-testid="stChatMessage"] code {
     color: #1a3a2a !important;
     font-size: 1.1rem !important;
     font-weight: 500 !important;
     line-height: 1.6 !important;
+    opacity: 1 !important;
+}
+
+/* Table styling for markdown tables and HTML tables inside chat messages */
+[data-testid="stChatMessage"] table,
+.stMarkdown table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1rem 0 !important;
+    background-color: #ffffff !important;
+    color: #1a3a2a !important;
+    border: 1px solid #c9a84c !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stChatMessage"] thead,
+.stMarkdown thead {
+    background-color: #1a5c38 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stChatMessage"] th,
+.stMarkdown th {
+    background-color: #1a5c38 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    padding: 10px 14px !important;
+    border: 1px solid #c9a84c !important;
+    text-align: left !important;
+    font-size: 1rem !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stChatMessage"] tbody,
+.stMarkdown tbody {
+    background-color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stChatMessage"] tr,
+.stMarkdown tr {
+    background-color: #ffffff !important;
+    color: #1a3a2a !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stChatMessage"] tr:nth-child(even),
+.stMarkdown tr:nth-child(even) {
+    background-color: #f7f4ee !important;
+}
+
+[data-testid="stChatMessage"] td,
+.stMarkdown td {
+    color: #1a3a2a !important;
+    background-color: inherit !important;
+    padding: 8px 14px !important;
+    border: 1px solid #e0d5c5 !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+}
+
+/* Streamlit native Table / DataFrame styling */
+[data-testid="stTable"],
+[data-testid="stDataFrame"],
+.stTable,
+.stDataFrame {
+    background-color: #ffffff !important;
+    color: #1a3a2a !important;
+    border: 1px solid #c9a84c !important;
+    border-radius: 8px !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stTable"] td,
+[data-testid="stTable"] th,
+[data-testid="stDataFrame"] td,
+[data-testid="stDataFrame"] th {
+    color: #1a3a2a !important;
+    opacity: 1 !important;
+}
+
+/* SVG / Chart text elements */
+[data-testid="stChatMessage"] svg text,
+.stMarkdown svg text {
+    fill: #1a3a2a !important;
+    opacity: 1 !important;
 }
 </style>
 """, unsafe_allow_html=True)
