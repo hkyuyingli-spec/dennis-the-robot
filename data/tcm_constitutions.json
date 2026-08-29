@@ -1,0 +1,299 @@
+[
+  {
+    "id": "pinghe",
+    "name_english": "Balanced Constitution",
+    "name_chinese": "平和质",
+    "pinyin": "Pínghé Zhì",
+    "key_characteristics": [
+      "Vibrant complexion and rosy lips",
+      "Abundant energy and physical endurance",
+      "Normal appetite and smooth digestion",
+      "Good sleep quality and regular bowel movements",
+      "Adaptable to climate changes and emotionally balanced"
+    ],
+    "susceptibility_conditions": [
+      "Low overall disease susceptibility",
+      "Strong natural immunity and quick recovery from minor ailments"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Whole grains", "Seasonal fresh vegetables", "Lean proteins", "Varied balanced meals"],
+      "avoid": ["Excessive raw or ice-cold foods", "Overeating greasy or overly spicy foods"]
+    },
+    "lifestyle_rituals": [
+      "Engage in regular moderate exercise such as jogging, swimming, or Tai Chi",
+      "Maintain a consistent sleep schedule (sleep before 11 PM)",
+      "Keep an optimistic and peaceful state of mind"
+    ],
+    "herbal_teas_formulas": [
+      "Chrysanthemum & Goji Berry Tea",
+      "Mulberry Leaf Tea",
+      "Mild Green Tea"
+    ]
+  },
+  {
+    "id": "qixu",
+    "name_english": "Qi-Deficiency Constitution",
+    "name_chinese": "气虚质",
+    "pinyin": "Qìxū Zhì",
+    "key_characteristics": [
+      "Frequent fatigue and physical weakness",
+      "Shortness of breath or soft voice",
+      "Spontaneous sweating upon mild exertion",
+      "Pale tongue with thin white coating",
+      "Catching colds easily and slow physical recovery"
+    ],
+    "susceptibility_conditions": [
+      "Frequent colds and flu",
+      "Chronic fatigue syndrome",
+      "Organ prolapse (e.g., stomach, uterus)",
+      "Allergic rhinitis"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Astragalus (Huangqi)", "Ginseng / Codonopsis", "Chinese Yam", "Red Dates (Jujube)", "Chicken", "Sweet Potato"],
+      "avoid": ["Raw, cold foods", "Heavy cold salads", "Overly bitter or draining foods like radish or hawthorn in large amounts"]
+    },
+    "lifestyle_rituals": [
+      "Practice gentle, non-exhausting exercise like Baduanjin, Qigong, or light walking",
+      "Avoid excessive sweating or extreme physical exertion",
+      "Ensure afternoon rest/naps and ample sleep"
+    ],
+    "herbal_teas_formulas": [
+      "Sijunzi Tang (Four Gentlemen Decoction)",
+      "Yu Ping Feng San (Jade Windscreen Powder)",
+      "Huangqi & Red Date Tea"
+    ]
+  },
+  {
+    "id": "yangxu",
+    "name_english": "Yang-Deficiency Constitution",
+    "name_chinese": "阳虚质",
+    "pinyin": "Yángxū Zhì",
+    "key_characteristics": [
+      "Cold limbs (hands and feet) and general cold intolerance",
+      "Preference for warm drinks and hot foods",
+      "Pale complexion and soft muscle tone",
+      "Clear, frequent urination (especially at night)",
+      "Loose stools or tendency towards morning diarrhea"
+    ],
+    "susceptibility_conditions": [
+      "Water retention and edema",
+      "Joint pain/stiffness aggravated by cold weather",
+      "Chronic diarrhea / colitis",
+      "Decreased libido or reproductive coldness"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Mutton / Lamb", "Fresh Ginger", "Garlic", "Cinnamon", "Walnuts", "Chives", "Fennel"],
+      "avoid": ["Ice-cold beverages", "Raw cucumber", "Watermelon", "Cold-natured green teas"]
+    },
+    "lifestyle_rituals": [
+      "Sunbathe the back to nourish the Du Meridian (Governor Vessel)",
+      "Soak feet in warm water with ginger before bedtime",
+      "Keep the lower back, abdomen, and ankles warm year-round"
+    ],
+    "herbal_teas_formulas": [
+      "Shenqi Pill / Jin Kui Shen Qi Wan",
+      "Dried Ginger & Cinnamon Tea",
+      "Walnut & Red Date Porridge"
+    ]
+  },
+  {
+    "id": "yinxu",
+    "name_english": "Yin-Deficiency Constitution",
+    "name_chinese": "阴虚质",
+    "pinyin": "Yīnxū Zhì",
+    "key_characteristics": [
+      "Warm palms and soles (Five-Center Heat) and warm body sensation",
+      "Dry mouth, dry throat, and frequent thirst",
+      "Dry skin, dry eyes, and chapped lips",
+      "Night sweats or flushed cheeks in the evening",
+      "Impatient, restless, or easily agitated temperament"
+    ],
+    "susceptibility_conditions": [
+      "Chronic insomnia and vivid dreaming",
+      "Dry eye syndrome",
+      "Chronic pharyngitis / dry cough",
+      "Constipation with dry stools"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Lily Bulb (Baihe)", "Snow Fungus (Tremella)", "Pears", "Black Sesame", "Duck Meat", "Goji Berries", "Mulberries"],
+      "avoid": ["Spicy chili peppers", "Deep-fried foods", "Warm spices like clove or star anise", "Excessive alcohol"]
+    },
+    "lifestyle_rituals": [
+      "Strictly avoid staying up late; prioritize sleeping before 11 PM to nourish Yin",
+      "Practice calming meditation, mindfulness, and Yin Yoga",
+      "Maintain ambient indoor humidity and avoid hot dry environments"
+    ],
+    "herbal_teas_formulas": [
+      "Liuwei Dihuang Wan",
+      "Tremella & Lily Bulb Dessert Soup",
+      "Ophiopogon (Mai Dong) & Goji Tea"
+    ]
+  },
+  {
+    "id": "tan-shi",
+    "name_english": "Phlegm-Dampness Constitution",
+    "name_chinese": "痰湿质",
+    "pinyin": "Tánshī Zhì",
+    "key_characteristics": [
+      "Abdominal obesity or soft fat accumulation",
+      "Oily facial skin and forehead",
+      "Sticky or sweet taste in mouth, chest tightness",
+      "Heavy, sluggish sensation in body and limbs",
+      "Thick white greasy tongue coating"
+    ],
+    "susceptibility_conditions": [
+      "Metabolic syndrome",
+      "Fatty liver disease",
+      "Hyperlipidemia (high cholesterol)",
+      "Type 2 diabetes and cardiovascular disease"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Job's Tears (Coix Seed)", "Red Beans (Chidou)", "Poria (Fuling)", "Winter Melon", "White Radish", "Celery", "Mandarin Peel (Chenpi)"],
+      "avoid": ["Dairy products", "Refined sugar and sweets", "Deep-fried oily foods", "Heavy alcohol"]
+    },
+    "lifestyle_rituals": [
+      "Engage in long-duration moderate aerobic exercise (brisk walking, cycling) to sweat mildly",
+      "Avoid living in damp or air-conditioned environments for prolonged periods",
+      "Maintain active movement throughout the workday"
+    ],
+    "herbal_teas_formulas": [
+      "Erchen Tang",
+      "Pingwei San",
+      "Chenpi & Poria Tea",
+      "Coix Seed & Red Bean Water"
+    ]
+  },
+  {
+    "id": "shi-re",
+    "name_english": "Damp-Heat Constitution",
+    "name_chinese": "湿热质",
+    "pinyin": "Shīrè Zhì",
+    "key_characteristics": [
+      "Oily skin prone to acne and breakouts",
+      "Bitter or sticky taste in the mouth",
+      "Feeling of heaviness in body and irritable temper",
+      "Foul-smelling, sticky stools or incomplete evacuation",
+      "Short, dark/yellow urination and yellow greasy tongue coating"
+    ],
+    "susceptibility_conditions": [
+      "Severe facial acne, eczema, or dermatitis",
+      "Urinary tract infections (UTI)",
+      "Cholecystitis and gallstones",
+      "Hemorrhoids and pelvic inflammation"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Mung Beans", "Cucumber", "Bitter Melon", "Lotus Root", "Watercress", "Barley", "Dandelion"],
+      "avoid": ["Spicy hotpot", "Fried chicken and barbecued meats", "High-proof spirits", "Tropical fruits like durian or mango in excess"]
+    },
+    "lifestyle_rituals": [
+      "Perform high-intensity cardio sports (swimming, basketball, running) to discharge heat and dampness",
+      "Ensure proper skin cleansing and hygiene",
+      "Avoid hot, humid, or poorly ventilated places"
+    ],
+    "herbal_teas_formulas": [
+      "Longdan Xiegan Tang",
+      "Mung Bean & Lotus Leaf Tea",
+      "Dandelion & Corn Silk Tea"
+    ]
+  },
+  {
+    "id": "xue-yu",
+    "name_english": "Blood-Stasis Constitution",
+    "name_chinese": "血瘀质",
+    "pinyin": "Xuèyū Zhì",
+    "key_characteristics": [
+      "Dull, dark, or maculated complexion",
+      "Dark purple lips and tongue (often with purple stasis spots)",
+      "Hyperpigmentation, dark eye circles, or visible varicose veins",
+      "Bruising easily and tendency for localized sharp pain",
+      "Forgetful or prone to dry, scaly skin"
+    ],
+    "susceptibility_conditions": [
+      "Dysmenorrhea and uterine fibroids",
+      "Angina and coronary heart disease",
+      "Stroke and vascular thrombosis",
+      "Chronic pain disorders"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Hawthorn Berry (Shanzha)", "Black Fungus", "Rose Petals", "Saffron", "Aged Vinegar", "Peach Kernel", "Garlic"],
+      "avoid": ["Cold beverages and raw foods (which cause vascular constriction)", "Excessive saturated fats"]
+    },
+    "lifestyle_rituals": [
+      "Maintain active daily blood circulation through dance, aerobic exercise, or gymnastics",
+      "Keep body warm and protect against cold winds",
+      "Practice full-body stretching (Yoga, Ba Duan Jin)"
+    ],
+    "herbal_teas_formulas": [
+      "Taohong Siwu Tang",
+      "Xuefu Zhuyu Tang",
+      "Hawthorn & Rose Tea",
+      "Dan Shen (Salvia) Tea"
+    ]
+  },
+  {
+    "id": "qi-yu",
+    "name_english": "Qi-Stagnation Constitution",
+    "name_chinese": "气郁质",
+    "pinyin": "Qìyù Zhì",
+    "key_characteristics": [
+      "Frequent moodiness, melancholy, or anxiety",
+      "Tendency to sigh deeply to relieve chest oppression",
+      "Fullness/distension in the chest, ribcage, or hypochondrium",
+      "Plum-pit sensation in the throat (globus hystericus)",
+      "Irregular sleep, vivid dreams, or PMS symptoms"
+    ],
+    "susceptibility_conditions": [
+      "Depression and generalized anxiety disorders",
+      "Insomnia",
+      "Fibrocystic breast disease and thyroid nodules",
+      "Irritable Bowel Syndrome (IBS)"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Jasmine Flowers", "Rose Tea", "Citrus Peel / Orange", "Fennel", "Buckwheat", "Radish", "Peppermint"],
+      "avoid": ["Heavy, hard-to-digest sticky rice foods", "Excessive caffeine or alcohol which destabilize nerves"]
+    },
+    "lifestyle_rituals": [
+      "Participate in social events, group travel, and outdoor nature walks",
+      "Listen to relaxing or uplifting music and practice singing or vocal expression",
+      "Engage in deep abdominal breathing and emotional journaling"
+    ],
+    "herbal_teas_formulas": [
+      "Xiao Yao San (Free and Easy Wanderer)",
+      "Banxia Houpo Tang",
+      "Jasmine & Rose Bud Tea",
+      "Dried Citrus & Peppermint Tea"
+    ]
+  },
+  {
+    "id": "te-bing",
+    "name_english": "Special / Allergic Constitution",
+    "name_chinese": "特禀质",
+    "pinyin": "Tèbǐng Zhì",
+    "key_characteristics": [
+      "Congenital sensitivity or genetic allergic predisposition",
+      "Frequent sneezing, runny nose, skin hives, or asthma attacks",
+      "Hypersensitivity to drugs, foods, pollen, or environmental changes",
+      "Dermatographism (skin easily marks or red hives appear when scratched)"
+    ],
+    "susceptibility_conditions": [
+      "Allergic rhinitis (hay fever)",
+      "Bronchial asthma",
+      "Atopic dermatitis / eczema",
+      "Urticaria (hives) and severe food/drug allergies"
+    ],
+    "dietary_recommendations": {
+      "beneficial": ["Astragalus", "Chinese Yam", "Tremella", "Clean, bland, fresh foods"],
+      "avoid": ["Known food allergens (seafood, shellfish, nuts)", "Spicy or pungent seasonings", "Game meats and shellfish", "Processed foods with artificial additives"]
+    },
+    "lifestyle_rituals": [
+      "Avoid exposure to seasonal pollen, dust mites, pet dander, and mold",
+      "Keep living quarters clean, well-ventilated, and allergen-free",
+      "Maintain stable daily rhythms and avoid sudden temperature extremes"
+    ],
+    "herbal_teas_formulas": [
+      "Yu Ping Feng San (Jade Windscreen)",
+      "Guizhi Tang variations",
+      "Astragalus & Licorice Tea"
+    ]
+  }
+]

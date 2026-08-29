@@ -122,6 +122,142 @@ IMPORTANT RULES:
 import time
 from nutribot import i18n
 
+# --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
+@st.cache_resource
+def load_tcm_constitutions():
+    json_path = os.path.join("data", "tcm_constitutions.json")
+    if os.path.exists(json_path):
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                print(f"[RAG Setup] Successfully loaded {len(data)} TCM Constitution types from {json_path}")
+                return data
+        except Exception as e:
+            print(f"[RAG Error] Failed to load {json_path}: {e}")
+    return []
+
+tcm_constitutions_db = load_tcm_constitutions()
+
+STOP_WORDS = {
+    "easily", "look", "looks", "feeling", "feel", "feels", "with", "from", "have", "has",
+    "make", "body", "type", "tendency", "prone", "often", "very", "also", "some", "like",
+    "soft", "good", "main", "well", "more", "less", "much", "many", "over", "under", "into"
+}
+
+def find_relevant_constitutions(prompt, constitutions_data, max_matches=2):
+    if not prompt or not constitutions_data:
+        return []
+    
+    prompt_lower = prompt.lower()
+    scored_results = []
+    
+    for item in constitutions_data:
+        score = 0
+        cid = item.get("id", "")
+        
+        # 1. Direct Name / Pinyin Match (+6 points)
+        names = [
+            item.get("name_english", "").lower(),
+            item.get("name_chinese", "").lower(),
+            item.get("pinyin", "").lower(),
+            cid.lower()
+        ]
+        for n in names:
+            if n and n in prompt_lower:
+                score += 6
+        
+        # 2. Diagnostic Keyword & Symptom Phrase Matches (+4 points each)
+        diagnostic_keywords = {
+            "pinghe": ["pinghe", "平和", "balanced constitution", "harmonious constitution", "healthy constitution"],
+            "qixu": [
+                "qixu", "气虚", "qi deficiency", "qi-deficiency", "short of breath", "shortness of breath", 
+                "spontaneous sweating", "catch cold", "catching cold", "fatigue", "tired", "weak voice"
+            ],
+            "yangxu": [
+                "yangxu", "阳虚", "yang deficiency", "yang-deficiency", "cold hands", "cold feet", "cold limbs", 
+                "intolerance to cold", "cold intolerance", "warm drinks", "chilly"
+            ],
+            "yinxu": [
+                "yinxu", "阴虚", "yin deficiency", "yin-deficiency", "five-center heat", "five center heat", 
+                "night sweat", "night sweating", "sweat at night", "sweating at night", "sweat a lot at night",
+                "dry mouth", "mouth feels dry", "dry throat", "throat feels dry", "chapped lips", "dry eyes"
+            ],
+            "tan-shi": [
+                "tan-shi", "tanshi", "痰湿", "phlegm-dampness", "phlegm dampness", "abdominal obesity", 
+                "greasy tongue", "heavy body", "heavy feeling", "sticky taste", "bloated", "bloating"
+            ],
+            "shi-re": [
+                "shi-re", "shire", "湿热", "damp-heat", "damp heat", "acne", "breakout", "breakouts", 
+                "bitter taste", "bitter mouth", "sticky stool", "yellow tongue"
+            ],
+            "xue-yu": [
+                "xue-yu", "xueyu", "血瘀", "blood-stasis", "blood stasis", "bruise", "bruising", 
+                "dark purple", "purple lips", "stasis spots", "hyperpigmentation"
+            ],
+            "qi-yu": [
+                "qi-yu", "qiyu", "气郁", "qi-stagnation", "qi stagnation", "frequent sighing", 
+                "sighing", "chest distension", "globus hystericus", "plum-pit", "moody", "anxious", "anxiety", "melancholy", "mood swings"
+            ],
+            "te-bing": [
+                "te-bing", "tebing", "特禀", "allergic constitution", "special constitution", 
+                "allergy", "allergies", "seasonal allergies", "allergic rhinitis", "hives", "rash", "rashes", "skin rash", "skin rashes", "asthma"
+            ]
+        }
+        
+        if cid in diagnostic_keywords:
+            for kw in diagnostic_keywords[cid]:
+                if kw in prompt_lower:
+                    score += 4
+
+        # 3. Exact Multi-word Phrase Matches from Characteristics & Susceptibilities (+5 points)
+        all_phrases = item.get("key_characteristics", []) + item.get("susceptibility_conditions", [])
+        for phrase in all_phrases:
+            phrase_clean = phrase.lower()
+            if len(phrase_clean) > 8 and phrase_clean in prompt_lower:
+                score += 5
+
+        # 4. Filtered Single-Word Overlap (+1 point, excluding STOP_WORDS)
+        for trait in item.get("key_characteristics", []):
+            words = [w.strip(",.()") for w in trait.lower().split()]
+            for w in words:
+                if len(w) >= 4 and w not in STOP_WORDS and w in prompt_lower:
+                    score += 1
+
+        # Strict Relevance Threshold: require at least score >= 4 (strong signal)
+        if score >= 4:
+            scored_results.append((score, item))
+
+    scored_results.sort(key=lambda x: x[0], reverse=True)
+    return [item for score, item in scored_results[:max_matches]]
+
+def build_rag_context(matches):
+    if not matches:
+        return ""
+    
+    context_blocks = ["=== RETRIEVED TCM NINE CONSTITUTION REFERENCE DATA ==="]
+    context_blocks.append("The following verified reference data from the TCM Nine Constitution Knowledge Base matched the user's query:\n")
+    
+    for item in matches:
+        char_str = "\n".join("- " + c for c in item.get("key_characteristics", []))
+        susc_str = "\n".join("- " + s for s in item.get("susceptibility_conditions", []))
+        beneficial_str = ", ".join(item.get("dietary_recommendations", {}).get("beneficial", []))
+        avoid_str = ", ".join(item.get("dietary_recommendations", {}).get("avoid", []))
+        life_str = "\n".join("- " + r for r in item.get("lifestyle_rituals", []))
+        herb_str = ", ".join(item.get("herbal_teas_formulas", []))
+        
+        block = (
+            f"--- Constitution Type: {item['name_english']} ({item['name_chinese']} / {item['pinyin']}) ---\n"
+            f"Key Characteristics:\n{char_str}\n\n"
+            f"Associated Health Susceptibilities:\n{susc_str}\n\n"
+            f"Dietary Recommendations:\n- Beneficial Foods: {beneficial_str}\n- Foods to Avoid: {avoid_str}\n\n"
+            f"Lifestyle Rituals:\n{life_str}\n\n"
+            f"Recommended Classic Formulas & Herbal Teas: {herb_str}\n"
+        )
+        context_blocks.append(block)
+    
+    context_blocks.append("=== END OF REFERENCE DATA ===")
+    return "\n".join(context_blocks)
+
 # --- LOGGING FUNCTIONS ---
 def detect_category(text):
     text = text.lower()
@@ -597,14 +733,32 @@ with tab_chat:
             full_response = ""
             
             try:
-                # Prepare messages (Limit to last 10 to save tokens/context)
+                # RAG Retrieval & Relevance Check
+                current_user_prompt = prompt if prompt else (st.session_state.messages[-1]["content"] if st.session_state.messages else "")
+                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db)
+                matched_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
+                print(f"[RAG Debug] Prompt: '{current_user_prompt[:60]}...' | Matched Constitutions ({len(matched_constitutions)}): {matched_names}")
+                
+                rag_context = build_rag_context(matched_constitutions)
+                
                 selected_lang = st.session_state.lang
                 language_directive = {
                     "zh": "You are a TCM assistant. Answer the user in Simplified Chinese only. Do not use English or any other language.",
                     "id": "You are a TCM assistant. Answer the user in Bahasa Indonesia only. Do not use English or any other language.",
                     "en": "You are a TCM assistant. Answer the user in English only. Do not use any other language."
                 }.get(selected_lang, "You are a TCM assistant. Answer the user in English only. Do not use any other language.")
-                groq_system = f"{personality}\n\nSelected language: {selected_lang}\n{language_directive}"
+                
+                rag_grounding_rules = (
+                    "RAG GROUNDING INSTRUCTIONS:\n"
+                    "- When reference data from the TCM Nine Constitution Knowledge Base is provided above, answer primarily based on that data, explicitly mention which constitution type(s) it relates to, and do NOT contradict the provided reference data.\n"
+                    "- If no reference data matches the query, answer more generally using established TCM principles, but do NOT fabricate specific formula names or herb pairings not grounded in TCM classics."
+                )
+                
+                if rag_context:
+                    groq_system = f"{personality}\n\n{rag_context}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}"
+                else:
+                    groq_system = f"{personality}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}"
+                
                 groq_messages = [{"role": "system", "content": groq_system}]
                 for msg in st.session_state.messages[-10:]:
                     groq_messages.append({"role": msg["role"], "content": msg["content"]})
