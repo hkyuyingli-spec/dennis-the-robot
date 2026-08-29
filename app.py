@@ -127,7 +127,9 @@ from nutribot.rag import (
     find_relevant_constitutions,
     find_relevant_herbs_formulas,
     build_rag_context,
+    generate_followup_suggestions,
 )
+from nutribot.safety import sanitize_response
 
 # --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
 @st.cache_resource
@@ -647,6 +649,8 @@ with tab_chat:
                     "- When reference data from the TCM Knowledge Base (Body Constitutions or Herbs & Formulas) is provided above, answer primarily based on that data, explicitly mention which constitution type(s) or herb/formula name(s) it relates to, and do NOT contradict the provided reference data.\n"
                     "- SAFETY MANDATE: When herb or formula reference data is provided, you MUST include the Cautions & Contraindications field content in your response whenever relevant. Do not omit contraindications.\n"
                     "- CRITICAL SAFETY RULE: If a user mentions taking medication, underlying health conditions, or being pregnant, and a matched herb/formula has contraindications for those conditions, explicitly highlight the warning to the user.\n"
+                    "- CRITICAL: If a matched herb/formula's cautions_and_contraindications field applies to a condition the user has mentioned about themselves (pregnancy, medication use, a specific health condition), you MUST NOT provide any dosage amount, frequency, or 'safe small amount' for that substance under any circumstance. Instead, clearly state it should be avoided and the user should consult a qualified practitioner or doctor before use. Do not soften this into a 'reduced dose' recommendation.\n"
+                    "- NEGATIVE EXAMPLE (do NOT follow): WRONG: 'use only 1/4 teaspoon since you're pregnant' — this is not acceptable even as a caution-softened suggestion.\n"
                     "- If no reference data matches the query, answer more generally using established TCM principles, but do NOT fabricate specific formula names, dosages, or unverified herb pairings."
                 )
                 
@@ -681,9 +685,57 @@ with tab_chat:
                     if chunk.choices[0].delta.content:
                         full_response += chunk.choices[0].delta.content
                         response_placeholder.markdown(full_response + "▌")
-                
+
+                # Post-generation safety sanitization (Layer 2)
+                try:
+                    sanitized_text, info = sanitize_response(full_response, selected_lang)
+                    if info.get("sanitized"):
+                        # Log the sanitization event for review
+                        try:
+                            log_interaction("safety_sanitized", {
+                                "prompt": current_user_prompt,
+                                "language": selected_lang,
+                                "matched_herbs": [h.get("id") for h in matched_herbs],
+                                "removed_sentences": info.get("removed_sentences", [])
+                            })
+                        except Exception as e:
+                            print(f"Failed to log sanitization event: {e}")
+                        full_response = sanitized_text
+
+                except Exception as e:
+                    print(f"Safety sanitization failed: {e}")
+
                 response_placeholder.markdown(full_response)
                 st.session_state.messages.append({"role": "assistant", "content": full_response})
+
+                # Generate follow-up suggestions grounded in matched RAG data
+                try:
+                    if matched_constitutions or matched_herbs:
+                        followups = generate_followup_suggestions(matched_constitutions, matched_herbs, current_user_prompt)
+                    else:
+                        followups = []
+                except Exception as e:
+                    print(f"Followup generation failed: {e}")
+                    followups = []
+
+                if followups:
+                    st.markdown("**Suggested follow-up questions:**")
+                    cols = st.columns(len(followups))
+                    for idx, suggestion in enumerate(followups):
+                        key = f"followup_{st.session_state.session_id}_{idx}"
+                        if cols[idx].button(suggestion, key=key):
+                            # Log click and send as next prompt
+                            try:
+                                log_interaction("followup_clicked", {
+                                    "suggestion": suggestion,
+                                    "original_question": current_user_prompt,
+                                    "matched_herbs": [h.get("id") for h in matched_herbs],
+                                    "matched_constitutions": [c.get("id") for c in matched_constitutions]
+                                })
+                            except Exception as e:
+                                print(f"Failed to log followup click: {e}")
+                            st.session_state.prompt_trigger = suggestion
+                            st.rerun()
 
             except RateLimitError:
                 st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
