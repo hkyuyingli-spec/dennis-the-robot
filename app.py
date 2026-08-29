@@ -130,6 +130,7 @@ from nutribot.rag import (
     generate_followup_suggestions,
 )
 from nutribot.safety import sanitize_response
+from nutribot.format_utils import normalize_markdown_tables
 
 # --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
 @st.cache_resource
@@ -338,10 +339,10 @@ st.markdown("""
 .stMain, [data-testid="stVerticalBlock"] { background-color: #faf7f2 !important; }
 
 section[data-testid="stSidebar"] { 
-    background-color: #1a5c38 !important; 
+    background-color: #1a3a38 !important; 
 }
 section[data-testid="stSidebar"] > div { 
-    background-color: #1a5c38 !important; 
+    background-color: #1a3a38 !important; 
 }
 
 /* All general text - bright white */
@@ -386,6 +387,21 @@ section[data-testid="stSidebar"] .stButton > button {
     margin-bottom: 8px !important;
     width: 100% !important;
     transition: all 0.2s ease !important;
+}
+
+/* Main area / Chat follow-up buttons - high contrast default */
+.stButton > button, [data-testid="stButton"] > button, [data-testid="stChatMessage"] .stButton > button {
+    background-color: #f5c842 !important;
+    color: #1a3a2a !important;
+    border: 1px solid #1a5c38 !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    padding: 0.4rem 0.8rem !important;
+}
+
+[data-testid="stButton"] > button:hover, .stButton > button:hover, [data-testid="stChatMessage"] .stButton > button:hover {
+    background-color: #e6be3a !important;
+    color: #0f2a1e !important;
 }
 
 /* Button hover */
@@ -685,6 +701,12 @@ with tab_chat:
                     if chunk.choices[0].delta.content:
                         full_response += chunk.choices[0].delta.content
                         response_placeholder.markdown(full_response + "▌")
+
+                # Normalize markdown tables before sanitization to improve rendering
+                try:
+                    full_response = normalize_markdown_tables(full_response)
+                except Exception as e:
+                    print(f"Table normalization failed: {e}")
 
                 # Post-generation safety sanitization (Layer 2)
                 try:
