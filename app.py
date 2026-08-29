@@ -1,4 +1,7 @@
 import os
+import sys
+# Ensure project root is on sys.path for reliable imports when launched from different CWDs
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import streamlit as st
 import base64
 from groq import Groq, RateLimitError, InternalServerError, APIStatusError

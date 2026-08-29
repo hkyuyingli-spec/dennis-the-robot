@@ -1,5 +1,9 @@
 import os
 import json
+from pathlib import Path
+
+# Project root (two levels up from this file: nutribot/ -> project root)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 STOP_WORDS = {
     "easily", "look", "looks", "feeling", "feel", "feels", "with", "from", "have", "has",
@@ -10,9 +14,9 @@ STOP_WORDS = {
 
 def load_tcm_constitutions(data_dir=None):
     if data_dir is None:
-        data_dir = os.path.join(os.getcwd(), "data")
-    json_path = os.path.join(data_dir, "tcm_constitutions.json")
-    if os.path.exists(json_path):
+        data_dir = PROJECT_ROOT / "data"
+    json_path = Path(data_dir) / "tcm_constitutions.json"
+    if json_path.exists():
         try:
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -84,9 +88,9 @@ def find_relevant_constitutions(prompt, constitutions_data, max_matches=2, curre
 
 def load_tcm_herbs_formulas(data_dir=None):
     if data_dir is None:
-        data_dir = os.path.join(os.getcwd(), "data")
-    json_path = os.path.join(data_dir, "tcm_herbs_formulas.json")
-    if os.path.exists(json_path):
+        data_dir = PROJECT_ROOT / "data"
+    json_path = Path(data_dir) / "tcm_herbs_formulas.json"
+    if json_path.exists():
         try:
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
