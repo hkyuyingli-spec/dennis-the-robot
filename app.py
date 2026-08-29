@@ -644,8 +644,9 @@ with tab_chat:
             try:
                 # RAG Retrieval & Relevance Check (Constitutions & Herbs/Formulas)
                 current_user_prompt = prompt if prompt else (st.session_state.messages[-1]["content"] if st.session_state.messages else "")
-                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db)
-                matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions)
+                selected_lang = st.session_state.lang
+                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, current_lang=selected_lang)
+                matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, current_lang=selected_lang)
                 
                 matched_c_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
                 matched_h_names = [f"{h['name_english']} ({h['name_chinese']})" for h in matched_herbs]
@@ -653,7 +654,7 @@ with tab_chat:
                 
                 rag_context = build_rag_context(matched_constitutions, matched_herbs)
                 
-                selected_lang = st.session_state.lang
+                # selected_lang already defined above for matcher usage
                 language_directive = {
                     "zh": "You are a TCM assistant. Answer the user in Simplified Chinese only. Do not use English or any other language.",
                     "id": "You are a TCM assistant. Answer the user in Bahasa Indonesia only. Do not use English or any other language.",
@@ -733,7 +734,7 @@ with tab_chat:
                 # Generate follow-up suggestions grounded in matched RAG data
                 try:
                     if matched_constitutions or matched_herbs:
-                        followups = generate_followup_suggestions(matched_constitutions, matched_herbs, current_user_prompt)
+                        followups = generate_followup_suggestions(matched_constitutions, matched_herbs, current_user_prompt, lang=selected_lang)
                     else:
                         followups = []
                 except Exception as e:

@@ -26,7 +26,7 @@ test_prompts = [
 print("=== TESTING RAG RETRIEVAL & GROUNDING CONTEXT GENERATION ===\n")
 
 for prompt in test_prompts:
-    matches = find_relevant_constitutions(prompt, constitutions_db)
+    matches = find_relevant_constitutions(prompt, constitutions_db, current_lang='en')
     matched_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matches]
     print(f"User Prompt: '{prompt}'")
     print(f"[RAG Debug Log] Matched ({len(matches)}): {matched_names}")

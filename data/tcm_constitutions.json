@@ -29,6 +29,11 @@
       "Mulberry Leaf Tea",
       "Mild Green Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["seimbang", "kondisi seimbang", "keseimbangan tubuh", "kondisi sehat"],
+      "zh": []
+    }
   },
   {
     "id": "qixu",
@@ -62,6 +67,11 @@
       "Yu Ping Feng San (Jade Windscreen Powder)",
       "Huangqi & Red Date Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["lelah", "capek", "letih", "mudah sakit", "mudah terserang flu", "mudah lelah", "penurunan energi"],
+      "zh": []
+    }
   },
   {
     "id": "yangxu",
@@ -95,6 +105,11 @@
       "Dried Ginger & Cinnamon Tea",
       "Walnut & Red Date Porridge"
     ]
+    ,
+    "aliases": {
+      "id": ["kedinginan", "tangan dingin", "kaki dingin", "tidak tahan dingin", "suhu tubuh rendah"],
+      "zh": []
+    }
   },
   {
     "id": "yinxu",
@@ -128,6 +143,11 @@
       "Tremella & Lily Bulb Dessert Soup",
       "Ophiopogon (Mai Dong) & Goji Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["kering", "mulut kering", "mata kering", "kering tenggorokan", "kering kulit", "kering mata"],
+      "zh": []
+    }
   },
   {
     "id": "tan-shi",
@@ -162,6 +182,11 @@
       "Chenpi & Poria Tea",
       "Coix Seed & Red Bean Water"
     ]
+    ,
+    "aliases": {
+      "id": ["kegemukan", "perut buncit", "kembung", "bengkak", "lemak perut", "berat badan berlebih"],
+      "zh": []
+    }
   },
   {
     "id": "shi-re",
@@ -195,6 +220,11 @@
       "Mung Bean & Lotus Leaf Tea",
       "Dandelion & Corn Silk Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["panas", "panas dalam", "kulit berminyak", "jerawat", "muka berminyak", "rasa pahit di mulut"],
+      "zh": []
+    }
   },
   {
     "id": "xue-yu",
@@ -229,6 +259,11 @@
       "Hawthorn & Rose Tea",
       "Dan Shen (Salvia) Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["mudah memar", "sirkulasi buruk", "varises", "memar", "kulit gelap"],
+      "zh": []
+    }
   },
   {
     "id": "qi-yu",
@@ -263,6 +298,11 @@
       "Jasmine & Rose Bud Tea",
       "Dried Citrus & Peppermint Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["mudah marah", "mood swing", "mudah sedih", "sulit tenang", "tertekan", "sering mendesah"],
+      "zh": []
+    }
   },
   {
     "id": "te-bing",
@@ -295,5 +335,10 @@
       "Guizhi Tang variations",
       "Astragalus & Licorice Tea"
     ]
+    ,
+    "aliases": {
+      "id": ["alergi", "sensitif", "asma", "gatal", "ruam kulit", "alergi makanan"],
+      "zh": []
+    }
   }
 ]

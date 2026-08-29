@@ -22,7 +22,7 @@ def load_tcm_constitutions(data_dir=None):
     return []
 
 
-def find_relevant_constitutions(prompt, constitutions_data, max_matches=2):
+def find_relevant_constitutions(prompt, constitutions_data, max_matches=2, current_lang='en'):
     if not prompt or not constitutions_data:
         return []
     prompt_lower = prompt.lower()
@@ -38,6 +38,12 @@ def find_relevant_constitutions(prompt, constitutions_data, max_matches=2):
         ]
         for n in names:
             if n and n in prompt_lower:
+                score += 6
+        # language-specific aliases (e.g., Indonesian terms)
+        aliases = item.get('aliases', {}) or {}
+        lang_aliases = [a.lower() for a in aliases.get(current_lang, [])] if aliases else []
+        for a in lang_aliases:
+            if a and a in prompt_lower:
                 score += 6
 
         diagnostic_keywords = {
@@ -91,7 +97,7 @@ def load_tcm_herbs_formulas(data_dir=None):
     return []
 
 
-def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None, max_matches=3):
+def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None, max_matches=3, current_lang='en'):
     if not prompt or not herbs_data:
         return []
     prompt_lower = prompt.lower()
@@ -108,6 +114,12 @@ def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None,
         ]
         for n in names:
             if n and n in prompt_lower:
+                score += 6
+        # language-specific aliases (e.g., Indonesian terms)
+        aliases = item.get('aliases', {}) or {}
+        lang_aliases = [a.lower() for a in aliases.get(current_lang, [])] if aliases else []
+        for a in lang_aliases:
+            if a and a in prompt_lower:
                 score += 6
 
         herb_keywords = {
@@ -197,7 +209,7 @@ def build_rag_context(matched_constitutions, matched_herbs):
     return "\n".join(context_blocks)
 
 
-def generate_followup_suggestions(matched_constitutions, matched_herbs, original_question=None, max_suggestions=3):
+def generate_followup_suggestions(matched_constitutions, matched_herbs, original_question=None, lang='en', max_suggestions=3):
     """
     Generate 2-3 short follow-up question strings based only on the matched
     constitution and herb/formula metadata. These are template-based and
@@ -206,13 +218,37 @@ def generate_followup_suggestions(matched_constitutions, matched_herbs, original
     suggestions = []
     seen = set()
 
+    # Templates by language
+    templates = {
+        'en': {
+            'foods': "What foods should I eat for {name}?",
+            'lifestyle': "What lifestyle changes help with {name}?",
+            'other_herbs': "What other herbs help with {name}?",
+            'learn_more': "Tell me more about {name}"
+        },
+        'id': {
+            'foods': "Makanan apa yang sebaiknya saya konsumsi untuk {name}?",
+            'lifestyle': "Perubahan gaya hidup apa yang membantu untuk {name}?",
+            'other_herbs': "Herbal lain apa yang membantu dengan {name}?",
+            'learn_more': "Ceritakan lebih lanjut tentang {name}"
+        },
+        'zh': {
+            'foods': "针对{name}，我应该吃哪些食物？",
+            'lifestyle': "对{name}来说，有哪些生活方式的调整有帮助？",
+            'other_herbs': "还有哪些草药对{name}有帮助？",
+            'learn_more': "请告诉我更多关于{name}的信息"
+        }
+    }
+
+    lang_templates = templates.get(lang, templates['en'])
+
     # Suggestions from constitutions
     for c in (matched_constitutions or []):
         name = c.get("name_english") or c.get("name_chinese") or c.get("id")
         if not name:
             continue
-        s1 = f"What foods should I eat for {name}?"
-        s2 = f"What lifestyle changes help with {name}?"
+        s1 = lang_templates['foods'].format(name=name)
+        s2 = lang_templates['lifestyle'].format(name=name)
         for s in (s1, s2):
             if s not in seen:
                 suggestions.append(s)
@@ -226,14 +262,14 @@ def generate_followup_suggestions(matched_constitutions, matched_herbs, original
         related = h.get("related_constitutions", [])
         # Ask about related constitutions
         for rc in related:
-            s = f"What other herbs help with {rc}?"
+            s = lang_templates['other_herbs'].format(name=rc)
             if s not in seen:
                 suggestions.append(s)
                 seen.add(s)
             if len(suggestions) >= max_suggestions:
                 return suggestions
         # Ask to learn more about the herb/formula
-        s = f"Tell me more about {hname}"
+        s = lang_templates['learn_more'].format(name=hname)
         if s not in seen:
             suggestions.append(s)
             seen.add(s)

@@ -16,8 +16,8 @@ prompt = "I'm always tired and catch colds easily"
 print(f"Prompt: {prompt}\n")
 consts = load_tcm_constitutions()
 herbs = load_tcm_herbs_formulas()
-matched_constitutions = find_relevant_constitutions(prompt, consts)
-matched_herbs = find_relevant_herbs_formulas(prompt, herbs, matched_constitutions=matched_constitutions)
+matched_constitutions = find_relevant_constitutions(prompt, consts, current_lang='en')
+matched_herbs = find_relevant_herbs_formulas(prompt, herbs, matched_constitutions=matched_constitutions, current_lang='en')
 
 print('Matched Constitutions:', [c.get('name_english') for c in matched_constitutions])
 print('Matched Herbs/Formulas:', [h.get('name_english') for h in matched_herbs])
@@ -43,7 +43,7 @@ print(sanitized)
 print('\nSanitization info:', info)
 
 # Generate follow-up suggestions
-followups = generate_followup_suggestions(matched_constitutions, matched_herbs, prompt)
+followups = generate_followup_suggestions(matched_constitutions, matched_herbs, prompt, lang='en')
 print('\nGenerated follow-up suggestions:')
 for f in followups:
     print('-', f)

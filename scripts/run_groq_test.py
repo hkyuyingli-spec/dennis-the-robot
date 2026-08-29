@@ -94,8 +94,8 @@ language_directive = "You are a TCM assistant. Answer the user in Bahasa Indones
 
 for i, (lang, prompt) in enumerate(prompts, start=1):
     print(f"\n--- Prompt {i} ({lang}) ---\n{prompt}\n")
-    matched_constitutions = find_relevant_constitutions(prompt, consts)
-    matched_herbs = find_relevant_herbs_formulas(prompt, herbs, matched_constitutions=matched_constitutions)
+    matched_constitutions = find_relevant_constitutions(prompt, consts, current_lang=lang)
+    matched_herbs = find_relevant_herbs_formulas(prompt, herbs, matched_constitutions=matched_constitutions, current_lang=lang)
 
     matched_c_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
     matched_h_names = [f"{h['name_english']} ({h['name_chinese']})" for h in matched_herbs]
