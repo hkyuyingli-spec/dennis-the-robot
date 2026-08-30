@@ -281,3 +281,95 @@ def generate_followup_suggestions(matched_constitutions, matched_herbs, original
             return suggestions
 
     return suggestions
+
+
+def load_cancer_education(data_dir=None):
+    if data_dir is None:
+        data_dir = PROJECT_ROOT / "data"
+    json_path = Path(data_dir) / "cancer_education_general.json"
+    if json_path.exists():
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data
+        except Exception:
+            pass
+    return []
+
+
+def is_personal_symptom_query(prompt):
+    """Return True if prompt appears to describe personal symptoms/history.
+
+    Simple rule-based detection: first-person pronouns combined with words
+    indicating symptoms, body parts, diagnoses, or direct questions about
+    the user's own condition.
+    """
+    if not prompt:
+        return False
+    p = prompt.lower()
+    # Look for first-person indicators
+    first_person_indicators = [" i ", "i'", " i'm ", "i am ", "my ", "me ", "mine", "was diagnosed", "diagnosed with", "i have", "i had", "i've"]
+    body_parts = ["breast", "lump", "tumor", "pain", "pelvic", "chest", "abdomen", "stomach", "headache", "rash", "bleeding", "bleed", "mass"]
+    for indicator in first_person_indicators:
+        if indicator in p:
+            # If first-person + symptom/bodypart keywords present, classify as personal
+            for bp in body_parts:
+                if bp in p:
+                    return True
+            # also phrases like 'is it dangerous' after I have
+            if "is it" in p or "danger" in p or "should i" in p:
+                return True
+    # Also explicit personal-history phrases
+    personal_phrases = ["i was diagnosed", "my diagnosis", "my tumor", "my lump", "my breast", "i have a lump"]
+    for ph in personal_phrases:
+        if ph in p:
+            return True
+    return False
+
+
+def find_relevant_cancer_education(prompt, cancer_data, max_matches=2, current_lang='en'):
+    """Match cancer education topics only for general/curiosity queries.
+
+    Returns matched topic entries when the prompt is general; returns []
+    for personal/symptom queries to avoid serving general education as a
+    substitute for medical triage.
+    """
+    if not prompt or not cancer_data:
+        return []
+    # If prompt describes personal symptoms/history, do not match
+    if is_personal_symptom_query(prompt):
+        return []
+
+    prompt_lower = prompt.lower()
+    scored = []
+    for item in cancer_data:
+        score = 0
+        tid = item.get("topic_id", "").lower()
+        names = [item.get("topic_name", "").lower(), tid]
+        for n in names:
+            if n and n in prompt_lower:
+                score += 6
+        # match key facts phrases
+        for fact in item.get("key_facts", []):
+            f = fact.lower()
+            # match longer phrases
+            if len(f) > 8 and f in prompt_lower:
+                score += 4
+            else:
+                # word-level matching
+                for w in f.split():
+                    wclean = w.strip(',.;()')
+                    if len(wclean) >= 4 and wclean in prompt_lower:
+                        score += 1
+        if score >= 2:
+            scored.append((score, item))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [item for score, item in scored[:max_matches]]
+
+
+def cancer_personal_redirect_response():
+    return (
+        "I’m not able to provide a personal diagnosis. Descriptions of symptoms or a personal medical history could indicate a serious condition. "
+        "Please seek prompt evaluation from a qualified healthcare provider or an oncologist who can assess your situation in person. If you are experiencing severe or rapidly worsening symptoms (for example severe pain, heavy bleeding, difficulty breathing, fainting, or other emergency signs), seek emergency care immediately."
+    )

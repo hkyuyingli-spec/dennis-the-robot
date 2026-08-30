@@ -131,6 +131,10 @@ from nutribot.rag import (
     find_relevant_herbs_formulas,
     build_rag_context,
     generate_followup_suggestions,
+    load_cancer_education,
+    find_relevant_cancer_education,
+    is_personal_symptom_query,
+    cancer_personal_redirect_response,
 )
 from nutribot.safety import sanitize_response
 from nutribot.format_utils import normalize_markdown_tables
@@ -154,6 +158,7 @@ tcm_constitutions_db = load_tcm_constitutions()
 # RAG functions (loading/matching/building context) are provided by nutribot.rag
 tcm_constitutions_db = load_tcm_constitutions()
 tcm_herbs_db = load_tcm_herbs_formulas()
+cancer_education_db = load_cancer_education()
 
 # --- LOGGING FUNCTIONS ---
 def detect_category(text):
@@ -653,9 +658,28 @@ with tab_chat:
                 
                 matched_c_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
                 matched_h_names = [f"{h['name_english']} ({h['name_chinese']})" for h in matched_herbs]
+                # Cancer education matching (general queries only)
+                matched_cancer = find_relevant_cancer_education(current_user_prompt, cancer_education_db, current_lang=selected_lang)
+                matched_cancer_names = [f"{c.get('topic_id')} ({c.get('topic_name')})" for c in matched_cancer]
                 print(f"[RAG Debug] Prompt: '{current_user_prompt[:60]}...' | Constitutions ({len(matched_constitutions)}): {matched_c_names} | Herbs ({len(matched_herbs)}): {matched_h_names}")
                 
+                # Build RAG context from TCM KBs
                 rag_context = build_rag_context(matched_constitutions, matched_herbs)
+
+                # If cancer education matched, append that reference block
+                if matched_cancer:
+                    cancer_blocks = ["=== REFERENCE: CANCER EDUCATION ===", "The following verified public-health reference material matched the query:\n"]
+                    for c in matched_cancer:
+                        facts = "\n".join("- " + f for f in c.get("key_facts", []))
+                        block = (
+                            f"--- Topic: {c.get('topic_name')} ({c.get('topic_id')}) ---\n"
+                            f"Overview: {c.get('general_overview')}\n"
+                            f"Key Facts:\n{facts}\n"
+                            f"Source Note: {c.get('source_note')}\n"
+                        )
+                        cancer_blocks.append(block)
+                    cancer_blocks.append("=== END OF CANCER EDUCATION REFERENCE DATA ===")
+                    rag_context = (rag_context + "\n" + "\n".join(cancer_blocks)) if rag_context else "\n".join(cancer_blocks)
                 
                 # selected_lang already defined above for matcher usage
                 language_directive = {
@@ -682,29 +706,37 @@ with tab_chat:
                 groq_messages = [{"role": "system", "content": groq_system}]
                 for msg in st.session_state.messages[-10:]:
                     groq_messages.append({"role": msg["role"], "content": msg["content"]})
-                
-                try:
-                    completion = client.chat.completions.create(
-                        model=MODEL_PRIMARY, 
-                        messages=groq_messages, 
-                        max_tokens=1024, 
-                        temperature=0.7,
-                        stream=True
-                    )
-                except Exception as e:
-                    print(f"Groq primary model ({MODEL_PRIMARY}) failed: {e}")
-                    completion = client.chat.completions.create(
-                        model=MODEL_FALLBACK, 
-                        messages=groq_messages, 
-                        max_tokens=1024, 
-                        temperature=0.7,
-                        stream=True
-                    )
-                
-                for chunk in completion:
-                    if chunk.choices[0].delta.content:
-                        full_response += chunk.choices[0].delta.content
-                        response_placeholder.markdown(full_response + "▌")
+                # Check for personal/symptom phrasing and short-circuit with a redirect
+                personal = is_personal_symptom_query(current_user_prompt)
+                if personal:
+                    full_response = cancer_personal_redirect_response()
+                    try:
+                        log_interaction("cancer_personal_redirect", {"prompt": current_user_prompt, "language": selected_lang})
+                    except Exception:
+                        pass
+                else:
+                    try:
+                        completion = client.chat.completions.create(
+                            model=MODEL_PRIMARY, 
+                            messages=groq_messages, 
+                            max_tokens=1024, 
+                            temperature=0.7,
+                            stream=True
+                        )
+                    except Exception as e:
+                        print(f"Groq primary model ({MODEL_PRIMARY}) failed: {e}")
+                        completion = client.chat.completions.create(
+                            model=MODEL_FALLBACK, 
+                            messages=groq_messages, 
+                            max_tokens=1024, 
+                            temperature=0.7,
+                            stream=True
+                        )
+
+                    for chunk in completion:
+                        if chunk.choices[0].delta.content:
+                            full_response += chunk.choices[0].delta.content
+                            response_placeholder.markdown(full_response + "▌")
 
                 # Normalize markdown tables before sanitization to improve rendering
                 try:

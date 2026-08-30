@@ -1,0 +1,121 @@
+[
+  {
+    "topic_id": "cancer_01",
+    "topic_name": "What is cancer",
+    "general_overview": "Cancer is a broad category of diseases characterized by uncontrolled cell growth and the potential to invade or spread to other parts of the body. Cancer arises from genetic and environmental interactions that alter normal cellular regulation, including processes that control cell division, death, and DNA repair. Tumors may be benign (non-invasive) or malignant (capable of invading and metastasizing); malignant tumors are referred to as cancers. The biological behavior, prognosis, and clinical management vary by cancer type and stage.",
+    "key_facts": [
+      "Cancer results from changes (mutations) in genes that regulate cell growth and division.",
+      "Not all tumors are cancerous; benign tumors generally do not invade surrounding tissues or spread to distant sites.",
+      "Malignant cancers can invade nearby tissues and spread (metastasize) through the bloodstream or lymphatic system.",
+      "Risk factors for cancer include a combination of genetic predisposition and environmental exposures; specific risk profiles differ by cancer type.",
+      "Diagnosis and staging are based on clinical evaluation, imaging, and laboratory or pathology tests that characterize tumor type, location, and extent."
+    ],
+    "source_note": "National Cancer Institute — 'What Is Cancer?' (cancer.gov/about-cancer/understanding/what-is-cancer)",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_02",
+    "topic_name": "Common cancer types overview",
+    "general_overview": "Cancer is categorized by the tissue or organ in which it begins and by cell type. Common categories include carcinomas (originating in epithelial cells), sarcomas (in connective tissues), hematologic malignancies (blood-forming tissues), and tumors arising in specific organs. Epidemiologic patterns vary globally by age, sex, and region, with certain cancer types more prevalent in particular populations.",
+    "key_facts": [
+      "Carcinomas (e.g., cancers of the breast, lung, prostate, and colon) arise from epithelial cells that line organs and glands.",
+      "Hematologic cancers (leukemias, lymphomas, myelomas) affect blood, bone marrow, or immune system components.",
+      "Sarcomas arise in connective tissues such as bone, muscle, fat, or cartilage and are comparatively less common.",
+      "Incidence and mortality for specific cancer types are influenced by factors such as screening practices, infections, tobacco use, diet, occupational exposures, and access to care.",
+      "Population-level data and classification systems (including staging and histologic subtype) guide clinical research and public-health planning."
+    ],
+    "source_note": "American Cancer Society — 'Types of Cancer' (cancer.org/content/cancer/en/cancer.html) and National Cancer Institute epidemiology resources",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_03",
+    "topic_name": "Screening and early detection",
+    "general_overview": "Screening refers to testing asymptomatic populations to detect cancer or precancerous conditions at earlier stages, when interventions may be more effective in reducing morbidity and mortality. Screening programs and recommended modalities differ by cancer type, risk group, and health-system context. Early detection may involve imaging, cytology, or biomarker testing depending on the target cancer.",
+    "key_facts": [
+      "Screening is performed for selected cancers where evidence shows potential benefit; accepted screening programs differ by country and by cancer type.",
+      "Common screening modalities include imaging and tissue/cellular tests tailored to specific cancers (e.g., imaging for certain organs, cytology for others).",
+      "Screening carries both potential benefits (earlier diagnosis) and potential harms (false positives, overdiagnosis, downstream procedures); policies weigh these factors.",
+      "Participation and access to screening programs are influenced by health-system organization, health equity, and public health recommendations.",
+      "Screening recommendations are periodically reviewed and updated based on new evidence from clinical trials and population studies."
+    ],
+    "source_note": "World Health Organization — 'Screening' and 'Cancer control: early detection' materials; National Cancer Institute and American Cancer Society screening summaries",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_04",
+    "topic_name": "Standard treatment categories overview",
+    "general_overview": "Cancer treatment typically uses a set of broad therapeutic categories, alone or in combination, selected based on cancer type, stage, patient health status, and treatment goals. Treatment approaches may be curative, adjuvant (to reduce recurrence risk), neoadjuvant (before primary treatment), palliative (to relieve symptoms), or part of clinical trials exploring new therapies.",
+    "key_facts": [
+      "Major treatment categories include local therapies that target the tumor site and systemic therapies that affect the whole body.",
+      "Local therapies commonly encompass surgical resection and radiotherapy to remove or destroy tumor tissue at specific sites.",
+      "Systemic therapies include a range of modalities that circulate through the body; selection depends on tumor biology and clinical context.",
+      "Treatment choice and sequencing are individualized using evidence-based guidelines and multidisciplinary clinical assessment.",
+      "Clinical trials evaluate novel agents, combinations, and approaches; participation is a regulated option discussed between patients and clinicians."
+    ],
+    "source_note": "National Cancer Institute — 'Treatment' overview and American Cancer Society treatment information pages",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_05",
+    "topic_name": "General nutrition during cancer treatment",
+    "general_overview": "Nutritional concerns are common during cancer and its treatment. Nutritional care focuses on maintaining adequate energy and protein intake, managing treatment-related side effects that affect eating, and supporting functional status. Nutritional needs and tolerances vary by individual, cancer type, and treatment regimen.",
+    "key_facts": [
+      "Treatment-related effects such as nausea, taste changes, swallowing difficulty, and fatigue can affect dietary intake and nutritional status.",
+      "Maintaining appropriate energy and protein intake supports strength and recovery; nutritional plans are individualized by clinical teams.",
+      "Nutrition interventions range from dietary counseling to specialized oral nutritional supplements or enteral feeding when clinically indicated.",
+      "Evidence-based guidance on nutrition in cancer care is provided by professional and public-health organizations and reflects evolving research.",
+      "Patients are advised to discuss any planned major dietary changes or supplements with their clinical care team, as interactions and contraindications may exist."
+    ],
+    "source_note": "American Cancer Society — 'Nutrition for People With Cancer' and National Cancer Institute nutrition resources",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_06",
+    "topic_name": "Complementary and traditional medicine approaches and limitations",
+    "general_overview": "Complementary and traditional medicine approaches are practices used alongside or outside standard medical treatment. These approaches vary widely by culture and practice system. Scientific evidence for safety and effectiveness differs across modalities, and some complementary interventions may interact with conventional treatments or carry risks.",
+    "key_facts": [
+      "Complementary approaches encompass a broad range of practices — their usage patterns and evidence base vary by modality and indication.",
+      "Some complementary practices are intended to support symptom management or quality of life rather than to treat cancer itself.",
+      "Scientific evaluation of complementary modalities uses the same principles of evidence-based assessment; high-quality randomized trials and systematic reviews are the standard for assessing effectiveness and safety.",
+      "Certain complementary products or practices can interact with conventional cancer treatments and may pose safety risks; clinical teams consider such interactions when advising patients.",
+      "Major public-health organizations recommend open discussion between patients and clinicians about any complementary or traditional therapies being considered."
+    ],
+    "source_note": "National Cancer Institute — 'Complementary and Alternative Medicine for Patients' and World Health Organization material on traditional medicine",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  },
+  {
+    "topic_id": "cancer_07",
+    "topic_name": "Palliative and supportive care overview",
+    "general_overview": "Palliative and supportive care comprises clinical services that aim to relieve symptoms, manage pain, and improve quality of life for patients with serious illness, including cancer. Palliative care can be provided alongside curative or life-prolonging treatments and addresses physical, psychosocial, and spiritual needs of patients and families.",
+    "key_facts": [
+      "Palliative care focuses on symptom management, psychosocial support, and coordination of care across settings.",
+      "Palliative services may be delivered by multidisciplinary teams and can be integrated early in the course of cancer care when appropriate.",
+      "Palliative care is distinct from hospice care, which is typically offered when life expectancy is limited and curative treatment is no longer pursued.",
+      "Access to palliative care varies by health system and geographic region; professional guidelines describe models for delivery and referral.",
+      "Evidence supports palliative interventions that improve symptom burden, patient and caregiver experience, and alignment of care with patient goals."
+    ],
+    "source_note": "World Health Organization — 'Palliative Care' fact sheet; National Cancer Institute and American Cancer Society supportive care resources",
+    "redirect_notice": "This is general educational information only. For any personal symptoms, diagnosis, or treatment questions, please consult an oncologist or qualified healthcare provider immediately — this information cannot and should not inform decisions about your own health situation.",
+    "last_updated": "2026-08-30",
+    "last_human_reviewed": null,
+    "review_status": "ai_drafted_pending_review"
+  }
+]

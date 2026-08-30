@@ -1,0 +1,30 @@
+2026-08-25 15:21:49,262 - INFO - Daily report started. project_root=C:\Users\SWI-No.1\my-first-agent, cwd=C:\Users\SWI-No.1\my-first-agent
+2026-08-25 15:21:49,263 - INFO - Step: initializing Firebase
+2026-08-25 15:21:49,317 - INFO - Step: fetching Firebase collections
+2026-08-25 15:21:52,723 - INFO - Fetched users=1 logs=240 metrics=106
+2026-08-25 15:21:52,723 - INFO - Step: processing report data
+2026-08-25 15:21:52,734 - INFO - Step: generating AI insights
+2026-08-25 15:21:54,335 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-25 15:21:54,336 - INFO - Step: exporting Excel report
+2026-08-25 15:21:54,799 - INFO - ✅ Exported analytics_report.xlsx
+2026-08-25 15:21:54,804 - INFO - Step: exporting PDF report
+2026-08-25 15:21:55,115 - INFO - ✅ Exported nutribot_report.pdf
+2026-08-25 15:21:55,115 - INFO - Step: sending email report
+2026-08-25 15:21:56,868 - INFO - 📧 Email sent successfully!
+2026-08-25 15:21:56,869 - INFO - Daily report completed successfully
+2026-08-25 15:21:56,870 - INFO - Daily report process ended
+2026-08-28 16:06:55,460 - INFO - Daily report started. project_root=C:\Users\SWI-No.1\my-first-agent, cwd=C:\Users\SWI-No.1\my-first-agent
+2026-08-28 16:06:55,461 - INFO - Step: initializing Firebase
+2026-08-28 16:06:55,580 - INFO - Step: fetching Firebase collections
+2026-08-28 16:06:57,762 - INFO - Fetched users=1 logs=241 metrics=108
+2026-08-28 16:06:57,763 - INFO - Step: processing report data
+2026-08-28 16:06:57,845 - INFO - Step: generating AI insights
+2026-08-28 16:06:58,881 - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 404 Not Found"
+2026-08-28 16:06:58,883 - INFO - Step: exporting Excel report
+2026-08-28 16:06:59,721 - INFO - ✅ Exported analytics_report.xlsx
+2026-08-28 16:06:59,721 - INFO - Step: exporting PDF report
+2026-08-28 16:07:02,406 - INFO - ✅ Exported nutribot_report.pdf
+2026-08-28 16:07:02,406 - INFO - Step: sending email report
+2026-08-28 16:07:03,644 - INFO - 📧 Email sent successfully!
+2026-08-28 16:07:03,647 - INFO - Daily report completed successfully
+2026-08-28 16:07:03,648 - INFO - Daily report process ended

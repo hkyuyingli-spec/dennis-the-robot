@@ -16,12 +16,21 @@ import schedule
 import time
 import logging
 import argparse
+import sys
+from pathlib import Path
 
-# Load environment variables from .env file
-load_dotenv()
+# Resolve all local resources relative to this script, not Task Scheduler's
+# default working directory (usually C:\Windows\System32).
+PROJECT_ROOT = Path(__file__).resolve().parent
+LOG_DIR = PROJECT_ROOT / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+LOG_FILE = LOG_DIR / "nutribot.log"
+
+# Load environment variables from this project's .env file.
+load_dotenv(PROJECT_ROOT / ".env")
 
 # --- CONFIGURATION ---
-SERVICE_ACCOUNT_PATH = "serviceAccountKey.json"
+SERVICE_ACCOUNT_PATH = PROJECT_ROOT / "serviceAccountKey.json"
 GMAIL_USER = os.getenv("GMAIL_USER")
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -29,14 +38,21 @@ RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
 current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
 
 # --- LOGGER ---
-logging.basicConfig(filename='email_log.txt', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    filename=LOG_FILE,
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8',
+    force=True,
+)
 
 # --- INITIALIZE FIREBASE ---
 def init_firebase():
     """Initializes Firebase Firestore connection."""
     if not os.path.exists(SERVICE_ACCOUNT_PATH):
-        logging.error(i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH))
-        return None
+        raise FileNotFoundError(
+            i18n.translate('error_service_account_not_found', current_lang).format(path=SERVICE_ACCOUNT_PATH)
+        )
     
     try:
         # Check if already initialized to avoid error
@@ -45,8 +61,8 @@ def init_firebase():
             firebase_admin.initialize_app(cred)
         return firestore.client()
     except Exception as e:
-        logging.error(i18n.translate('firebase_initialization_error', current_lang).format(error=e))
-        return None
+        logging.exception(i18n.translate('firebase_initialization_error', current_lang).format(error=e))
+        raise
 
 # --- FETCH DATA ---
 def fetch_collections(db):
@@ -63,7 +79,8 @@ def fetch_collections(db):
                 d['id'] = doc.id
                 data[key].append(d)
     except Exception as e:
-        logging.error(i18n.translate('error_fetching_data', current_lang).format(error=e))
+        logging.exception(i18n.translate('error_fetching_data', current_lang).format(error=e))
+        raise
     return data
 
 # --- GENERATE INSIGHTS ---
@@ -331,8 +348,7 @@ def export_pdf(insights, ai_insights):
 def send_email(insights, ai_insights):
     """Sends a styled HTML email with attachments via Brevo API."""
     if not GMAIL_USER or not BREVO_API_KEY:
-        logging.error(i18n.translate('email_skipped_credentials_missing', current_lang))
-        return
+        raise RuntimeError(i18n.translate('email_skipped_credentials_missing', current_lang))
 
     # HTML Body
     goals_html = "".join([f"<tr><td>{k}</td><td>{v}</td></tr>" for k,v in insights['popular_health_goals'].items()])
@@ -413,18 +429,27 @@ def send_email(insights, ai_insights):
         if response.status_code in [200, 201, 202]:
             logging.info(i18n.translate('email_sent_success', current_lang))
         else:
-            logging.error(f"Brevo API Error: Status {response.status_code} - {response.text}")
+            raise RuntimeError(f"Brevo API Error: Status {response.status_code} - {response.text}")
     except Exception as e:
-        logging.error(f"Brevo API Connection Error: {e}")
+        logging.exception(f"Brevo API Connection Error: {e}")
+        raise
 
 # --- MAIN ---
 def main():
+    # This also protects scheduled runs if the Task Scheduler "Start in" field
+    # is accidentally omitted.
+    os.chdir(PROJECT_ROOT)
+    logging.info("Daily report started. project_root=%s, cwd=%s", PROJECT_ROOT, Path.cwd())
+    logging.info("Step: initializing Firebase")
     print(i18n.translate('starting_enhanced_analysis', current_lang))
     db = init_firebase()
-    if not db: return
 
+    logging.info("Step: fetching Firebase collections")
     data = fetch_collections(db)
+    logging.info("Fetched users=%d logs=%d metrics=%d", len(data['users']), len(data['logs']), len(data['metrics']))
+    logging.info("Step: processing report data")
     insights = process_data(data)
+    logging.info("Step: generating AI insights")
     ai_insights = get_ai_analysis(insights)
     
     # Count today's entries
@@ -434,9 +459,13 @@ def main():
     
     print(f"Today's new entries: {today_logs_count} logs, {today_metrics_count} metrics")
     
+    logging.info("Step: exporting Excel report")
     export_excel(data, insights)
+    logging.info("Step: exporting PDF report")
     export_pdf(insights, ai_insights)
+    logging.info("Step: sending email report")
     send_email(insights, ai_insights)
+    logging.info("Daily report completed successfully")
     print(i18n.translate('all_tasks_completed', current_lang))
 
 # --- SCHEDULER ---
@@ -444,13 +473,26 @@ schedule.every().day.at("12:00").do(main)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze Firebase data and send email report.")
-    parser.add_argument("--test", action="store_true", help="Run the analysis immediately without waiting for the schedule.")
+    parser.add_argument("--run", action="store_true", help="Run the report immediately (use this in Task Scheduler).")
+    parser.add_argument("--test", action="store_true", help="Alias for --run, retained for compatibility.")
+    parser.add_argument("--daemon", action="store_true", help="Keep this process alive and run its internal daily scheduler.")
     
     args = parser.parse_args()
     
-    if args.test:
-        main()
-    else:
+    if args.daemon:
+        logging.info("Internal scheduler started; waiting for the next 12:00 run.")
         while True:
-            schedule.run_pending()
-            time.sleep(60)  # Check every minute
+            try:
+                schedule.run_pending()
+                time.sleep(60)  # Check every minute
+            except Exception:
+                logging.exception("Internal scheduler failed")
+                sys.exit(1)
+    else:
+        try:
+            main()
+        except Exception:
+            logging.exception("Daily report failed with an unhandled exception")
+            sys.exit(1)
+        finally:
+            logging.info("Daily report process ended")
