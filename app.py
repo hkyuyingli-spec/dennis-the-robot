@@ -69,6 +69,12 @@ else:
 # --- SETUP ---
 load_dotenv()
 api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    try:
+        if "GROQ_API_KEY" in st.secrets:
+            api_key = st.secrets["GROQ_API_KEY"]
+    except Exception:
+        pass
 client = Groq(api_key=api_key)
 MODEL_PRIMARY = "openai/gpt-oss-20b"
 MODEL_FALLBACK = "qwen/qwen3.6-27b"
@@ -90,7 +96,7 @@ You are NutriBot V2, a professional, caring AI health and wellness advisor with 
    - Safety and contraindications
    - Classic herb combinations
 
-3. Huangdi Neijing (黃帝內經) - TCM Classic:
+3. Huangdi Neijing (黃帝內经) - TCM Classic:
    - Nine body constitution types
    - Four examination principles
    - Eight diagnostic principles
@@ -120,6 +126,31 @@ IMPORTANT RULES:
   "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
 - Never provide financial or stock market advice
 - Be warm, professional and deeply knowledgeable
+
+TABLE FORMATTING MANDATE:
+- When presenting structured information, comparisons, or recommendations in markdown tables, always provide clear, descriptive column headers (such as `| Practice | Season | Benefit |` or `| Food / Herb | Property | Recommendation |`).
+- CRITICAL: Never emit table headers consisting only of dashes, hyphens, dots, or whitespace (e.g. `| ---------- | ---------- |`).
+- NEGATIVE EXAMPLE OF BROKEN TABLE (DO NOT DO THIS):
+  ```
+  | ---------- | ---------- | ---------- |
+  | --- | --- | --- |
+  | Spring | Move Qi | Gentle exercise |
+  ```
+  CORRECT TABLE FORMAT (ALWAYS DO THIS):
+  ```
+  | Season | Focus | Practice |
+  | --- | --- | --- |
+  | Spring | Move Qi | Gentle exercise |
+  ```
+- Always ensure there is a blank line before any markdown table and that all header cells contain meaningful text in the response language.
+
+TCM TERMINOLOGY & ACCESSIBILITY RULE:
+- The first time any TCM-specific term appears in your response (e.g. Qi, Jing, Shen, Yin, Yang, Meridians, Dampness, Phlegm, Blood Stasis, Five Elements, etc.), you MUST immediately follow it with a short, plain-language gloss in parentheses aimed at someone with no TCM background.
+  Example: "Jing (your body's core reserve of vitality, like a long-term battery charge)"
+  Example: "Qi (your body's vital life energy that powers all bodily functions)"
+  Example: "Dampness (sluggish fluid accumulation causing feelings of heaviness or bloating)"
+- After the first explained use in a given response, the term may be used alone.
+- Untranslated Chinese terms or characters (e.g. 气, 阴, 阳, 精) must never appear without an explanation or plain-language translation.
 """
 
 import time
@@ -137,7 +168,8 @@ from nutribot.rag import (
     cancer_personal_redirect_response,
 )
 from nutribot.safety import sanitize_response
-from nutribot.format_utils import normalize_markdown_tables
+from nutribot.format_utils import normalize_markdown_tables, has_broken_table_header, has_incomplete_table
+from nutribot.live_search import search_live_tcm, is_recency_query
 
 # --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
 @st.cache_resource
@@ -603,6 +635,25 @@ with st.sidebar:
     if st.button(i18n.translate("nutrition_advice", st.session_state.lang), use_container_width=True):
         st.session_state.prompt_trigger = "Give me personalized nutrition advice based on TCM."
     st.markdown("---")
+    include_latest_research = st.checkbox("🔎 " + i18n.translate("include_latest_research", st.session_state.lang), value=False)
+    with st.expander(i18n.translate("tcm_glossary_title", st.session_state.lang), expanded=False):
+        glossary_items = [
+            ("glossary_qi_term", "glossary_qi_def"),
+            ("glossary_jing_term", "glossary_jing_def"),
+            ("glossary_shen_term", "glossary_shen_def"),
+            ("glossary_yin_yang_term", "glossary_yin_yang_def"),
+            ("glossary_meridians_term", "glossary_meridians_def"),
+            ("glossary_dampness_term", "glossary_dampness_def"),
+            ("glossary_phlegm_term", "glossary_phlegm_def"),
+            ("glossary_blood_stasis_term", "glossary_blood_stasis_def"),
+            ("glossary_five_elements_term", "glossary_five_elements_def"),
+        ]
+        for term_k, def_k in glossary_items:
+            t_name = i18n.translate(term_k, st.session_state.lang)
+            t_def = i18n.translate(def_k, st.session_state.lang)
+            st.markdown(f"**{t_name}**\n\n{t_def}")
+            st.markdown("---")
+    st.markdown("---")
     if st.button(i18n.translate("clear_history", st.session_state.lang), use_container_width=True):
         st.session_state.clear()
         st.rerun()
@@ -680,6 +731,15 @@ with tab_chat:
                         cancer_blocks.append(block)
                     cancer_blocks.append("=== END OF CANCER EDUCATION REFERENCE DATA ===")
                     rag_context = (rag_context + "\n" + "\n".join(cancer_blocks)) if rag_context else "\n".join(cancer_blocks)
+
+                # Live search retrieval (if recency trigger or opt-in sidebar checkbox enabled)
+                if is_recency_query(current_user_prompt) or include_latest_research:
+                    try:
+                        live_search_block = search_live_tcm(current_user_prompt, lang=selected_lang)
+                        if live_search_block:
+                            rag_context = (rag_context + "\n\n" + live_search_block) if rag_context else live_search_block
+                    except Exception as e:
+                        print(f"[LiveSearch] Error during live search retrieval: {e}")
                 
                 # selected_lang already defined above for matcher usage
                 language_directive = {
@@ -691,6 +751,7 @@ with tab_chat:
                 rag_grounding_rules = (
                     "RAG GROUNDING & SAFETY INSTRUCTIONS:\n"
                     "- When reference data from the TCM Knowledge Base (Body Constitutions or Herbs & Formulas) is provided above, answer primarily based on that data, explicitly mention which constitution type(s) or herb/formula name(s) it relates to, and do NOT contradict the provided reference data.\n"
+                    "- LIVE WEB SEARCH RESULTS: When live web search reference data is provided above, treat it as supplementary, time-sensitive external information. Do not treat live search results as replacing or overriding the curated TCM Knowledge Base. Synthesize recent findings cautiously with established TCM principles, cite the source or recent context when appropriate, and never omit safety warnings or the standard educational disclaimer.\n"
                     "- SAFETY MANDATE: When herb or formula reference data is provided, you MUST include the Cautions & Contraindications field content in your response whenever relevant. Do not omit contraindications.\n"
                     "- CRITICAL SAFETY RULE: If a user mentions taking medication, underlying health conditions, or being pregnant, and a matched herb/formula has contraindications for those conditions, explicitly highlight the warning to the user.\n"
                     "- CRITICAL: If a matched herb/formula's cautions_and_contraindications field applies to a condition the user has mentioned about themselves (pregnancy, medication use, a specific health condition), you MUST NOT provide any dosage amount, frequency, or 'safe small amount' for that substance under any circumstance. Instead, clearly state it should be avoided and the user should consult a qualified practitioner or doctor before use. Do not soften this into a 'reduced dose' recommendation.\n"
@@ -715,28 +776,89 @@ with tab_chat:
                     except Exception:
                         pass
                 else:
+                    response_finish_reason = None
                     try:
                         completion = client.chat.completions.create(
-                            model=MODEL_PRIMARY, 
-                            messages=groq_messages, 
-                            max_tokens=1024, 
+                            model=MODEL_PRIMARY,
+                            messages=groq_messages,
+                            max_tokens=2048,
                             temperature=0.7,
                             stream=True
                         )
                     except Exception as e:
                         print(f"Groq primary model ({MODEL_PRIMARY}) failed: {e}")
                         completion = client.chat.completions.create(
-                            model=MODEL_FALLBACK, 
-                            messages=groq_messages, 
-                            max_tokens=1024, 
+                            model=MODEL_FALLBACK,
+                            messages=groq_messages,
+                            max_tokens=2048,
                             temperature=0.7,
                             stream=True
                         )
 
                     for chunk in completion:
+                        if hasattr(chunk.choices[0], "finish_reason") and chunk.choices[0].finish_reason:
+                            response_finish_reason = chunk.choices[0].finish_reason
                         if chunk.choices[0].delta.content:
                             full_response += chunk.choices[0].delta.content
                             response_placeholder.markdown(full_response + "▌")
+
+                    triggered_retry = (
+                        response_finish_reason == "length"
+                        or has_broken_table_header(full_response)
+                        or has_incomplete_table(full_response)
+                    )
+                    if triggered_retry:
+                        try:
+                            log_interaction("truncated_or_broken_table_retry", {
+                                "prompt": current_user_prompt,
+                                "language": selected_lang,
+                                "finish_reason": response_finish_reason,
+                                "has_broken_table_header": has_broken_table_header(full_response),
+                                "has_incomplete_table": has_incomplete_table(full_response),
+                            })
+                        except Exception as e:
+                            print(f"Failed to log retry signal: {e}")
+
+                        try:
+                            retry_messages = list(groq_messages) + [
+                                {"role": "assistant", "content": full_response},
+                                {
+                                    "role": "user",
+                                    "content": (
+                                        "Your previous response was cut off or contained an invalid markdown table structure. "
+                                        "Please regenerate the complete answer in one response, ensuring that all markdown tables "
+                                        "have real descriptive headers and are fully completed. Finish the table before ending."
+                                    ),
+                                }
+                            ]
+                            try:
+                                retry_comp = client.chat.completions.create(
+                                    model=MODEL_PRIMARY,
+                                    messages=retry_messages,
+                                    max_tokens=1536,
+                                    temperature=0.7,
+                                    stream=True
+                                )
+                            except Exception as e:
+                                print(f"Retry on primary model failed ({e}), trying fallback: {MODEL_FALLBACK}")
+                                retry_comp = client.chat.completions.create(
+                                    model=MODEL_FALLBACK,
+                                    messages=retry_messages,
+                                    max_tokens=1536,
+                                    temperature=0.7,
+                                    stream=True
+                                )
+
+                            retried_response = ""
+                            for chunk in retry_comp:
+                                if chunk.choices[0].delta.content:
+                                    retried_response += chunk.choices[0].delta.content
+                                    response_placeholder.markdown(retried_response + "▌")
+
+                            if retried_response:
+                                full_response = retried_response
+                        except Exception as e:
+                            print(f"Truncated table retry failed: {e}")
 
                 # Normalize markdown tables before sanitization to improve rendering
                 try:
