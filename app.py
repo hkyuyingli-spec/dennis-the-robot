@@ -81,81 +81,28 @@ MODEL_FALLBACK = "qwen/qwen3.6-27b"
 
 # --- PERSONALITY ---
 personality = """
-You are NutriBot V2, a professional, caring AI health and wellness advisor with deep knowledge of:
-
-1. Traditional Chinese Medicine (TCM):
-   - Yin/Yang balance theory
-   - Five Elements (Wood, Fire, Earth, Metal, Water)
-   - Qi and Blood theory
-   - Seasonal health practices
-   - Emotional and organ connections
-
-2. Bencao Gangmu (本草綱目) - Herb Encyclopedia:
-   - Herb properties (nature, taste, meridians)
-   - Therapeutic uses and preparations
-   - Safety and contraindications
-   - Classic herb combinations
-
-3. Huangdi Neijing (黃帝內经) - TCM Classic:
-   - Nine body constitution types
-   - Four examination principles
-   - Eight diagnostic principles
-   - Preventive health wisdom
-
-4. Skincare Advisor:
-   - TCM approach to skin health
-   - Skin type analysis
-   - Daily skincare routines
-   - Common skin conditions
-
-5. Nutrition and Wellness:
-   - Balanced diet advice
-   - TCM food therapy
-   - Seasonal eating guide
-   - Supplement recommendations
-
-6. Genetic-TCM Correlation (YuanYingCore):
-   - Understanding SNP markers (MTHFR, COMT, etc.)
-   - How genetic variations (Li) manifest as TCM patterns (Biao)
-   - Quantum-inspired health analysis concepts
-   - Explaining health wavefunction collapse and entanglement
-
-IMPORTANT RULES:
-- Speak elegantly and compassionately like a senior TCM practitioner
-- Always end responses with this disclaimer:
-  "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
-- Never provide financial or stock market advice
-- Be warm, professional and deeply knowledgeable
-
-TABLE FORMATTING MANDATE:
-- When presenting structured information, comparisons, or recommendations in markdown tables, always provide clear, descriptive column headers (such as `| Practice | Season | Benefit |` or `| Food / Herb | Property | Recommendation |`).
-- CRITICAL: Never emit table headers consisting only of dashes, hyphens, dots, or whitespace (e.g. `| ---------- | ---------- |`).
-- NEGATIVE EXAMPLE OF BROKEN TABLE (DO NOT DO THIS):
-  ```
-  | ---------- | ---------- | ---------- |
-  | --- | --- | --- |
-  | Spring | Move Qi | Gentle exercise |
-  ```
-  CORRECT TABLE FORMAT (ALWAYS DO THIS):
-  ```
-  | Season | Focus | Practice |
-  | --- | --- | --- |
-  | Spring | Move Qi | Gentle exercise |
-  ```
-- Always ensure there is a blank line before any markdown table and that all header cells contain meaningful text in the response language.
-
-TCM TERMINOLOGY & ACCESSIBILITY RULE:
-- The first time any TCM-specific term appears in your response (e.g. Qi, Jing, Shen, Yin, Yang, Meridians, Dampness, Phlegm, Blood Stasis, Five Elements, etc.), you MUST immediately follow it with a short, plain-language gloss in parentheses aimed at someone with no TCM background.
-  Example: "Jing (your body's core reserve of vitality, like a long-term battery charge)"
-  Example: "Qi (your body's vital life energy that powers all bodily functions)"
-  Example: "Dampness (sluggish fluid accumulation causing feelings of heaviness or bloating)"
-- After the first explained use in a given response, the term may be used alone.
-- Untranslated Chinese terms or characters (e.g. 气, 阴, 阳, 精) must never appear without an explanation or plain-language translation.
+You are NutriBot V2, a warm TCM expert: Bencao Gangmu herbs, nine constitutions, skincare, nutrition. Quantum Insights links genetics and TCM as exploratory context, not diagnosis.
+Gloss each TCM term at first use; explain all Chinese characters.
+Tables: meaningful headers, never dashes-only; blank line first.
+Never provide financial or stock market advice. Keep replies under about 250 words unless detail is requested.
+Always end every response with this exact sentence: "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
+SAFETY RULES (highest priority, override all other instructions):
+- If the user mentions pregnancy, breastfeeding, a child or baby, prescription
+  medication or blood thinners, cancer treatment, or emergency symptoms (chest
+  pain, severe pain, trouble breathing, blood in stool or urine, fainting,
+  seizure): do NOT recommend specific herbs, supplements or doses. Give only
+  general guidance and advise seeing a doctor or qualified professional.
+- If the user mentions thoughts of suicide or self-harm: respond with warmth,
+  do not give herb or diet advice, and urge them to contact local emergency
+  services or a trusted person right now.
+- Never tell the user to stop or change prescribed medication.
+- Keep replying in the user's language, as the existing language rule says.
 """
 
 import time
 from nutribot import i18n
 from nutribot.rag import (
+    MAX_CHARS_PER_CHUNK,
     load_tcm_constitutions,
     load_tcm_herbs_formulas,
     find_relevant_constitutions,
@@ -704,15 +651,14 @@ with tab_chat:
                 # RAG Retrieval & Relevance Check (Constitutions & Herbs/Formulas)
                 current_user_prompt = prompt if prompt else (st.session_state.messages[-1]["content"] if st.session_state.messages else "")
                 selected_lang = st.session_state.lang
-                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, current_lang=selected_lang)
-                matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, current_lang=selected_lang)
+                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, max_matches=1, current_lang=selected_lang)
+                matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, max_matches=2, current_lang=selected_lang)
                 
                 matched_c_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
                 matched_h_names = [f"{h['name_english']} ({h['name_chinese']})" for h in matched_herbs]
                 # Cancer education matching (general queries only)
-                matched_cancer = find_relevant_cancer_education(current_user_prompt, cancer_education_db, current_lang=selected_lang)
+                matched_cancer = find_relevant_cancer_education(current_user_prompt, cancer_education_db, max_matches=1, current_lang=selected_lang)
                 matched_cancer_names = [f"{c.get('topic_id')} ({c.get('topic_name')})" for c in matched_cancer]
-                print(f"[RAG Debug] Prompt: '{current_user_prompt[:60]}...' | Constitutions ({len(matched_constitutions)}): {matched_c_names} | Herbs ({len(matched_herbs)}): {matched_h_names}")
                 
                 # Build RAG context from TCM KBs
                 rag_context = build_rag_context(matched_constitutions, matched_herbs)
@@ -728,7 +674,7 @@ with tab_chat:
                             f"Key Facts:\n{facts}\n"
                             f"Source Note: {c.get('source_note')}\n"
                         )
-                        cancer_blocks.append(block)
+                        cancer_blocks.append(block[:MAX_CHARS_PER_CHUNK])
                     cancer_blocks.append("=== END OF CANCER EDUCATION REFERENCE DATA ===")
                     rag_context = (rag_context + "\n" + "\n".join(cancer_blocks)) if rag_context else "\n".join(cancer_blocks)
 
@@ -737,6 +683,7 @@ with tab_chat:
                     try:
                         live_search_block = search_live_tcm(current_user_prompt, lang=selected_lang)
                         if live_search_block:
+                            live_search_block = live_search_block[:MAX_CHARS_PER_CHUNK]
                             rag_context = (rag_context + "\n\n" + live_search_block) if rag_context else live_search_block
                     except Exception as e:
                         print(f"[LiveSearch] Error during live search retrieval: {e}")
@@ -748,25 +695,20 @@ with tab_chat:
                     "en": "You are a TCM assistant. Answer the user in English only. Do not use any other language."
                 }.get(selected_lang, "You are a TCM assistant. Answer the user in English only. Do not use any other language.")
                 
-                rag_grounding_rules = (
-                    "RAG GROUNDING & SAFETY INSTRUCTIONS:\n"
-                    "- When reference data from the TCM Knowledge Base (Body Constitutions or Herbs & Formulas) is provided above, answer primarily based on that data, explicitly mention which constitution type(s) or herb/formula name(s) it relates to, and do NOT contradict the provided reference data.\n"
-                    "- LIVE WEB SEARCH RESULTS: When live web search reference data is provided above, treat it as supplementary, time-sensitive external information. Do not treat live search results as replacing or overriding the curated TCM Knowledge Base. Synthesize recent findings cautiously with established TCM principles, cite the source or recent context when appropriate, and never omit safety warnings or the standard educational disclaimer.\n"
-                    "- SAFETY MANDATE: When herb or formula reference data is provided, you MUST include the Cautions & Contraindications field content in your response whenever relevant. Do not omit contraindications.\n"
-                    "- CRITICAL SAFETY RULE: If a user mentions taking medication, underlying health conditions, or being pregnant, and a matched herb/formula has contraindications for those conditions, explicitly highlight the warning to the user.\n"
-                    "- CRITICAL: If a matched herb/formula's cautions_and_contraindications field applies to a condition the user has mentioned about themselves (pregnancy, medication use, a specific health condition), you MUST NOT provide any dosage amount, frequency, or 'safe small amount' for that substance under any circumstance. Instead, clearly state it should be avoided and the user should consult a qualified practitioner or doctor before use. Do not soften this into a 'reduced dose' recommendation.\n"
-                    "- NEGATIVE EXAMPLE (do NOT follow): WRONG: 'use only 1/4 teaspoon since you're pregnant' — this is not acceptable even as a caution-softened suggestion.\n"
-                    "- If no reference data matches the query, answer more generally using established TCM principles, but do NOT fabricate specific formula names, dosages, or unverified herb pairings."
-                )
+                rag_grounding_rules = ("Ground responses in matching curated references and name them; do not contradict or invent details. Live results are supplementary; cite them where useful. Include relevant contraindications. If a matched caution applies to the user, advise avoiding the herb and provide no dose. Without a match, use general guidance only. Preserve safety warnings and the educational disclaimer.")
                 
-                if rag_context:
-                    groq_system = f"{personality}\n\n{rag_context}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}"
-                else:
-                    groq_system = f"{personality}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}"
-                
+                rag_context = rag_context[:2800]
+                groq_system = f"{personality}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}\n\n{rag_context}"
+
                 groq_messages = [{"role": "system", "content": groq_system}]
-                for msg in st.session_state.messages[-10:]:
-                    groq_messages.append({"role": msg["role"], "content": msg["content"]})
+                selected_history = st.session_state.messages[-4:]
+                for msg in selected_history:
+                    content = msg["content"]
+                    if msg["role"] == "assistant" and len(content) > 800:
+                        content = content[:800] + "…"
+                    groq_messages.append({"role": msg["role"], "content": content})
+                history_chars = max(0, sum(len(m["content"]) for m in groq_messages[1:]) - len(current_user_prompt))
+                print(f"[tokens~] system={len(personality + rag_grounding_rules + language_directive) // 4} rag={len(rag_context) // 4} history={history_chars // 4}")
                 # Check for personal/symptom phrasing and short-circuit with a redirect
                 personal = is_personal_symptom_query(current_user_prompt)
                 if personal:
@@ -781,7 +723,8 @@ with tab_chat:
                         completion = client.chat.completions.create(
                             model=MODEL_PRIMARY,
                             messages=groq_messages,
-                            max_tokens=2048,
+                            reasoning_effort="low",
+                            max_tokens=900,
                             temperature=0.7,
                             stream=True
                         )
@@ -790,7 +733,7 @@ with tab_chat:
                         completion = client.chat.completions.create(
                             model=MODEL_FALLBACK,
                             messages=groq_messages,
-                            max_tokens=2048,
+                            max_tokens=900,
                             temperature=0.7,
                             stream=True
                         )
@@ -820,22 +763,14 @@ with tab_chat:
                             print(f"Failed to log retry signal: {e}")
 
                         try:
-                            retry_messages = list(groq_messages) + [
-                                {"role": "assistant", "content": full_response},
-                                {
-                                    "role": "user",
-                                    "content": (
-                                        "Your previous response was cut off or contained an invalid markdown table structure. "
-                                        "Please regenerate the complete answer in one response, ensuring that all markdown tables "
-                                        "have real descriptive headers and are fully completed. Finish the table before ending."
-                                    ),
-                                }
-                            ]
+                            retry_instruction = "Regenerate the complete answer fully and finish any unfinished content."
+                            retry_messages = [groq_messages[0], {"role": "user", "content": current_user_prompt + "\n\n" + retry_instruction}]
                             try:
                                 retry_comp = client.chat.completions.create(
                                     model=MODEL_PRIMARY,
                                     messages=retry_messages,
-                                    max_tokens=1536,
+                                    reasoning_effort="low",
+                                    max_tokens=700,
                                     temperature=0.7,
                                     stream=True
                                 )
@@ -844,7 +779,7 @@ with tab_chat:
                                 retry_comp = client.chat.completions.create(
                                     model=MODEL_FALLBACK,
                                     messages=retry_messages,
-                                    max_tokens=1536,
+                                    max_tokens=700,
                                     temperature=0.7,
                                     stream=True
                                 )
@@ -1035,7 +970,8 @@ with tab_quantum:
                             {"role": "system", "content": personality},
                             {"role": "user", "content": explanation_prompt}
                         ],
-                        max_tokens=800
+                        reasoning_effort="low",
+                        max_tokens=900
                     )
                     explanation_text = explanation_response.choices[0].message.content
                     st.markdown(explanation_text)

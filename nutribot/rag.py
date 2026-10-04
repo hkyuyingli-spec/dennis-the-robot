@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from pathlib import Path
 
 # Project root (two levels up from this file: nutribot/ -> project root)
@@ -10,6 +11,122 @@ STOP_WORDS = {
     "make", "body", "type", "tendency", "prone", "often", "very", "also", "some", "like",
     "soft", "good", "main", "well", "more", "less", "much", "many", "over", "under", "into"
 }
+
+MAX_CONSTITUTIONS = 1
+MAX_HERBS = 2
+MAX_CHARS_PER_CHUNK = 800
+MAX_RAG_CHARS = 3200  # about 800 tokens at the conservative four-characters-per-token estimate
+
+
+def truncate_text_at_sentence_end(value, max_chars, suffix=" [...]", normalize_list=False, strict_sentence=False):
+    """Fit text to a character budget without cutting across a sentence."""
+    if value is None or max_chars <= 0:
+        return ""
+    text = " ".join(str(value).split())
+    if normalize_list and text and text[-1] not in ".!?":
+        text += "."
+    if len(text) <= max_chars:
+        return text
+
+    marker = suffix if max_chars >= len(suffix) else ""
+    limit = max_chars - len(marker)
+    sentence_ends = [m.end() for m in re.finditer(r"[.!?](?=\s|$)", text[:limit])]
+    if sentence_ends:
+        return text[:sentence_ends[-1]].rstrip() + marker
+    if strict_sentence:
+        return ""
+    # A single overlong sentence has no possible in-budget sentence boundary.
+    # Retain as much as possible at a word boundary and mark the omission.
+    prefix = text[:limit].rsplit(" ", 1)[0].rstrip()
+    if not prefix:
+        prefix = text[:limit].rstrip()
+    return (prefix + marker)[:max_chars]
+
+
+def format_constitution_dietary_text(item):
+    recommendations = item.get("dietary_recommendations", {}) or {}
+    beneficial = ", ".join(recommendations.get("beneficial", []) or [])
+    avoid = ", ".join(recommendations.get("avoid", []) or [])
+    parts = []
+    if beneficial:
+        parts.append(f"Beneficial foods: {beneficial}.")
+    if avoid:
+        parts.append(f"Foods to avoid: {avoid}.")
+    return " ".join(parts)
+
+
+def _append_record_field(parts, label, value, max_record_chars, max_value_chars=None, normalize_list=False, strict_sentence=False):
+    value = " ".join(str(value or "").split())
+    if not value:
+        return
+    used = sum(len(part) + 1 for part in parts) - 1
+    prefix = f"{label}: "
+    available = max_record_chars - used - 1 - len(prefix)
+    if max_value_chars is not None:
+        available = min(available, max_value_chars)
+    if available <= 0:
+        return
+    fitted = truncate_text_at_sentence_end(
+        value, available, normalize_list=normalize_list, strict_sentence=strict_sentence
+    )
+    if fitted:
+        parts.append(prefix + fitted)
+
+
+def format_herb_record(item):
+    """Build a bounded herb record, reserving the caution field before prose."""
+    category = "Single Herb" if item.get("category") == "single_herb" else "Classic Formula"
+    name = item.get("name_english", "Unknown herb")
+    name_chinese = item.get("name_chinese", "")
+    pinyin = item.get("pinyin", "")
+    header = f"--- {category}: {name}"
+    if name_chinese or pinyin:
+        header += f" ({name_chinese} / {pinyin})"
+    header += " ---"
+    nature_fields = [
+        f"{label}: {item[key]}"
+        for key, label in (("nature", "Nature"), ("taste", "Taste"), ("meridians", "Meridians"))
+        if item.get(key)
+    ]
+    if nature_fields:
+        header += "\n" + "; ".join(nature_fields)
+
+    caution = item.get("cautions_and_contraindications")
+    caution_text = truncate_text_at_sentence_end(caution, 350) if caution else ""
+    caution_reserve = len("Cautions & Contraindications: ") + len(caution_text) if caution_text else 0
+    header_budget = MAX_CHARS_PER_CHUNK - caution_reserve - (1 if caution_reserve else 0)
+    header = truncate_text_at_sentence_end(header, header_budget)
+    parts = [header]
+    if caution:
+        _append_record_field(parts, "Cautions & Contraindications", caution_text, MAX_CHARS_PER_CHUNK)
+    _append_record_field(parts, "Traditional Uses", item.get("traditional_uses", ""), MAX_CHARS_PER_CHUNK, strict_sentence=True)
+    _append_record_field(parts, "Typical Preparation", item.get("typical_preparation", ""), MAX_CHARS_PER_CHUNK, strict_sentence=True)
+    _append_record_field(parts, "Source Note", item.get("source_note", ""), MAX_CHARS_PER_CHUNK)
+    return "\n".join(parts)
+
+
+def format_constitution_record(item):
+    """Fit a constitution record while reserving the dietary guidance first."""
+    header = f"--- Constitution Type: {item.get('name_english', 'Unknown')}"
+    name_chinese = item.get("name_chinese", "")
+    pinyin = item.get("pinyin", "")
+    if name_chinese or pinyin:
+        header += f" ({name_chinese} / {pinyin})"
+    header += " ---"
+    diet = truncate_text_at_sentence_end(format_constitution_dietary_text(item), 300)
+    diet_reserve = len("Dietary Recommendations: ") + len(diet) if diet else 0
+    header_budget = MAX_CHARS_PER_CHUNK - diet_reserve - (1 if diet_reserve else 0)
+    parts = [truncate_text_at_sentence_end(header, header_budget)]
+    _append_record_field(parts, "Dietary Recommendations", diet, MAX_CHARS_PER_CHUNK)
+    lifestyle = ". ".join(item.get("lifestyle_rituals", []) or [])
+    _append_record_field(parts, "Lifestyle", lifestyle, MAX_CHARS_PER_CHUNK, normalize_list=True, strict_sentence=True)
+    characteristics = ". ".join(item.get("key_characteristics", []) or [])
+    _append_record_field(parts, "Key Characteristics", characteristics, MAX_CHARS_PER_CHUNK, normalize_list=True, strict_sentence=True)
+    susceptibilities = ". ".join(item.get("susceptibility_conditions", []) or [])
+    _append_record_field(parts, "Susceptibilities", susceptibilities, MAX_CHARS_PER_CHUNK, normalize_list=True, strict_sentence=True)
+    formulas = ", ".join(item.get("herbal_teas_formulas", []) or [])
+    _append_record_field(parts, "Classic Formulas & Herbal Teas", formulas, MAX_CHARS_PER_CHUNK, normalize_list=True, strict_sentence=True)
+    return "\n".join(parts)
 
 
 def load_tcm_constitutions(data_dir=None):
@@ -26,7 +143,7 @@ def load_tcm_constitutions(data_dir=None):
     return []
 
 
-def find_relevant_constitutions(prompt, constitutions_data, max_matches=2, current_lang='en'):
+def find_relevant_constitutions(prompt, constitutions_data, max_matches=MAX_CONSTITUTIONS, current_lang='en'):
     if not prompt or not constitutions_data:
         return []
     prompt_lower = prompt.lower()
@@ -101,7 +218,7 @@ def load_tcm_herbs_formulas(data_dir=None):
     return []
 
 
-def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None, max_matches=3, current_lang='en'):
+def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None, max_matches=MAX_HERBS, current_lang='en'):
     if not prompt or not herbs_data:
         return []
     prompt_lower = prompt.lower()
@@ -174,43 +291,43 @@ def find_relevant_herbs_formulas(prompt, herbs_data, matched_constitutions=None,
 def build_rag_context(matched_constitutions, matched_herbs):
     if not matched_constitutions and not matched_herbs:
         return ""
-    context_blocks = []
+    constitution_records = list(matched_constitutions or [])
+    herb_records = list(matched_herbs or [])
     if matched_constitutions:
-        context_blocks.append("=== REFERENCE: BODY CONSTITUTIONS ===")
-        context_blocks.append("The following verified reference data from the TCM Nine Constitution Knowledge Base matched the query:\n")
-        for item in matched_constitutions:
-            char_str = "\n".join("- " + c for c in item.get("key_characteristics", []))
-            susc_str = "\n".join("- " + s for s in item.get("susceptibility_conditions", []))
-            beneficial_str = ", ".join(item.get("dietary_recommendations", {}).get("beneficial", []))
-            avoid_str = ", ".join(item.get("dietary_recommendations", {}).get("avoid", []))
-            life_str = "\n".join("- " + r for r in item.get("lifestyle_rituals", []))
-            herb_str = ", ".join(item.get("herbal_teas_formulas", []))
-            block = (
-                f"--- Constitution Type: {item['name_english']} ({item['name_chinese']} / {item['pinyin']}) ---\n"
-                f"Key Characteristics:\n{char_str}\n\n"
-                f"Associated Health Susceptibilities:\n{susc_str}\n\n"
-                f"Dietary Recommendations:\n- Beneficial Foods: {beneficial_str}\n- Foods to Avoid: {avoid_str}\n\n"
-                f"Lifestyle Rituals:\n{life_str}\n\n"
-                f"Recommended Classic Formulas & Herbal Teas: {herb_str}\n"
-            )
-            context_blocks.append(block)
-        context_blocks.append("=== END OF BODY CONSTITUTION REFERENCE DATA ===\n")
+        constitution_intro = "Matched verified Nine Constitution reference:\n"
+    else:
+        constitution_intro = ""
     if matched_herbs:
-        context_blocks.append("=== REFERENCE: HERBS & FORMULAS ===")
-        context_blocks.append("The following verified reference data from the TCM Herbs & Formulas Knowledge Base matched the query:\n")
-        for item in matched_herbs:
-            cat_str = "Single Herb" if item.get("category") == "single_herb" else "Classic Formula"
-            block = (
-                f"--- {cat_str}: {item['name_english']} ({item['name_chinese']} / {item['pinyin']}) ---\n"
-                f"Category: {cat_str}\n"
-                f"Traditional Uses: {item.get('traditional_uses', '')}\n"
-                f"Typical Preparation: {item.get('typical_preparation', '')}\n"
-                f"⚠️ Cautions & Contraindications: {item.get('cautions_and_contraindications', '')}\n"
-                f"Source Note: {item.get('source_note', '')}\n"
-            )
-            context_blocks.append(block)
-        context_blocks.append("=== END OF HERBS & FORMULAS REFERENCE DATA ===")
-    return "\n".join(context_blocks)
+        herb_intro = "Matched verified herbs and formulas reference:\n"
+    else:
+        herb_intro = ""
+
+    def assemble():
+        blocks = []
+        if constitution_records:
+            blocks.extend((
+                "=== REFERENCE: BODY CONSTITUTIONS ===",
+                constitution_intro.rstrip("\n"),
+                *(format_constitution_record(item) for item in constitution_records),
+                "=== END OF BODY CONSTITUTION REFERENCE DATA ===",
+            ))
+        if herb_records:
+            blocks.extend((
+                "=== REFERENCE: HERBS & FORMULAS ===",
+                herb_intro.rstrip("\n"),
+                *(format_herb_record(item) for item in herb_records),
+                "=== END OF HERBS & FORMULAS REFERENCE DATA ===",
+            ))
+        return "\n".join(blocks)
+
+    context = assemble()
+    while len(context) > MAX_RAG_CHARS and len(herb_records) > 1:
+        herb_records.pop()  # Drop the lower-priority (second) herb record whole.
+        context = assemble()
+    while len(context) > MAX_RAG_CHARS and len(constitution_records) > 1:
+        constitution_records.pop()  # Keep the highest-priority constitution whole.
+        context = assemble()
+    return context
 
 
 def generate_followup_suggestions(matched_constitutions, matched_herbs, original_question=None, lang='en', max_suggestions=3):
