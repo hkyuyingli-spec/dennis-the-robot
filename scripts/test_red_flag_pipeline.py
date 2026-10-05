@@ -7,7 +7,7 @@ import os
 from groq import Groq
 
 MODEL_PRIMARY = "openai/gpt-oss-20b"
-MODEL_FALLBACK = "qwen/qwen3.6-27b"
+MODEL_FALLBACK = "qwen/qwen3.8-27b"
 
 personality = """
 You are NutriBot V2, a professional, caring AI health and wellness advisor with deep knowledge of:

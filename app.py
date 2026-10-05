@@ -4,7 +4,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import streamlit as st
 import base64
-from groq import Groq, RateLimitError, InternalServerError, APIStatusError
+from groq import (
+    Groq, RateLimitError, InternalServerError, APIStatusError,
+    APIConnectionError, APITimeoutError,
+)
 from dotenv import load_dotenv
 import uuid
 import json
@@ -57,9 +60,75 @@ def get_setting(name, default=None):
             value = st.secrets.get(name, default)
         except Exception:
             value = default
-    if isinstance(value, str):
+    if isinstance(default, bool) and isinstance(value, str):
         return value.strip().lower() in {"1", "true", "yes", "on"}
+    if isinstance(value, str):
+        return value.strip() or default
     return value
+
+
+class GroqAuthenticationFailure(Exception):
+    pass
+
+
+class GroqInvalidRequestFailure(Exception):
+    pass
+
+
+def _groq_status_code(error):
+    status = getattr(error, "status_code", None)
+    if status is None:
+        status = getattr(getattr(error, "response", None), "status_code", None)
+    return status
+
+
+def _raise_clear_groq_error(error, status):
+    if status in (401, 403):
+        raise GroqAuthenticationFailure(
+            "Groq authentication or permission error (401/403). Check the API key and model access."
+        ) from error
+    if status == 400:
+        raise GroqInvalidRequestFailure(
+            "Groq rejected the request (400). Check the model and request parameters."
+        ) from error
+
+
+def _request_groq_completion(model, messages, max_tokens, temperature, stream):
+    options = {"model": model, "messages": messages, "max_tokens": max_tokens}
+    if temperature is not None:
+        options["temperature"] = temperature
+    if stream is not None:
+        options["stream"] = stream
+    if model.startswith("openai/gpt-oss"):
+        options["reasoning_effort"] = "low"
+    return client.chat.completions.create(**options)
+
+
+def create_groq_completion(messages, max_tokens, temperature=None, stream=False):
+    """Try the primary Groq model, using the fallback only for transient/model errors."""
+    try:
+        return _request_groq_completion(MODEL_PRIMARY, messages, max_tokens, temperature, stream)
+    except Exception as primary_error:
+        status = _groq_status_code(primary_error)
+        _raise_clear_groq_error(primary_error, status)
+        is_connection_error = isinstance(primary_error, (APIConnectionError, APITimeoutError))
+        should_fallback = (
+            status in (404, 429)
+            or (isinstance(status, int) and 500 <= status <= 599)
+            or is_connection_error
+        )
+        if not should_fallback or MODEL_FALLBACK == MODEL_PRIMARY:
+            raise
+
+        status_label = status
+        if status_label is None:
+            status_label = "timeout" if isinstance(primary_error, APITimeoutError) else "connection"
+        print(f"[groq] primary {MODEL_PRIMARY} failed ({status_label}), using fallback {MODEL_FALLBACK}")
+        try:
+            return _request_groq_completion(MODEL_FALLBACK, messages, max_tokens, temperature, stream)
+        except Exception as fallback_error:
+            _raise_clear_groq_error(fallback_error, _groq_status_code(fallback_error))
+            raise
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -126,8 +195,8 @@ if not api_key:
     except Exception:
         pass
 client = Groq(api_key=api_key)
-MODEL_PRIMARY = "openai/gpt-oss-20b"
-MODEL_FALLBACK = "qwen/qwen3.6-27b"
+MODEL_PRIMARY = get_setting("GROQ_MODEL", "openai/gpt-oss-20b")
+MODEL_FALLBACK = get_setting("GROQ_MODEL_FALLBACK", "qwen/qwen3.8-27b")
 
 # --- PERSONALITY ---
 personality = """
@@ -769,24 +838,12 @@ with tab_chat:
                         pass
                 else:
                     response_finish_reason = None
-                    try:
-                        completion = client.chat.completions.create(
-                            model=MODEL_PRIMARY,
-                            messages=groq_messages,
-                            reasoning_effort="low",
-                            max_tokens=900,
-                            temperature=0.7,
-                            stream=True
-                        )
-                    except Exception as e:
-                        print(f"Groq primary model ({MODEL_PRIMARY}) failed: {e}")
-                        completion = client.chat.completions.create(
-                            model=MODEL_FALLBACK,
-                            messages=groq_messages,
-                            max_tokens=900,
-                            temperature=0.7,
-                            stream=True
-                        )
+                    completion = create_groq_completion(
+                        messages=groq_messages,
+                        max_tokens=900,
+                        temperature=0.7,
+                        stream=True,
+                    )
 
                     for chunk in completion:
                         if hasattr(chunk.choices[0], "finish_reason") and chunk.choices[0].finish_reason:
@@ -815,24 +872,12 @@ with tab_chat:
                         try:
                             retry_instruction = "Regenerate the complete answer fully and finish any unfinished content."
                             retry_messages = [groq_messages[0], {"role": "user", "content": current_user_prompt + "\n\n" + retry_instruction}]
-                            try:
-                                retry_comp = client.chat.completions.create(
-                                    model=MODEL_PRIMARY,
-                                    messages=retry_messages,
-                                    reasoning_effort="low",
-                                    max_tokens=700,
-                                    temperature=0.7,
-                                    stream=True
-                                )
-                            except Exception as e:
-                                print(f"Retry on primary model failed ({e}), trying fallback: {MODEL_FALLBACK}")
-                                retry_comp = client.chat.completions.create(
-                                    model=MODEL_FALLBACK,
-                                    messages=retry_messages,
-                                    max_tokens=700,
-                                    temperature=0.7,
-                                    stream=True
-                                )
+                            retry_comp = create_groq_completion(
+                                messages=retry_messages,
+                                max_tokens=700,
+                                temperature=0.7,
+                                stream=True,
+                            )
 
                             retried_response = ""
                             for chunk in retry_comp:
@@ -842,6 +887,10 @@ with tab_chat:
 
                             if retried_response:
                                 full_response = retried_response
+                        except RateLimitError:
+                            st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                        except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
+                            st.error(str(e))
                         except Exception as e:
                             print(f"Truncated table retry failed: {e}")
 
@@ -902,6 +951,8 @@ with tab_chat:
                             st.session_state.prompt_trigger = suggestion
                             st.rerun()
 
+            except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
+                st.error(str(e))
             except RateLimitError:
                 st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
             except (InternalServerError, APIStatusError) as e:
@@ -1038,17 +1089,22 @@ with tab_quantum:
                 """
                 
                 try:
-                    explanation_response = client.chat.completions.create(
-                        model=MODEL_PRIMARY,
+                    explanation_response = create_groq_completion(
                         messages=[
                             {"role": "system", "content": personality},
                             {"role": "user", "content": explanation_prompt}
                         ],
-                        reasoning_effort="low",
-                        max_tokens=900
+                        max_tokens=900,
+                        stream=False,
                     )
                     explanation_text = explanation_response.choices[0].message.content
                     st.markdown(explanation_text)
+                except RateLimitError:
+                    st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                    explanation_text = "AI explanation unavailable."
+                except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
+                    st.error(str(e))
+                    explanation_text = "AI explanation unavailable."
                 except Exception as e:
                     st.error(f"Could not generate AI explanation: {e}")
                     explanation_text = "AI explanation unavailable."
