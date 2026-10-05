@@ -106,8 +106,6 @@ class YuanYingCore:
         The wavefunction collapses into a single personalized health plan based 
         on the 'user_goal' which acts as the 'Measurement Operator'.
         """
-        print(i18n.translate('cycle3_collapsing', current_lang).format(goal=user_goal))
-        
         # Re-calculate probabilities based on goal alignment
         final_recommendations = []
         

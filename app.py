@@ -10,6 +10,56 @@ import uuid
 import json
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from yuanying_core import YuanYingCore
+from nutribot import dce_mcc
+from nutribot.core.translations import TRANSLATIONS as CORE_TRANSLATIONS
+
+def _pdf_latin1_text(value):
+    """Drop unsupported glyphs before passing text to FPDF's Latin-1 fonts."""
+    text = "".join(
+        char for char in str(value)
+        if ord(char) <= 255 and (char >= " " or char in "\n\r\t")
+    )
+    return text.encode("latin-1", "replace").decode("latin-1")
+
+
+def _build_quantum_pdf(pdf_factory, language, strings, all_translations,
+                       health_goal, snp_list, final_plan_text, explanation_text):
+    pdf = pdf_factory()
+    pdf.add_page()
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(200, 10, txt=_pdf_latin1_text("NutriBot V2 - Personalized Health Plan"), ln=1, align="C")
+    pdf.set_font("Arial", size=12)
+    pdf.ln(10)
+    pdf.cell(200, 10, txt=_pdf_latin1_text(f"Goal: {health_goal}"), ln=1)
+    pdf.cell(200, 10, txt=_pdf_latin1_text(f"SNPs: {', '.join(snp_list)}"), ln=1)
+    pdf.ln(5)
+    pdf.multi_cell(0, 10, txt=_pdf_latin1_text("Recommendations:\n" + final_plan_text))
+    pdf.ln(5)
+    pdf.set_font("Arial", "I", 10)
+    pdf.multi_cell(0, 10, txt=_pdf_latin1_text("AI Insights:\n" + explanation_text))
+    if language == "zh":
+        # FPDF's built-in Latin-1 font cannot render Chinese; use the English disclaimer.
+        disclaimer = all_translations["en"]["footer_disclaimer"]
+    else:
+        disclaimer = strings["footer_disclaimer"]
+    pdf.multi_cell(0, 10, txt=_pdf_latin1_text(disclaimer))
+    output = pdf.output(dest="S")
+    if isinstance(output, (bytes, bytearray)):
+        return bytes(output)
+    return str(output).encode("latin-1", "replace")
+
+
+def get_setting(name, default=None):
+    """Read a setting from the existing environment/Streamlit configuration."""
+    value = os.getenv(name)
+    if value is None:
+        try:
+            value = st.secrets.get(name, default)
+        except Exception:
+            value = default
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes", "on"}
+    return value
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -897,6 +947,9 @@ with tab_quantum:
 
         lab_values = st.text_area("Lab Values (e.g., B12: 400, Folate: 10)", placeholder="Enter relevant blood marker values...")
         symptoms = st.text_area("Current Symptoms", placeholder="e.g., fatigue, poor sleep, bloating...")
+        quantum_lang = st.session_state.get("lang", "en")
+        quantum_strings = CORE_TRANSLATIONS.get(quantum_lang, CORE_TRANSLATIONS["en"])
+        st.caption(quantum_strings["quantum_unused_inputs"])
         health_goal = st.selectbox(
             "Primary Health Goal",
             ["Improve Energy", "Better Sleep", "Stress Reduction", "Digestive Health", "Skin Radiance"]
@@ -904,8 +957,21 @@ with tab_quantum:
 
         analyze_btn = st.button("🚀 Run YuanYingCore Analysis", use_container_width=True)
 
+    st.caption(quantum_strings["quantum_privacy_note"])
     if analyze_btn:
-        if not snp_list:
+        quantum_permissions = dce_mcc.quantum_tab_permissions(
+            f"{symptoms}\n{lab_values}",
+            enabled=get_setting("ENABLE_QUANTUM_SAFETY_GATE", True),
+        )
+        quantum_gate = quantum_permissions["gate"]
+        if not quantum_permissions["show_recommendations"]:
+            safe_core = YuanYingCore()
+            st.markdown("#### Entanglement Matrix")
+            st.dataframe(safe_core.correlation_matrix[safe_core.correlation_matrix['SNP_Marker'].isin(snp_list)])
+            notice_key = "quantum_crisis_notice" if quantum_gate.reason == "crisis" else "quantum_safety_notice"
+            st.warning(quantum_strings[notice_key])
+            st.markdown(quantum_strings["footer_disclaimer"])
+        elif not snp_list:
             st.error("Please select at least one genetic marker.")
         else:
             with st.spinner("🌀 Initializing Quantum Wavefunction..."):
@@ -941,12 +1007,20 @@ with tab_quantum:
                 rec_map = {r['id']: r for r in all_recs}
                 
                 final_plan_text = ""
-                for rec_id, prob in results:
+                association_strengths = dict(zip(
+                    core.correlation_matrix["SNP_Marker"],
+                    core.correlation_matrix["Correlation_Strength"],
+                ))
+                for rec_id, _amplitude in results:
                     if rec_id in rec_map:
                         rec = rec_map[rec_id]
+                        strength_label = association_strengths.get(rec_id, "")
                         st.markdown(f"**{rec['text']}** ({rec['type']})")
-                        st.write(f"Confidence Level: {prob*100:.1f}% | Focus: {', '.join(rec['tcm_focus'])}")
-                        final_plan_text += f"- {rec['text']} ({rec['type']}): Focus on {', '.join(rec['tcm_focus'])}\n"
+                        strength_text = dce_mcc.format_association_strength(
+                            quantum_strings["quantum_association_strength"], strength_label
+                        )
+                        st.write(f"{strength_text} | Focus: {', '.join(rec['tcm_focus'])}")
+                        final_plan_text += f"- {rec['text']} ({rec['type']}): {strength_text}; Focus on {', '.join(rec['tcm_focus'])}\n"
 
                 # AI Explanation using Groq
                 st.markdown("### 🤖 AI Practitioner's Insights")
@@ -979,24 +1053,22 @@ with tab_quantum:
                     st.error(f"Could not generate AI explanation: {e}")
                     explanation_text = "AI explanation unavailable."
 
+                st.markdown(quantum_strings["footer_disclaimer"])
+
                 # PDF Export
                 st.markdown("---")
                 if st.button("📥 Export Health Plan as PDF"):
-                    pdf = FPDF()
-                    pdf.add_page()
-                    pdf.set_font("Arial", 'B', 16)
-                    pdf.cell(200, 10, txt="NutriBot V2 - Personalized Health Plan", ln=1, align='C')
-                    pdf.set_font("Arial", size=12)
-                    pdf.ln(10)
-                    pdf.cell(200, 10, txt=f"Goal: {health_goal}", ln=1)
-                    pdf.cell(200, 10, txt=f"SNPs: {', '.join(snp_list)}", ln=1)
-                    pdf.ln(5)
-                    pdf.multi_cell(0, 10, txt="Recommendations:\n" + final_plan_text)
-                    pdf.ln(5)
-                    pdf.set_font("Arial", 'I', 10)
-                    pdf.multi_cell(0, 10, txt="AI Insights:\n" + explanation_text)
-                    
-                    pdf_output = pdf.output(dest='S').encode('latin-1')
+                    from fpdf import FPDF
+                    pdf_output = _build_quantum_pdf(
+                        FPDF,
+                        quantum_lang,
+                        quantum_strings,
+                        CORE_TRANSLATIONS,
+                        health_goal,
+                        snp_list,
+                        final_plan_text,
+                        explanation_text,
+                    )
                     st.download_button(
                         label="Click here to download PDF",
                         data=pdf_output,

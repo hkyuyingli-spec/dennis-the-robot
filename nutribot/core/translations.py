@@ -253,6 +253,28 @@ TRANSLATIONS = {
     }
 }
 
+TRANSLATIONS["en"].update({
+    "quantum_safety_notice": "For your safety, please consult a doctor or qualified healthcare professional before proceeding.",
+    "quantum_crisis_notice": "If you may be in immediate danger, contact local emergency services or a trusted person right now.",
+    "quantum_unused_inputs": "These are checked only for safety. They are not used in the analysis below.",
+    "quantum_privacy_note": "Your selected genetic markers are sent to an AI service to write the explanation and may appear in your exported PDF.",
+    "quantum_association_strength": "Association strength (from curated table)",
+})
+TRANSLATIONS["id"].update({
+    "quantum_safety_notice": "Demi keselamatan Anda, silakan berkonsultasi dengan dokter atau tenaga kesehatan yang berkualifikasi sebelum melanjutkan.",
+    "quantum_crisis_notice": "Jika Anda mungkin berada dalam bahaya langsung, segera hubungi layanan darurat setempat atau orang tepercaya.",
+    "quantum_unused_inputs": "Bagian ini hanya diperiksa untuk keselamatan. Isinya tidak digunakan dalam analisis di bawah.",
+    "quantum_privacy_note": "Penanda genetik yang Anda pilih dikirim ke layanan AI untuk menulis penjelasan dan mungkin muncul dalam PDF yang Anda ekspor.",
+    "quantum_association_strength": "Kekuatan asosiasi (dari tabel kurasi)",
+})
+TRANSLATIONS["zh"].update({
+    "quantum_safety_notice": "为保障您的安全，请在继续前咨询医生或合格的医疗专业人员。",
+    "quantum_crisis_notice": "如果您可能正处于紧急危险中，请立即联系当地急救服务或您信任的人。",
+    "quantum_unused_inputs": "这些内容仅用于安全检查，不会用于以下分析。",
+    "quantum_privacy_note": "您选择的基因标记会发送给 AI 服务以生成说明，也可能出现在您导出的 PDF 中。",
+    "quantum_association_strength": "关联强度（来自整理后的数据表）",
+})
+
 REC_TRANSLATIONS = {
     "en": {
         "REC_001": "Ginseng & Astragalus Tea",
