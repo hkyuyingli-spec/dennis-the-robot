@@ -11,6 +11,8 @@ from groq import (
 from dotenv import load_dotenv
 import uuid
 import json
+import logging
+import time
 from datetime import date
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from yuanying_core import YuanYingCore
@@ -95,24 +97,63 @@ def _raise_clear_groq_error(error, status):
 
 
 def _request_groq_completion(model, messages, max_tokens, temperature, stream):
-    options = {"model": model, "messages": messages, "max_tokens": max_tokens}
+    options = {"model": model, "messages": messages, "max_completion_tokens": max_tokens}
     if temperature is not None:
         options["temperature"] = temperature
     if stream is not None:
         options["stream"] = stream
-    if model.startswith("openai/gpt-oss"):
+    if stream:
+        # The installed Groq SDK rejects stream_options as a top-level kwarg.
+        # extra_body passes the OpenAI-compatible option through to the API.
+        options["extra_body"] = {"stream_options": {"include_usage": True}}
+    if model in {"openai/gpt-oss-20b", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"}:
         options["reasoning_effort"] = "low"
     return client.chat.completions.create(**options)
 
 
-def create_groq_completion(messages, max_tokens, temperature=None, stream=False):
+def _default_prompt_parts(messages):
+    system = messages[0].get("content", "") if messages and messages[0].get("role") == "system" else ""
+    non_system = messages[1:] if system else messages
+    history = non_system[:-1] if len(non_system) > 1 else []
+    current = non_system[-1].get("content", "") if non_system else ""
+    return {"system_prompt": system, "retrieved_knowledge": "", "web_search": "",
+            "chat_history": "\n".join(m.get("content", "") for m in history),
+            "current_user_message": current}
+
+
+def _request_with_metrics(model, messages, max_tokens, temperature, stream, token_parts, request_id):
+    estimated_parts = log_prompt_parts(token_parts, request_id=request_id)
+    prompt_estimate = sum(estimated_parts.values())
+    started_at = time.perf_counter()
+    try:
+        response = _request_groq_completion(model, messages, max_tokens, temperature, stream)
+    except Exception as error:
+        elapsed_ms = round((time.perf_counter() - started_at) * 1000, 1)
+        PERF_LOG.info("groq_request request_id=%s model=%s prompt_tokens=unknown completion_tokens=unknown total=unknown total_tokens=unknown prompt_estimate=%s first_token_ms=unknown total_ms=%s result=error status=%s", request_id, model, prompt_estimate, elapsed_ms, _groq_status_code(error))
+        log_exception_safely(error, context=f"groq_request request_id={request_id}", sensitive_values=[m.get("content", "") for m in messages])
+        raise
+    if stream:
+        state = {"model": model}
+        tracked_stream = log_stream(response, model=model, request_id=request_id,
+                                    prompt_tokens_estimate=prompt_estimate, started_at=started_at, state=state,
+                                    sensitive_values=[m.get("content", "") for m in messages])
+        return tracked_stream, state
+    log_nonstream(model=model, request_id=request_id, usage=getattr(response, "usage", None),
+                  prompt_tokens_estimate=prompt_estimate, started_at=started_at)
+    return response, None
+
+
+def create_groq_completion(messages, max_tokens, temperature=None, stream=False, token_parts=None):
     """Try the primary Groq model, using the fallback only for transient/model errors."""
     global LAST_COMPLETION_MODEL
     if client is None:
         raise RuntimeError("NutriBot is not configured with a Groq API key. Add GROQ_API_KEY to the environment or Streamlit secrets.")
+    token_parts = token_parts or _default_prompt_parts(messages)
+    request_id = uuid.uuid4().hex[:12]
     try:
         LAST_COMPLETION_MODEL = MODEL_PRIMARY
-        return _request_groq_completion(MODEL_PRIMARY, messages, max_tokens, temperature, stream)
+        response, stream_state = _request_with_metrics(MODEL_PRIMARY, messages, max_tokens, temperature, stream, token_parts, request_id + "-primary")
+        return (response, stream_state) if stream else response
     except Exception as primary_error:
         status = _groq_status_code(primary_error)
         _raise_clear_groq_error(primary_error, status)
@@ -131,7 +172,8 @@ def create_groq_completion(messages, max_tokens, temperature=None, stream=False)
         print(f"[groq] primary {MODEL_PRIMARY} failed ({status_label}), using fallback {MODEL_FALLBACK}")
         try:
             LAST_COMPLETION_MODEL = MODEL_FALLBACK
-            return _request_groq_completion(MODEL_FALLBACK, messages, max_tokens, temperature, stream)
+            response, stream_state = _request_with_metrics(MODEL_FALLBACK, messages, max_tokens, temperature, stream, token_parts, request_id + "-fallback")
+            return (response, stream_state) if stream else response
         except Exception as fallback_error:
             _raise_clear_groq_error(fallback_error, _groq_status_code(fallback_error))
             raise
@@ -193,14 +235,17 @@ else:
 
 # --- SETUP ---
 load_dotenv()
-api_key = os.getenv("GROQ_API_KEY")
-if not api_key:
-    try:
-        if "GROQ_API_KEY" in st.secrets:
-            api_key = st.secrets["GROQ_API_KEY"]
-    except Exception:
-        pass
-client = Groq(api_key=api_key) if api_key else None
+@st.cache_resource
+def get_groq_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        try:
+            api_key = st.secrets.get("GROQ_API_KEY")
+        except Exception:
+            api_key = None
+    return Groq(api_key=api_key) if api_key else None
+
+client = get_groq_client()
 MODEL_PRIMARY = get_setting("GROQ_MODEL", "openai/gpt-oss-20b")
 MODEL_FALLBACK = get_setting("GROQ_MODEL_FALLBACK", "qwen/qwen3.8-27b")
 LAST_COMPLETION_MODEL = MODEL_PRIMARY
@@ -233,7 +278,8 @@ from nutribot.rag import (
     load_tcm_herbs_formulas,
     find_relevant_constitutions,
     find_relevant_herbs_formulas,
-    build_rag_context,
+    format_constitution_record,
+    format_herb_record,
     generate_followup_suggestions,
     load_cancer_education,
     find_relevant_cancer_education,
@@ -242,9 +288,15 @@ from nutribot.rag import (
 )
 from nutribot.safety import sanitize_response
 from nutribot.format_utils import normalize_markdown_tables, has_broken_table_header, has_incomplete_table
-from nutribot.live_search import search_live_tcm, is_recency_query
+from nutribot.live_search import search_live_tcm, asks_latest_research_or_news
 from topics import TOPICS, build_topic_prompt, topic_followups, topic_label
-from conversation import build_system_prompt, clear_chat_state, initialize_chat_state, trim_history
+from conversation import (build_system_prompt, clear_chat_state, consume_pending_topic,
+                          initialize_chat_state, queue_pending_topic, topic_cache_key, trim_history)
+from perf_logging import (log_exception_safely, log_nonstream,
+                          log_prompt_parts, log_stream)
+
+logging.basicConfig(level=logging.INFO)
+PERF_LOG = logging.getLogger("nutribot.performance")
 
 # The sidebar topic buttons and chat history share one persistent state model.
 initialize_chat_state(st.session_state)
@@ -252,16 +304,73 @@ if not st.session_state.session_id:
     st.session_state.session_id = str(uuid.uuid4())
 
 # --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
-# Use the shared project-root-aware RAG loaders (works when launched outside the repository CWD).
-tcm_constitutions_db = load_tcm_constitutions()
-tcm_herbs_db = load_tcm_herbs_formulas()
-cancer_education_db = load_cancer_education()
-try:
-    source_manifest_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "knowledge_sources.json")
-    with open(source_manifest_path, "r", encoding="utf-8") as source_file:
-        KNOWLEDGE_SOURCES = json.load(source_file)
-except (OSError, ValueError):
-    KNOWLEDGE_SOURCES = {"sources": []}
+@st.cache_resource
+def get_tcm_constitutions_db():
+    return load_tcm_constitutions()
+
+@st.cache_resource
+def get_tcm_herbs_db():
+    return load_tcm_herbs_formulas()
+
+@st.cache_resource
+def get_cancer_education_db():
+    return load_cancer_education()
+
+tcm_constitutions_db = get_tcm_constitutions_db()
+tcm_herbs_db = get_tcm_herbs_db()
+cancer_education_db = get_cancer_education_db()
+
+@st.cache_resource
+def load_knowledge_sources():
+    try:
+        source_manifest_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "knowledge_sources.json")
+        with open(source_manifest_path, "r", encoding="utf-8") as source_file:
+            return json.load(source_file)
+    except (OSError, ValueError):
+        return {"sources": []}
+
+KNOWLEDGE_SOURCES = load_knowledge_sources()
+
+CACHE_TOPIC_STARTERS = True
+
+SYSTEM_SAFETY = (
+    "You are NutriBot, an educational TCM wellness assistant, not a clinician. Keep replies concise: a short table or at most 200 words unless asked for detail. "
+    "Say this is educational, not medical advice; advise a licensed practitioner, especially for pregnancy, medication, or illness. "
+    "Flag herb-drug interactions and contraindications. For pregnancy, breastfeeding, children, prescription medicines/blood thinners, cancer treatment, or emergency symptoms, give no herb, supplement, or dose recommendation; refer to licensed care. "
+    "For self-harm, respond supportively and direct the person to urgent local help. Never advise stopping medicine. Use retrieved facts only when provided; never invent citations. Gloss TCM terms briefly."
+)
+
+LANGUAGE_LINES = {"en": "Reply in English.", "zh": "请用简体中文回答。", "id": "Jawab dalam Bahasa Indonesia."}
+personality = SYSTEM_SAFETY
+
+
+@st.cache_data(ttl=86400, show_spinner=False)
+def cached_topic_starter(topic: str, language: str):
+    """Cache one complete starter answer per category and language for 24 hours."""
+    prompt = build_topic_prompt(topic, language)
+    system = build_system_prompt(
+        SYSTEM_SAFETY,
+        f"Topic: {topic_label(topic, language)}.",
+        LANGUAGE_LINES.get(language, LANGUAGE_LINES["en"]),
+    )
+    parts = {"system_prompt": system, "retrieved_knowledge": "", "web_search": "",
+             "chat_history": "", "current_user_message": prompt}
+    try:
+        stream, _state = create_groq_completion(
+            [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+            max_tokens=600, temperature=0.5, stream=True, token_parts=parts,
+        )
+        answer = "".join(stream)
+        return answer, date.today().isoformat(), _state.get("model", LAST_COMPLETION_MODEL)
+    except Exception as error:
+        log_exception_safely(error, context=f"cached_topic_starter topic={topic} language={language}", sensitive_values=[prompt, system])
+        raise
+
+
+def chunks_for_write_stream(text: str, chunk_size: int = 32):
+    """Yield completed, safety-checked text in small visible chunks."""
+    for offset in range(0, len(text), chunk_size):
+        yield text[offset:offset + chunk_size]
 
 # --- LOGGING FUNCTIONS ---
 def detect_category(text):
@@ -283,8 +392,8 @@ def log_question(question):
         try:
             category = detect_category(question)
             db.collection("nutribot_logs").add({
-                "question": question,
                 "category": category,
+                "question_chars": len(question),
                 "session_id": st.session_state.session_id,
                 "timestamp": firestore.SERVER_TIMESTAMP
             })
@@ -302,7 +411,13 @@ def log_interaction(event_type, data):
                 "session_id": st.session_state.session_id,
                 "timestamp": firestore.SERVER_TIMESTAMP
             }
-            doc_data.update(data)
+            # Preserve event metrics without persisting prompt/user text.
+            safe_data = dict(data)
+            for text_key in ("prompt", "question", "original_question", "suggestion"):
+                value = safe_data.pop(text_key, None)
+                if isinstance(value, str):
+                    safe_data[f"{text_key}_chars"] = len(value)
+            doc_data.update(safe_data)
             db.collection("nutribot_metrics").add(doc_data)
             st.sidebar.write(f"📊 {event_type} Logged")
         except Exception as e:
@@ -715,8 +830,7 @@ with st.sidebar:
             label = "✓ " + label
         if st.button(label, key=f"topic_{topic_id}", use_container_width=True):
             st.session_state.active_topic = topic_id
-            st.session_state.pending_topic_prompt = build_topic_prompt(topic_id, st.session_state.lang)
-            st.session_state.prompt_trigger = st.session_state.pending_topic_prompt
+            queue_pending_topic(st.session_state, topic_id)
     st.markdown("---")
     include_latest_research = st.checkbox("🔎 " + i18n.translate("include_latest_research", st.session_state.lang), value=False)
     with st.expander(i18n.translate("tcm_glossary_title", st.session_state.lang), expanded=False):
@@ -771,8 +885,13 @@ with tab_chat:
             if role == "assistant" and message.get("source_caption"):
                 st.caption(message["source_caption"])
 
-    # --- GET PROMPT TRIGGER ---
-    if "prompt_trigger" in st.session_state:
+    # Consume a category click exactly once, independent of later reruns.
+    pending_topic = consume_pending_topic(st.session_state)
+    topic_starter = bool(pending_topic and pending_topic.get("topic") in TOPICS)
+    if topic_starter:
+        st.session_state.active_topic = pending_topic["topic"]
+        prompt = build_topic_prompt(st.session_state.active_topic, st.session_state.lang)
+    elif "prompt_trigger" in st.session_state:
         prompt = st.session_state.prompt_trigger
         del st.session_state.prompt_trigger
     else:
@@ -788,23 +907,30 @@ with tab_chat:
         with st.chat_message("assistant", avatar="🍃"):
             response_placeholder = st.empty()
             full_response = ""
+            topic_cache_date = None
+            request_model = None
             
             try:
                 # RAG Retrieval & Relevance Check (Constitutions & Herbs/Formulas)
                 current_user_prompt = prompt if prompt else (st.session_state.messages[-1]["content"] if st.session_state.messages else "")
                 selected_lang = st.session_state.lang
                 active_topic = st.session_state.active_topic
-                matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, max_matches=1, current_lang=selected_lang)
-                matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, max_matches=2, current_lang=selected_lang)
+                if topic_starter:
+                    matched_constitutions, matched_herbs, matched_cancer = [], [], []
+                else:
+                    matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, max_matches=1, current_lang=selected_lang)
+                    matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, max_matches=2, current_lang=selected_lang)
+                    matched_cancer = find_relevant_cancer_education(current_user_prompt, cancer_education_db, max_matches=1, current_lang=selected_lang)
                 
                 matched_c_names = [f"{m['name_english']} ({m['name_chinese']})" for m in matched_constitutions]
                 matched_h_names = [f"{h['name_english']} ({h['name_chinese']})" for h in matched_herbs]
                 # Cancer education matching (general queries only)
-                matched_cancer = find_relevant_cancer_education(current_user_prompt, cancer_education_db, max_matches=1, current_lang=selected_lang)
                 matched_cancer_names = [f"{c.get('topic_id')} ({c.get('topic_name')})" for c in matched_cancer]
                 
-                # Build RAG context from TCM KBs
-                rag_context = build_rag_context(matched_constitutions, matched_herbs)
+                # Each retrieved item is one bounded snippet; topic starters skip retrieval entirely.
+                snippets = [format_constitution_record(item)[:300] for item in matched_constitutions]
+                snippets.extend(format_herb_record(item)[:300] for item in matched_herbs)
+                rag_context = "\n\n".join(snippets[:3])
                 freshness_rows = {row.get("file"): row for row in KNOWLEDGE_SOURCES.get("sources", [])}
                 freshness_notes = []
                 if matched_herbs:
@@ -813,8 +939,8 @@ with tab_chat:
                 if matched_constitutions:
                     row = freshness_rows.get("data/tcm_constitutions.json", {})
                     freshness_notes.append(f"Constitution knowledge base last updated: {row.get('last_updated') or 'date not recorded'}; review status: {row.get('review_status', 'not recorded')}.")
-                if freshness_notes:
-                    rag_context = (rag_context + "\n\n" + "\n".join(freshness_notes)) if rag_context else "\n".join(freshness_notes)
+                if freshness_notes and rag_context:
+                    rag_context += "\n" + " ".join(freshness_notes)
 
                 # If cancer education matched, append that reference block
                 if matched_cancer:
@@ -829,42 +955,39 @@ with tab_chat:
                         )
                         cancer_blocks.append(block[:MAX_CHARS_PER_CHUNK])
                     cancer_blocks.append("=== END OF CANCER EDUCATION REFERENCE DATA ===")
-                    rag_context = (rag_context + "\n" + "\n".join(cancer_blocks)) if rag_context else "\n".join(cancer_blocks)
+                    cancer_snippet = "\n".join(cancer_blocks)[:300]
+                    if len(snippets) < 3:
+                        rag_context = (rag_context + "\n\n" + cancer_snippet) if rag_context else cancer_snippet
 
-                # Live search retrieval (if recency trigger or opt-in sidebar checkbox enabled)
-                if is_recency_query(current_user_prompt) or include_latest_research:
+                # Live web search is opt-in, only for explicit latest/news requests, never for starters.
+                web_search_context = ""
+                if not topic_starter and include_latest_research and asks_latest_research_or_news(current_user_prompt):
                     try:
-                        live_search_block = search_live_tcm(current_user_prompt, lang=selected_lang)
+                        live_search_block = search_live_tcm(current_user_prompt, lang=selected_lang, max_results=2)
                         if live_search_block:
-                            live_search_block = live_search_block[:MAX_CHARS_PER_CHUNK]
-                            rag_context = (rag_context + "\n\n" + live_search_block) if rag_context else live_search_block
+                            web_search_context = live_search_block
                     except Exception as e:
                         print(f"[LiveSearch] Error during live search retrieval: {e}")
                 
                 # selected_lang already defined above for matcher usage
-                language_directive = {
-                    "zh": "You are a TCM assistant. Answer the user in Simplified Chinese only. Do not use English or any other language.",
-                    "id": "You are a TCM assistant. Answer the user in Bahasa Indonesia only. Do not use English or any other language.",
-                    "en": "You are a TCM assistant. Answer the user in English only. Do not use any other language."
-                }.get(selected_lang, "You are a TCM assistant. Answer the user in English only. Do not use any other language.")
-                
-                rag_grounding_rules = ("Ground responses in matching curated references and name them; do not contradict or invent details. Never invent citations or claim a source supports a fact unless it is present in retrieved material. Explicitly flag herb-drug interactions and contraindications; if a caution may apply, do not recommend the herb or give a dose and advise checking with a licensed clinician or pharmacist. Live results are supplementary. Preserve safety warnings and the educational disclaimer.")
-                
-                rag_context = rag_context[:2800]
                 topic_context = ""
                 if active_topic in TOPICS:
-                    topic_context = f"Active category: {topic_label(active_topic, selected_lang)}. Keep follow-up answers in this topic unless the user changes subject. Current date: {date.today().isoformat()}."
-                groq_system = build_system_prompt(f"{personality}\n\n{rag_grounding_rules}", topic_context, f"Selected language: {selected_lang}\n{language_directive}", rag_context)
+                    topic_context = f"Topic: {topic_label(active_topic, selected_lang)}."
+                system_core = build_system_prompt(SYSTEM_SAFETY, topic_context, LANGUAGE_LINES.get(selected_lang, LANGUAGE_LINES["en"]))
+                groq_system = "\n\n".join(part for part in (system_core, rag_context, web_search_context) if part)
 
                 groq_messages = [{"role": "system", "content": groq_system}]
-                selected_history = trim_history(st.session_state.messages)
+                selected_history = trim_history(st.session_state.messages, max_messages=4, assistant_chars=500)
                 for msg in selected_history:
                     content = msg["content"]
-                    if msg["role"] == "assistant" and len(content) > 800:
-                        content = content[:800] + "…"
                     groq_messages.append({"role": msg["role"], "content": content})
-                history_chars = max(0, sum(len(m["content"]) for m in groq_messages[1:]) - len(current_user_prompt))
-                print(f"[tokens~] system={len(personality + rag_grounding_rules + language_directive) // 4} rag={len(rag_context) // 4} history={history_chars // 4}")
+                token_parts = {
+                    "system_prompt": system_core,
+                    "retrieved_knowledge": rag_context,
+                    "web_search": web_search_context,
+                    "chat_history": "\n".join(m["content"] for m in selected_history[:-1]),
+                    "current_user_message": current_user_prompt,
+                }
                 # Check for personal/symptom phrasing and short-circuit with a redirect
                 personal = is_personal_symptom_query(current_user_prompt)
                 if personal:
@@ -873,6 +996,21 @@ with tab_chat:
                         log_interaction("cancer_personal_redirect", {"prompt": current_user_prompt, "language": selected_lang})
                     except Exception:
                         pass
+                elif topic_starter and CACHE_TOPIC_STARTERS:
+                    response_finish_reason = "stop"
+                    status_labels = {
+                        "en": ("Generating a grounded response…", "Response ready", "Response could not be generated"),
+                        "zh": ("正在生成有依据的回答…", "回答已生成", "无法生成回答"),
+                        "id": ("Sedang membuat jawaban yang berlandaskan sumber…", "Jawaban siap", "Jawaban tidak dapat dibuat"),
+                    }
+                    generating_label, ready_label, failed_label = status_labels.get(selected_lang, status_labels["en"])
+                    generation_status = st.status(generating_label, state="running", expanded=False)
+                    cache_topic, cache_language = topic_cache_key(active_topic, selected_lang)
+                    full_response, topic_cache_date, topic_cache_model = cached_topic_starter(cache_topic, cache_language)
+                    request_model = topic_cache_model
+                    with response_placeholder.container():
+                        st.write_stream(chunks_for_write_stream(full_response))
+                    generation_status.update(label=ready_label, state="complete", expanded=False)
                 else:
                     response_finish_reason = None
                     status_labels = {
@@ -884,17 +1022,17 @@ with tab_chat:
                     generation_status = st.status(generating_label, state="running", expanded=False)
                     completion = create_groq_completion(
                         messages=groq_messages,
-                        max_tokens=900,
-                        temperature=0.7,
+                        max_tokens=600,
+                        temperature=0.5,
                         stream=True,
+                        token_parts=token_parts,
                     )
 
-                    for chunk in completion:
-                        if hasattr(chunk.choices[0], "finish_reason") and chunk.choices[0].finish_reason:
-                            response_finish_reason = chunk.choices[0].finish_reason
-                        if chunk.choices[0].delta.content:
-                            full_response += chunk.choices[0].delta.content
-                            response_placeholder.markdown(full_response + "▌")
+                    completion_stream, stream_state = completion
+                    request_model = stream_state.get("model", LAST_COMPLETION_MODEL)
+                    with response_placeholder.container():
+                        full_response = st.write_stream(completion_stream)
+                    response_finish_reason = stream_state.get("finish_reason")
                     generation_status.update(label=ready_label, state="complete", expanded=False)
 
                     triggered_retry = (
@@ -919,16 +1057,14 @@ with tab_chat:
                             retry_messages = [groq_messages[0], {"role": "user", "content": current_user_prompt + "\n\n" + retry_instruction}]
                             retry_comp = create_groq_completion(
                                 messages=retry_messages,
-                                max_tokens=700,
-                                temperature=0.7,
+                                max_tokens=600,
+                                temperature=0.5,
                                 stream=True,
+                                token_parts={**token_parts, "chat_history": "", "current_user_message": retry_messages[-1]["content"]},
                             )
 
-                            retried_response = ""
-                            for chunk in retry_comp:
-                                if chunk.choices[0].delta.content:
-                                    retried_response += chunk.choices[0].delta.content
-                                    response_placeholder.markdown(retried_response + "▌")
+                            retry_stream, _retry_state = retry_comp
+                            retried_response = "".join(retry_stream)
 
                             if retried_response:
                                 full_response = retried_response
@@ -965,7 +1101,7 @@ with tab_chat:
                     print(f"Safety sanitization failed: {e}")
 
                 response_placeholder.markdown(full_response)
-                used_model = LAST_COMPLETION_MODEL
+                used_model = request_model or LAST_COMPLETION_MODEL
                 sources_used = []
                 if matched_herbs:
                     sources_used.append("data/tcm_herbs_formulas.json")
@@ -992,6 +1128,9 @@ with tab_chat:
                     source_caption = f"AI-generated{' with knowledge base' if sources_used else ''} · model {used_model} · generated {date.today().isoformat()}"
                     if source_note:
                         source_caption += f" · {source_note}"
+                if topic_cache_date:
+                    cache_label = {"en": "starter cache date", "zh": "缓存生成日期", "id": "tanggal cache"}.get(selected_lang, "starter cache date")
+                    source_caption += f" · {cache_label} {topic_cache_date}"
                 st.caption(source_caption)
                 st.session_state.messages.append({"role": "assistant", "content": full_response, "source_caption": source_caption})
 
@@ -1057,7 +1196,7 @@ with tab_chat:
             except Exception as e:
                 if "generation_status" in locals():
                     generation_status.update(label=failed_label, state="error", expanded=False)
-                print(f"Groq chat request failed: {e}")
+                log_exception_safely(e, context="streamlit_chat_response", sensitive_values=[prompt, groq_system if "groq_system" in locals() else ""])
                 error_messages = {
                     "en": "🌿 NutriBot could not generate a reply. Your message remains in the conversation; please try again shortly. 🌱",
                     "zh": "🌿 NutriBot 暂时无法生成回复。您的消息仍保留在对话中，请稍后重试。🌱",
@@ -1197,7 +1336,7 @@ with tab_quantum:
                             {"role": "system", "content": personality},
                             {"role": "user", "content": explanation_prompt}
                         ],
-                        max_tokens=900,
+                        max_tokens=600,
                         stream=False,
                     )
                     explanation_text = explanation_response.choices[0].message.content

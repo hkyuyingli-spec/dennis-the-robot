@@ -1,6 +1,7 @@
 from datetime import date
 
-from conversation import build_system_prompt, clear_chat_state, initialize_chat_state, trim_history
+from conversation import (build_system_prompt, clear_chat_state, consume_pending_topic,
+                          initialize_chat_state, queue_pending_topic, topic_cache_key, trim_history)
 from topics import TOPICS, build_topic_prompt, topic_followups
 
 
@@ -21,10 +22,16 @@ def test_followups_are_three_and_localized():
 def test_history_trimming_keeps_recent_turns_and_system_prompt_is_separate():
     history = [
         {"role": "user", "content": "old" * 10},
-        {"role": "assistant", "content": "older answer" * 10},
+        {"role": "assistant", "content": "older answer" * 100},
         {"role": "user", "content": "new question"},
+        {"role": "assistant", "content": "new answer"},
+        {"role": "user", "content": "latest question"},
     ]
-    assert trim_history(history, max_chars=30) == [{"role": "user", "content": "new question"}]
+    trimmed = trim_history(history, max_messages=4, assistant_chars=500)
+    assert len(trimmed) == 4
+    assert trimmed[0]["role"] == "assistant"
+    assert len(trimmed[0]["content"]) == 501
+    assert trimmed[-1]["content"] == "latest question"
     system = build_system_prompt("safety", "Active category: herbs", "English only", "KB context")
     assert "Active category: herbs" in system
     assert "safety" in system
@@ -38,3 +45,16 @@ def test_clear_resets_only_conversation_fields():
     assert state["active_topic"] is None
     assert state["lang"] == "zh"
     assert "prompt_trigger" not in state
+
+
+def test_pending_topic_is_consumed_once_and_click_queue_is_idempotent():
+    state = {"pending_topic": None}
+    assert queue_pending_topic(state, "herbs") is True
+    assert queue_pending_topic(state, "herbs") is False
+    assert consume_pending_topic(state) == {"topic": "herbs"}
+    assert consume_pending_topic(state) is None
+
+
+def test_topic_cache_key_is_only_category_and_normalized_language():
+    assert topic_cache_key("herbs", "en") == ("herbs", "en")
+    assert topic_cache_key("herbs", "unknown") == ("herbs", "en")

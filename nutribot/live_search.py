@@ -35,6 +35,13 @@ RECENCY_PATTERNS = [
     r"近况",
 ]
 
+LATEST_RESEARCH_PATTERNS = [
+    r"\blatest\b", r"\brecent research\b", r"\bnew research\b", r"\bnew studies?\b",
+    r"\bcurrent research\b", r"\bnews\b", r"\brecent news\b",
+    r"\bterbaru\b", r"\briset terkini\b", r"\bpenelitian terbaru\b", r"\bberita terbaru\b",
+    r"最新研究", r"近期研究", r"新研究", r"最新消息", r"新闻",
+]
+
 
 def is_recency_query(query: str) -> bool:
     """
@@ -48,6 +55,14 @@ def is_recency_query(query: str) -> bool:
         if re.search(pattern, q_lower):
             return True
     return False
+
+
+def asks_latest_research_or_news(query: str) -> bool:
+    """Require explicit latest/research/news wording before an external search."""
+    if not query:
+        return False
+    q_lower = query.lower()
+    return any(re.search(pattern, q_lower) for pattern in LATEST_RESEARCH_PATTERNS)
 
 
 def live_search_unavailable_message(lang: str = "en") -> str:
@@ -72,11 +87,11 @@ def format_live_search_rag_block(results: List[Dict[str, Any]]) -> str:
         "=== REFERENCE: LIVE WEB SEARCH (CURRENT RESEARCH) ===",
         "The following live web search results were retrieved for recent context:\n",
     ]
-    for r in results:
+    for r in results[:2]:
         title = r.get("title", "Online Source")
         url = r.get("url", "")
-        content = r.get("content", "").strip()
-        blocks.append(f"--- Source: {title} ({url}) ---\nSummary: {content}\n")
+        content = r.get("content", "").strip()[:300]
+        blocks.append(f"--- Source: {title} ({url}) ---\nSummary: {content}\n"[:300])
     blocks.append("=== END OF LIVE WEB SEARCH REFERENCE DATA ===")
     return "\n".join(blocks)
 
@@ -84,8 +99,7 @@ def format_live_search_rag_block(results: List[Dict[str, Any]]) -> str:
 def search_live_tcm(query: str, lang: str = "en", max_results: int = 3) -> str:
     """
     Calls the Tavily Search API if TAVILY_API_KEY is configured in the environment.
-    If the key is missing or an error occurs, this function returns a clear, user-facing
-    notice instead of silently failing.
+    If the key is missing, search is skipped silently. Search failures do not break chat.
     Returns the formatted RAG block string on success.
     """
     api_key = os.getenv("TAVILY_API_KEY")
@@ -97,7 +111,7 @@ def search_live_tcm(query: str, lang: str = "en", max_results: int = 3) -> str:
         except Exception:
             pass
     if not api_key:
-        return live_search_unavailable_message(lang)
+        return ""
 
     q_lower = query.lower()
     if not any(term in q_lower for term in ["tcm", "chinese medicine", "herbal", "草药", "中医", "herba"]):
