@@ -27,3 +27,6 @@ insights.json
 category_chart.png
 nutribot_report.pdf
 .aider*
+
+.venv/
+debug_log.txt

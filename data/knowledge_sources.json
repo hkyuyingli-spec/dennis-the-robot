@@ -1,0 +1,35 @@
+{
+  "last_updated": "2026-10-09",
+  "sources": [
+    {
+      "file": "data/tcm_herbs_formulas.json",
+      "last_updated": "2026-08-29",
+      "review_status": "ai_drafted_pending_review",
+      "source": "Traditional source notes are recorded per entry; content is a draft and needs qualified human review."
+    },
+    {
+      "file": "data/tcm_constitutions.json",
+      "last_updated": null,
+      "review_status": "date_not_recorded",
+      "source": "Structured constitution records with aliases, characteristics, diet and lifestyle fields."
+    },
+    {
+      "file": "data/cancer_education_general.json",
+      "last_updated": null,
+      "review_status": "date_not_recorded",
+      "source": "General cancer education records; personal symptom queries are redirected by safety logic."
+    },
+    {
+      "file": "data/gene_tcm_map.csv",
+      "last_updated": null,
+      "review_status": "not_loaded_by_streamlit_app",
+      "source": "Standalone SNP-to-pattern mapping file; the current genetic tab uses hard-coded mappings in yuanying_core.py."
+    },
+    {
+      "file": "data/tcm_constitutions.csv",
+      "last_updated": null,
+      "review_status": "not_loaded_by_streamlit_app",
+      "source": "CSV constitution data is present but the Streamlit app loads data/tcm_constitutions.json."
+    }
+  ]
+}

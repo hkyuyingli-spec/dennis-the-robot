@@ -11,6 +11,7 @@ from groq import (
 from dotenv import load_dotenv
 import uuid
 import json
+from datetime import date
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from yuanying_core import YuanYingCore
 from nutribot import dce_mcc
@@ -106,7 +107,11 @@ def _request_groq_completion(model, messages, max_tokens, temperature, stream):
 
 def create_groq_completion(messages, max_tokens, temperature=None, stream=False):
     """Try the primary Groq model, using the fallback only for transient/model errors."""
+    global LAST_COMPLETION_MODEL
+    if client is None:
+        raise RuntimeError("NutriBot is not configured with a Groq API key. Add GROQ_API_KEY to the environment or Streamlit secrets.")
     try:
+        LAST_COMPLETION_MODEL = MODEL_PRIMARY
         return _request_groq_completion(MODEL_PRIMARY, messages, max_tokens, temperature, stream)
     except Exception as primary_error:
         status = _groq_status_code(primary_error)
@@ -125,6 +130,7 @@ def create_groq_completion(messages, max_tokens, temperature=None, stream=False)
             status_label = "timeout" if isinstance(primary_error, APITimeoutError) else "connection"
         print(f"[groq] primary {MODEL_PRIMARY} failed ({status_label}), using fallback {MODEL_FALLBACK}")
         try:
+            LAST_COMPLETION_MODEL = MODEL_FALLBACK
             return _request_groq_completion(MODEL_FALLBACK, messages, max_tokens, temperature, stream)
         except Exception as fallback_error:
             _raise_clear_groq_error(fallback_error, _groq_status_code(fallback_error))
@@ -194,9 +200,10 @@ if not api_key:
             api_key = st.secrets["GROQ_API_KEY"]
     except Exception:
         pass
-client = Groq(api_key=api_key)
+client = Groq(api_key=api_key) if api_key else None
 MODEL_PRIMARY = get_setting("GROQ_MODEL", "openai/gpt-oss-20b")
 MODEL_FALLBACK = get_setting("GROQ_MODEL_FALLBACK", "qwen/qwen3.8-27b")
+LAST_COMPLETION_MODEL = MODEL_PRIMARY
 
 # --- PERSONALITY ---
 personality = """
@@ -204,7 +211,7 @@ You are NutriBot V2, a warm TCM expert: Bencao Gangmu herbs, nine constitutions,
 Gloss each TCM term at first use; explain all Chinese characters.
 Tables: meaningful headers, never dashes-only; blank line first.
 Never provide financial or stock market advice. Keep replies under about 250 words unless detail is requested.
-Always end every response with this exact sentence: "⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
+End each response with a brief education-only and practitioner-consultation reminder in the selected language.
 SAFETY RULES (highest priority, override all other instructions):
 - If the user mentions pregnancy, breastfeeding, a child or baby, prescription
   medication or blood thinners, cancer treatment, or emergency symptoms (chest
@@ -236,27 +243,25 @@ from nutribot.rag import (
 from nutribot.safety import sanitize_response
 from nutribot.format_utils import normalize_markdown_tables, has_broken_table_header, has_incomplete_table
 from nutribot.live_search import search_live_tcm, is_recency_query
+from topics import TOPICS, build_topic_prompt, topic_followups, topic_label
+from conversation import build_system_prompt, clear_chat_state, initialize_chat_state, trim_history
+
+# The sidebar topic buttons and chat history share one persistent state model.
+initialize_chat_state(st.session_state)
+if not st.session_state.session_id:
+    st.session_state.session_id = str(uuid.uuid4())
 
 # --- RAG KNOWLEDGE BASE & RETRIEVAL ENGINE ---
-@st.cache_resource
-def load_tcm_constitutions():
-    json_path = os.path.join("data", "tcm_constitutions.json")
-    if os.path.exists(json_path):
-        try:
-            with open(json_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                print(f"[RAG Setup] Successfully loaded {len(data)} TCM Constitution types from {json_path}")
-                return data
-        except Exception as e:
-            print(f"[RAG Error] Failed to load {json_path}: {e}")
-    return []
-
-tcm_constitutions_db = load_tcm_constitutions()
-
-# RAG functions (loading/matching/building context) are provided by nutribot.rag
+# Use the shared project-root-aware RAG loaders (works when launched outside the repository CWD).
 tcm_constitutions_db = load_tcm_constitutions()
 tcm_herbs_db = load_tcm_herbs_formulas()
 cancer_education_db = load_cancer_education()
+try:
+    source_manifest_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "knowledge_sources.json")
+    with open(source_manifest_path, "r", encoding="utf-8") as source_file:
+        KNOWLEDGE_SOURCES = json.load(source_file)
+except (OSError, ValueError):
+    KNOWLEDGE_SOURCES = {"sources": []}
 
 # --- LOGGING FUNCTIONS ---
 def detect_category(text):
@@ -531,6 +536,14 @@ section[data-testid="stSidebar"] code {
 .stChatInputContainer textarea { color: #1a3a2a !important; background-color: #ffffff !important; font-size: 1rem !important; }
 .stChatInputContainer textarea::placeholder { color: #888888 !important; opacity: 1 !important; }
 
+/* Sidebar text stays readable on the deep green theme. */
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+section[data-testid="stSidebar"] label {
+    color: #ffffff !important;
+}
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] a { color: #ffe58a !important; }
+
 /* Chat bubbles */
 [data-testid="stChatMessage"] { 
     border-radius: 16px !important; 
@@ -685,21 +698,25 @@ with st.sidebar:
     st.markdown("---")
     # Language selector (visible multi-language control)
     lang_options = {"English": "en", "Bahasa (ID)": "id", "中文": "zh"}
-    choice = st.selectbox("Language / 语言 / Bahasa", list(lang_options.keys()), index=list(lang_options.values()).index(st.session_state.lang) if st.session_state.lang in list(lang_options.values()) else 0)
+    choice = st.selectbox("Language / 语言 / Bahasa", list(lang_options.keys()), index=list(lang_options.values()).index(st.session_state.lang) if st.session_state.lang in list(lang_options.values()) else 0, key="nutribot_language")
     st.session_state.lang = lang_options.get(choice, "en")
     st.markdown(i18n.translate("startup_header", st.session_state.lang).format(model_id=MODEL_PRIMARY))
-    if st.button(i18n.translate("begin_consultation", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "I seek a TCM consultation. Please guide me."
-    if st.button(i18n.translate("herb_encyclopedia", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Tell me about the Bencao Gangmu herb encyclopedia."
-    if st.button(i18n.translate("body_constitution", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Help me discover my TCM body constitution type."
-    if st.button(i18n.translate("seasonal_health", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "What does TCM recommend for my health this season?"
-    if st.button(i18n.translate("skincare_rituals", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Give me TCM skincare advice."
-    if st.button(i18n.translate("nutrition_advice", st.session_state.lang), use_container_width=True):
-        st.session_state.prompt_trigger = "Give me personalized nutrition advice based on TCM."
+    topic_buttons = [
+        ("consultation", "begin_consultation"), ("herbs", "herb_encyclopedia"),
+        ("constitution", "body_constitution"), ("seasonal", "seasonal_health"),
+        ("skincare", "skincare_rituals"), ("nutrition", "nutrition_advice"),
+    ]
+    if st.session_state.active_topic in TOPICS:
+        st.success(f"✓ Active topic: {topic_label(st.session_state.active_topic, st.session_state.lang)}")
+    for topic_id, label_key in topic_buttons:
+        active = st.session_state.active_topic == topic_id
+        label = i18n.translate(label_key, st.session_state.lang)
+        if active:
+            label = "✓ " + label
+        if st.button(label, key=f"topic_{topic_id}", use_container_width=True):
+            st.session_state.active_topic = topic_id
+            st.session_state.pending_topic_prompt = build_topic_prompt(topic_id, st.session_state.lang)
+            st.session_state.prompt_trigger = st.session_state.pending_topic_prompt
     st.markdown("---")
     include_latest_research = st.checkbox("🔎 " + i18n.translate("include_latest_research", st.session_state.lang), value=False)
     with st.expander(i18n.translate("tcm_glossary_title", st.session_state.lang), expanded=False):
@@ -720,8 +737,8 @@ with st.sidebar:
             st.markdown(f"**{t_name}**\n\n{t_def}")
             st.markdown("---")
     st.markdown("---")
-    if st.button(i18n.translate("clear_history", st.session_state.lang), use_container_width=True):
-        st.session_state.clear()
+    if st.button(i18n.translate("clear_history", st.session_state.lang), key="clear_conversation", use_container_width=True):
+        clear_chat_state(st.session_state)
         st.rerun()
     st.markdown("---")
     st.markdown(i18n.translate("active_model_label", st.session_state.lang))
@@ -732,14 +749,18 @@ tab_chat, tab_quantum = st.tabs([i18n.translate("tab_chat", st.session_state.lan
 
 with tab_chat:
     # --- SESSION STATE ---
-    if "session_id" not in st.session_state:
+    initialize_chat_state(st.session_state)
+    if not st.session_state.session_id:
         st.session_state.session_id = str(uuid.uuid4())
-
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
 
     # --- WELCOME SCREEN ---
     welcome_screen()
+    education_disclaimer = {
+        "en": "For education only; this is not medical advice. Consult a licensed practitioner, especially if pregnant, taking medication, or managing a medical condition.",
+        "zh": "仅供教育参考，不构成医疗建议。如您正在怀孕、服用药物或患有疾病，请务必咨询持牌医疗专业人员。",
+        "id": "Hanya untuk edukasi dan bukan nasihat medis. Konsultasikan dengan tenaga kesehatan berlisensi, terutama jika hamil, menggunakan obat, atau memiliki kondisi medis.",
+    }.get(st.session_state.lang, "For education only; this is not medical advice. Consult a licensed practitioner, especially if pregnant, taking medication, or managing a medical condition.")
+    st.info(education_disclaimer, icon="⚕️")
 
     # --- DISPLAY HISTORY ---
     for message in st.session_state.messages:
@@ -747,6 +768,8 @@ with tab_chat:
         avatar = "👤" if role == "user" else "🍃"
         with st.chat_message(role, avatar=avatar):
             st.markdown(message["content"])
+            if role == "assistant" and message.get("source_caption"):
+                st.caption(message["source_caption"])
 
     # --- GET PROMPT TRIGGER ---
     if "prompt_trigger" in st.session_state:
@@ -770,6 +793,7 @@ with tab_chat:
                 # RAG Retrieval & Relevance Check (Constitutions & Herbs/Formulas)
                 current_user_prompt = prompt if prompt else (st.session_state.messages[-1]["content"] if st.session_state.messages else "")
                 selected_lang = st.session_state.lang
+                active_topic = st.session_state.active_topic
                 matched_constitutions = find_relevant_constitutions(current_user_prompt, tcm_constitutions_db, max_matches=1, current_lang=selected_lang)
                 matched_herbs = find_relevant_herbs_formulas(current_user_prompt, tcm_herbs_db, matched_constitutions=matched_constitutions, max_matches=2, current_lang=selected_lang)
                 
@@ -781,6 +805,16 @@ with tab_chat:
                 
                 # Build RAG context from TCM KBs
                 rag_context = build_rag_context(matched_constitutions, matched_herbs)
+                freshness_rows = {row.get("file"): row for row in KNOWLEDGE_SOURCES.get("sources", [])}
+                freshness_notes = []
+                if matched_herbs:
+                    row = freshness_rows.get("data/tcm_herbs_formulas.json", {})
+                    freshness_notes.append(f"Herb knowledge base last updated: {row.get('last_updated') or 'date not recorded'}; review status: {row.get('review_status', 'not recorded')}.")
+                if matched_constitutions:
+                    row = freshness_rows.get("data/tcm_constitutions.json", {})
+                    freshness_notes.append(f"Constitution knowledge base last updated: {row.get('last_updated') or 'date not recorded'}; review status: {row.get('review_status', 'not recorded')}.")
+                if freshness_notes:
+                    rag_context = (rag_context + "\n\n" + "\n".join(freshness_notes)) if rag_context else "\n".join(freshness_notes)
 
                 # If cancer education matched, append that reference block
                 if matched_cancer:
@@ -814,13 +848,16 @@ with tab_chat:
                     "en": "You are a TCM assistant. Answer the user in English only. Do not use any other language."
                 }.get(selected_lang, "You are a TCM assistant. Answer the user in English only. Do not use any other language.")
                 
-                rag_grounding_rules = ("Ground responses in matching curated references and name them; do not contradict or invent details. Live results are supplementary; cite them where useful. Include relevant contraindications. If a matched caution applies to the user, advise avoiding the herb and provide no dose. Without a match, use general guidance only. Preserve safety warnings and the educational disclaimer.")
+                rag_grounding_rules = ("Ground responses in matching curated references and name them; do not contradict or invent details. Never invent citations or claim a source supports a fact unless it is present in retrieved material. Explicitly flag herb-drug interactions and contraindications; if a caution may apply, do not recommend the herb or give a dose and advise checking with a licensed clinician or pharmacist. Live results are supplementary. Preserve safety warnings and the educational disclaimer.")
                 
                 rag_context = rag_context[:2800]
-                groq_system = f"{personality}\n\n{rag_grounding_rules}\n\nSelected language: {selected_lang}\n{language_directive}\n\n{rag_context}"
+                topic_context = ""
+                if active_topic in TOPICS:
+                    topic_context = f"Active category: {topic_label(active_topic, selected_lang)}. Keep follow-up answers in this topic unless the user changes subject. Current date: {date.today().isoformat()}."
+                groq_system = build_system_prompt(f"{personality}\n\n{rag_grounding_rules}", topic_context, f"Selected language: {selected_lang}\n{language_directive}", rag_context)
 
                 groq_messages = [{"role": "system", "content": groq_system}]
-                selected_history = st.session_state.messages[-4:]
+                selected_history = trim_history(st.session_state.messages)
                 for msg in selected_history:
                     content = msg["content"]
                     if msg["role"] == "assistant" and len(content) > 800:
@@ -838,6 +875,13 @@ with tab_chat:
                         pass
                 else:
                     response_finish_reason = None
+                    status_labels = {
+                        "en": ("Generating a grounded response…", "Response ready", "Response could not be generated"),
+                        "zh": ("正在生成有依据的回答…", "回答已生成", "无法生成回答"),
+                        "id": ("Sedang membuat jawaban yang berlandaskan sumber…", "Jawaban siap", "Jawaban tidak dapat dibuat"),
+                    }
+                    generating_label, ready_label, failed_label = status_labels.get(selected_lang, status_labels["en"])
+                    generation_status = st.status(generating_label, state="running", expanded=False)
                     completion = create_groq_completion(
                         messages=groq_messages,
                         max_tokens=900,
@@ -851,6 +895,7 @@ with tab_chat:
                         if chunk.choices[0].delta.content:
                             full_response += chunk.choices[0].delta.content
                             response_placeholder.markdown(full_response + "▌")
+                    generation_status.update(label=ready_label, state="complete", expanded=False)
 
                     triggered_retry = (
                         response_finish_reason == "length"
@@ -920,11 +965,41 @@ with tab_chat:
                     print(f"Safety sanitization failed: {e}")
 
                 response_placeholder.markdown(full_response)
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
+                used_model = LAST_COMPLETION_MODEL
+                sources_used = []
+                if matched_herbs:
+                    sources_used.append("data/tcm_herbs_formulas.json")
+                if matched_constitutions:
+                    sources_used.append("data/tcm_constitutions.json")
+                if matched_cancer:
+                    sources_used.append("data/cancer_education_general.json")
+                source_note = ""
+                if sources_used:
+                    source_rows = {row.get("file"): row for row in KNOWLEDGE_SOURCES.get("sources", [])}
+                    freshness_label = {"zh": "知识库更新日期", "id": "basis pengetahuan diperbarui", "en": "last updated"}.get(selected_lang, "last updated")
+                    missing_date = {"zh": "未记录", "id": "tanggal tidak tercatat", "en": "date not recorded"}.get(selected_lang, "date not recorded")
+                    dates = [f"{path} — {freshness_label} {source_rows.get(path, {}).get('last_updated') or missing_date}" for path in sources_used]
+                    source_note = "; ".join(dates)
+                if selected_lang == "zh":
+                    source_caption = f"AI 生成{'并参考知识库' if sources_used else ''} · 模型 {used_model} · 生成日期 {date.today().isoformat()}"
+                    if source_note:
+                        source_caption += f" · {source_note}"
+                elif selected_lang == "id":
+                    source_caption = f"Dihasilkan AI{' dengan basis pengetahuan' if sources_used else ''} · model {used_model} · tanggal {date.today().isoformat()}"
+                    if source_note:
+                        source_caption += f" · {source_note}"
+                else:
+                    source_caption = f"AI-generated{' with knowledge base' if sources_used else ''} · model {used_model} · generated {date.today().isoformat()}"
+                    if source_note:
+                        source_caption += f" · {source_note}"
+                st.caption(source_caption)
+                st.session_state.messages.append({"role": "assistant", "content": full_response, "source_caption": source_caption})
 
                 # Generate follow-up suggestions grounded in matched RAG data
                 try:
-                    if matched_constitutions or matched_herbs:
+                    if active_topic in TOPICS:
+                        followups = topic_followups(active_topic, selected_lang)
+                    elif matched_constitutions or matched_herbs:
                         followups = generate_followup_suggestions(matched_constitutions, matched_herbs, current_user_prompt, lang=selected_lang)
                     else:
                         followups = []
@@ -952,19 +1027,47 @@ with tab_chat:
                             st.rerun()
 
             except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
-                st.error(str(e))
+                if "generation_status" in locals():
+                    generation_status.update(label=failed_label, state="error", expanded=False)
+                provider_errors = {
+                    "en": str(e),
+                    "zh": "NutriBot 暂时无法访问 AI 服务。请检查服务器上的 Groq API 密钥、模型名称和访问权限。",
+                    "id": "NutriBot tidak dapat mengakses layanan AI saat ini. Periksa kunci API Groq, nama model, dan izin akses di server.",
+                }
+                st.error(provider_errors.get(st.session_state.lang, provider_errors["en"]))
             except RateLimitError:
-                st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                if "generation_status" in locals():
+                    generation_status.update(label=failed_label, state="error", expanded=False)
+                rate_limit_messages = {
+                    "en": "🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️",
+                    "zh": "🌿 NutriBot 正在恢复，请稍后再试。☯️",
+                    "id": "🌿 NutriBot sedang memulihkan tenaga. Silakan coba lagi sebentar lagi. ☯️",
+                }
+                st.warning(rate_limit_messages.get(st.session_state.lang, rate_limit_messages["en"]))
             except (InternalServerError, APIStatusError) as e:
+                if "generation_status" in locals():
+                    generation_status.update(label=failed_label, state="error", expanded=False)
                 print(f"Groq API request failed: {e}")
-                st.error("🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘")
+                service_messages = {
+                    "en": "🌿 NutriBot is taking a mindful breath... Please try again shortly. 🧘",
+                    "zh": "🌿 NutriBot 正在稍作调整，请稍后重试。🧘",
+                    "id": "🌿 NutriBot sedang beristirahat sejenak. Silakan coba lagi nanti. 🧘",
+                }
+                st.error(service_messages.get(st.session_state.lang, service_messages["en"]))
             except Exception as e:
+                if "generation_status" in locals():
+                    generation_status.update(label=failed_label, state="error", expanded=False)
                 print(f"Groq chat request failed: {e}")
-                st.error("🌿 Something disrupted the Qi flow. Please refresh. 🌱")
+                error_messages = {
+                    "en": "🌿 NutriBot could not generate a reply. Your message remains in the conversation; please try again shortly. 🌱",
+                    "zh": "🌿 NutriBot 暂时无法生成回复。您的消息仍保留在对话中，请稍后重试。🌱",
+                    "id": "🌿 NutriBot belum dapat membuat jawaban. Pesan Anda tetap tersimpan dalam percakapan; silakan coba lagi nanti. 🌱",
+                }
+                st.error(error_messages.get(st.session_state.lang, error_messages["en"]))
 
     # --- CHAT INPUT (RENDERED LAST, ALWAYS AT BOTTOM) ---
     prompt_placeholder = i18n.translate("chat_input_hint", st.session_state.lang) or i18n.translate("user_prompt", st.session_state.lang)
-    new_prompt = st.chat_input(prompt_placeholder)
+    new_prompt = st.chat_input(prompt_placeholder, key="nutribot_chat_input")
 
     if new_prompt:
         st.session_state.prompt_trigger = new_prompt
