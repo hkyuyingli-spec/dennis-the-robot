@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#4A90B8">
+    <meta name="description" content="Nutribot — holistic wellness powered by AI.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nutribot">
+    <title>Nutribot</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <iframe
+        class="app-frame"
+        src="https://YOUR-APP-NAME.streamlit.app/?embed=true&amp;show_footer=false"
+        title="Nutribot"
+        allow="clipboard-write; fullscreen"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+      <noscript>
+        <p class="no-script">
+          Nutribot needs JavaScript to load. Open
+          <a href="https://YOUR-APP-NAME.streamlit.app/" rel="noopener">the Nutribot web app</a>
+          in a browser with JavaScript enabled.
+        </p>
+      </noscript>
+    </main>
+    <script>
+      if ("serviceWorker" in navigator && window.isSecureContext) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch((error) => {
+            console.error("Nutribot offline shell registration failed:", error);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
