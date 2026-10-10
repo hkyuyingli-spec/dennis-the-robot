@@ -182,14 +182,15 @@ def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
-logo_base64 = get_base64_image("logo.png")
+hero_logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "hero_logo.png")
+logo_base64 = get_base64_image(hero_logo_path)
 
 # --- PAGE CONFIG ---
 st.set_page_config(
     page_title="NutriBot V2",
     page_icon="🌿",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
 # --- FIREBASE SETUP ---
@@ -433,22 +434,12 @@ def welcome_screen():
             title = i18n.translate("welcome_title", lang)
             subtitle = i18n.translate("welcome_subtitle", lang)
             st.markdown(f"""
-            <div style="background:linear-gradient(135deg,#1a5c38,#2d8653);
-            border-radius:20px;
-            padding:2rem;
-            margin-bottom:2rem;
-            box-shadow:0 8px 32px rgba(0,0,0,0.2);
-            border:1px solid #c9a84c;">
-            <div style="text-align:center;margin-bottom:1.5rem;">
-            <div style="color:#c9a84c;
-            font-size:1.5rem;
-            font-weight:700;
-            letter-spacing:2px;">
+            <div class="nutribot-welcome">
+            <div class="nutribot-welcome__heading">
+            <div class="nutribot-welcome__title">
             {title}
             </div>
-            <div style="color:rgba(255,255,255,0.9);
-            font-size:0.95rem;
-            margin-top:0.5rem;">
+            <div class="nutribot-welcome__subtitle">
             {subtitle}
             </div>
             </div>
@@ -457,7 +448,7 @@ def welcome_screen():
 
             # Question 1 - Wellness Goal
             st.markdown(f"""
-            <div style="color:#1a5c38;
+            <div style="color:#4A90B8;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
@@ -481,7 +472,7 @@ def welcome_screen():
 
             # Question 2 - Age Group
             st.markdown(f"""
-            <div style="color:#1a5c38;
+            <div style="color:#4A90B8;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
@@ -503,7 +494,7 @@ def welcome_screen():
 
             # Question 3 - Gender
             st.markdown(f"""
-            <div style="color:#1a5c38;
+            <div style="color:#4A90B8;
             font-weight:700;
             font-size:1.1rem;
             margin-bottom:0.5rem;">
@@ -546,7 +537,7 @@ def welcome_screen():
 
             st.markdown(f"""
             <div style="text-align:center;
-            color:#888888;
+            color:#9AA3B2;
             font-size:0.8rem;
             margin-top:1rem;
             font-style:italic;">
@@ -559,8 +550,6 @@ def welcome_screen():
 # --- CSS ---
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap');
-
 .stApp { background-color: #faf7f2 !important; }
 .stMain, [data-testid="stVerticalBlock"] { background-color: #faf7f2 !important; }
 
@@ -787,18 +776,620 @@ section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] a { color: 
     fill: #1a3a2a !important;
     opacity: 1 !important;
 }
+
+/* Keep the brand header fluid instead of reserving a fixed desktop-sized block. */
+.nutribot-hero {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border-radius: 0 0 48px 48px;
+    background: linear-gradient(135deg, #1a5c38 0%, #2d8653 100%);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+.nutribot-hero__decoration {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.16);
+    line-height: 1;
+    pointer-events: none;
+}
+.nutribot-hero__decoration--left { top: 10px; left: 10px; font: 120px serif; }
+.nutribot-hero__decoration--right { top: 10px; right: 10px; font: 110px sans-serif; }
+.nutribot-hero__decoration--bottom { bottom: 8px; left: 10px; font-size: 72px; }
+.nutribot-hero__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: 100%;
+    padding: 0 1rem;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.nutribot-hero__logo {
+    display: block;
+    width: min(148px, 42vw);
+    height: auto;
+    margin: 0 auto 0.9rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    /* Only a diffuse hint of brand blue; avoid a visible plate around the image. */
+    filter: drop-shadow(0 0 12px rgba(74, 144, 184, 0.07));
+}
+.nutribot-hero__title {
+    color: #c9a84c;
+    font: 700 2.4rem Georgia, serif;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    line-height: 1.15;
+}
+.nutribot-hero__tagline { margin: 0.35rem 0; color: rgba(255, 255, 255, 0.92); font-style: italic; }
+.nutribot-hero__byline { margin-top: 0.25rem; color: #f5c842; font-size: 0.8rem; }
+.nutribot-hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.6rem;
+    padding: 0.35rem 1rem;
+    border: 1px solid #c9a84c;
+    border-radius: 50px;
+    background: rgba(201, 168, 76, 0.2);
+    color: #c9a84c;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+@media (max-width: 640px) {
+    /* Reduce page chrome and make every Streamlit column a readable phone-width row. */
+    [data-testid="stMainBlockContainer"] {
+        padding: 0.6rem 0.85rem calc(5rem + env(safe-area-inset-bottom)) !important;
+    }
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 0.35rem !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+    [data-testid="stButton"] > button,
+    section[data-testid="stSidebar"] [data-testid="stButton"] > button {
+        min-height: 48px !important;
+        padding: 0.7rem 0.9rem !important;
+        font-size: 1rem !important;
+        line-height: 1.3 !important;
+        white-space: normal !important;
+    }
+    [data-testid="stSelectbox"] [role="combobox"],
+    [data-testid="stMultiSelect"] [role="combobox"],
+    [data-testid="stTextInput"] input,
+    [data-testid="stTextArea"] textarea {
+        min-height: 48px !important;
+        font-size: 16px !important;
+    }
+    [data-testid="stChatMessage"] {
+        padding: 0.75rem !important;
+        margin-bottom: 0.65rem !important;
+        border-radius: 14px !important;
+        overflow-wrap: anywhere;
+    }
+    [data-testid="stChatMessage"] p,
+    [data-testid="stChatMessage"] li,
+    [data-testid="stChatMessage"] ol,
+    [data-testid="stChatMessage"] ul,
+    [data-testid="stChatMessage"] span,
+    [data-testid="stChatMessage"] div {
+        font-size: 1rem !important;
+        line-height: 1.55 !important;
+    }
+    [data-testid="stChatMessage"] table,
+    .stMarkdown table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: normal;
+    }
+    .stChatInputContainer textarea,
+    [data-testid="stChatInput"] textarea {
+        min-height: 48px !important;
+        font-size: 16px !important;
+    }
+    [data-testid="stTabs"] [role="tab"] {
+        min-height: 44px;
+        padding: 0.5rem 0.65rem;
+        white-space: normal;
+    }
+    .nutribot-hero {
+        height: 270px;
+        margin-bottom: 0.85rem;
+        border-radius: 0 0 28px 28px;
+    }
+    .nutribot-hero__decoration--left { font-size: 68px; }
+    .nutribot-hero__decoration--right { font-size: 62px; }
+    .nutribot-hero__decoration--bottom { font-size: 48px; }
+    .nutribot-hero__logo { width: min(132px, 38vw); margin-bottom: 0.2rem; }
+    .nutribot-hero__title { font-size: 1.75rem; letter-spacing: 1px; }
+    .nutribot-hero__tagline { font-size: 0.9rem; }
+    .nutribot-hero__byline { font-size: 0.72rem; }
+    .nutribot-hero__status { margin-top: 0.4rem; padding: 0.3rem 0.8rem; }
+}
+</style>
+""", unsafe_allow_html=True)
+
+# --- PREMIUM DARK DESIGN SYSTEM ---
+# Keep these tokens aligned with .streamlit/config.toml; mobile styles are scoped
+# to phone widths so desktop columns and spacing retain their existing behavior.
+st.markdown("""
+<style>
+:root {
+    color-scheme: dark;
+    --nb-bg: #0F1218;
+    --nb-surface: #1A1F2B;
+    --nb-user: #252B3A;
+    --nb-assistant: #1E2433;
+    --nb-primary: #4A90B8;
+    --nb-secondary: #7B5CDB;
+    --nb-cta: #D45A6A;
+    --nb-text: #E8ECF1;
+    --nb-muted: #9AA3B2;
+    --nb-border: #2A3140;
+}
+
+.stApp,
+.stMain,
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+[data-testid="stVerticalBlock"] {
+    background-color: var(--nb-bg) !important;
+    color: var(--nb-text) !important;
+}
+[data-testid="stMainBlockContainer"] {
+    max-width: 1280px;
+    padding-top: 1.25rem;
+    padding-bottom: 5.5rem;
+}
+
+/* Use a neutral system stack for fast rendering and consistent mobile legibility. */
+html, body, .stApp, button, input, textarea {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif !important;
+}
+.stMarkdown p,
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stChatMessageContent"] {
+    color: var(--nb-text) !important;
+    font-family: inherit !important;
+    font-size: 1rem !important;
+    line-height: 1.72 !important;
+}
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3,
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3 {
+    color: var(--nb-text) !important;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+}
+.stMarkdown a, [data-testid="stMarkdownContainer"] a {
+    color: var(--nb-primary) !important;
+    text-underline-offset: 0.2em;
+}
+.stCaption, [data-testid="stCaptionContainer"] {
+    color: var(--nb-muted) !important;
+}
+
+/* The sidebar stays a quiet surface on desktop and remains readable when opened on mobile. */
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] > div {
+    background: #141923 !important;
+    border-right: 1px solid var(--nb-border);
+}
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong {
+    color: var(--nb-text) !important;
+}
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+    font-size: 0.94rem !important;
+}
+section[data-testid="stSidebar"] .stAlert {
+    border: 1px solid var(--nb-border) !important;
+    background: var(--nb-surface) !important;
+}
+section[data-testid="stSidebar"] .stAlert p {
+    color: var(--nb-text) !important;
+}
+
+/* Blue is the primary action color; coral is reserved for explicit, destructive/high-stakes CTAs. */
+[data-testid="stButton"] > button,
+.stButton > button {
+    min-height: 44px !important;
+    padding: 0.65rem 1rem !important;
+    border: 1px solid rgba(74, 144, 184, 0.55) !important;
+    border-radius: 14px !important;
+    background: #223547 !important;
+    color: var(--nb-text) !important;
+    font-size: 0.96rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    box-shadow: none !important;
+    transition: background-color 140ms ease, border-color 140ms ease,
+        transform 140ms ease !important;
+}
+[data-testid="stButton"] > button:hover,
+.stButton > button:hover {
+    border-color: var(--nb-primary) !important;
+    background: #2B465D !important;
+    color: #FFFFFF !important;
+}
+[data-testid="stButton"] > button:active,
+.stButton > button:active {
+    transform: scale(0.99);
+}
+[data-testid="stButton"] > button:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[role="combobox"]:focus-visible {
+    outline: 3px solid rgba(123, 92, 219, 0.75) !important;
+    outline-offset: 2px !important;
+}
+section[data-testid="stSidebar"] [data-testid="stButton"] > button {
+    justify-content: flex-start;
+    border-color: var(--nb-border) !important;
+    background: #1A202C !important;
+}
+section[data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
+    border-color: var(--nb-primary) !important;
+    background: #202A38 !important;
+}
+
+/* Dark input surfaces retain a visible focus ring and generous typing space. */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stSelectbox"] [role="combobox"],
+[data-testid="stMultiSelect"] [role="combobox"],
+[data-testid="stNumberInput"] input,
+[data-testid="stDateInput"] input {
+    border: 1px solid var(--nb-border) !important;
+    border-radius: 12px !important;
+    background: #151A23 !important;
+    color: var(--nb-text) !important;
+}
+[data-testid="stTextInput"] input::placeholder,
+[data-testid="stTextArea"] textarea::placeholder,
+.stChatInputContainer textarea::placeholder {
+    color: var(--nb-muted) !important;
+    opacity: 1 !important;
+}
+[data-testid="stCheckbox"] label,
+[data-testid="stRadio"] label,
+[data-testid="stSlider"] label {
+    color: var(--nb-text) !important;
+}
+[data-testid="stExpander"],
+[data-testid="stAlert"],
+[data-testid="stPopover"] {
+    border-color: var(--nb-border) !important;
+    border-radius: 14px !important;
+}
+[data-testid="stAlert"] {
+    background: var(--nb-surface) !important;
+    color: var(--nb-text) !important;
+}
+
+/* Chat rows use Streamlit's accessible role labels rather than role/order-dependent styling. */
+[data-testid="stChatMessage"] {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem !important;
+    margin: 0.5rem 0 0.9rem !important;
+    padding: 0.15rem 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    overflow-wrap: anywhere;
+}
+[data-testid="stChatMessageContent"] {
+    min-width: 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(123, 92, 219, 0.3);
+    border-left: 3px solid rgba(123, 92, 219, 0.72);
+    border-radius: 4px 16px 16px 16px;
+    background: var(--nb-assistant);
+}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageContent"][aria-label="Chat message from user"]) {
+    justify-content: flex-end;
+}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageContent"][aria-label="Chat message from user"]) > [data-testid="stChatMessageContent"] {
+    flex: 0 1 auto;
+    max-width: min(82%, 54rem);
+    order: 1;
+    border: 1px solid rgba(74, 144, 184, 0.42);
+    border-right: 3px solid rgba(74, 144, 184, 0.82);
+    border-radius: 16px 4px 16px 16px;
+    background: var(--nb-user);
+}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageContent"][aria-label="Chat message from user"]) > div:first-child {
+    order: 2;
+}
+[data-testid="stChatMessageContent"] p,
+[data-testid="stChatMessageContent"] li,
+[data-testid="stChatMessageContent"] span,
+[data-testid="stChatMessageContent"] strong,
+[data-testid="stChatMessageContent"] em,
+[data-testid="stChatMessageContent"] code {
+    color: var(--nb-text) !important;
+    font-size: 1rem !important;
+    line-height: 1.72 !important;
+}
+[data-testid="stChatMessageContent"] code {
+    border: 1px solid var(--nb-border);
+    border-radius: 6px;
+    background: #141923 !important;
+}
+[data-testid="stChatMessageContent"] pre {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--nb-border);
+    border-radius: 12px;
+    background: #111620 !important;
+}
+[data-testid="stChatMessage"] table,
+.stMarkdown table {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse !important;
+    border: 1px solid var(--nb-border) !important;
+    border-radius: 10px;
+    background: var(--nb-surface) !important;
+    color: var(--nb-text) !important;
+}
+[data-testid="stChatMessage"] th,
+.stMarkdown th {
+    padding: 0.65rem 0.8rem !important;
+    border: 1px solid var(--nb-border) !important;
+    background: #263244 !important;
+    color: var(--nb-text) !important;
+    text-align: left !important;
+}
+[data-testid="stChatMessage"] td,
+.stMarkdown td {
+    padding: 0.6rem 0.8rem !important;
+    border: 1px solid var(--nb-border) !important;
+    background: var(--nb-surface) !important;
+    color: var(--nb-text) !important;
+}
+
+/* Visually separate the native composer while preserving Streamlit's keyboard/focus behavior. */
+.stChatInputContainer {
+    border-top: 1px solid rgba(154, 163, 178, 0.16) !important;
+    background: rgba(15, 18, 24, 0.94) !important;
+    padding: 0.75rem 0 0.9rem !important;
+    backdrop-filter: blur(18px);
+}
+.stChatInputContainer > div,
+[data-testid="stChatInput"] > div {
+    border: 1px solid #343D4D !important;
+    border-radius: 20px !important;
+    background: linear-gradient(160deg, #1D2330 0%, #191E29 100%) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(232, 236, 241, 0.035) !important;
+    transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+.stChatInputContainer:focus-within > div,
+[data-testid="stChatInput"]:focus-within > div {
+    border-color: rgba(74, 144, 184, 0.9) !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 184, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.28) !important;
+}
+.stChatInputContainer textarea,
+[data-testid="stChatInput"] textarea {
+    min-height: 50px !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+    background: transparent !important;
+    color: var(--nb-text) !important;
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+}
+.stChatInputContainer button,
+[data-testid="stChatInput"] button {
+    min-width: 42px;
+    min-height: 42px;
+    margin: 0.25rem !important;
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    color: var(--nb-primary) !important;
+    background: rgba(74, 144, 184, 0.1) !important;
+}
+.stChatInputContainer button:hover,
+[data-testid="stChatInput"] button:hover {
+    border-color: rgba(74, 144, 184, 0.35) !important;
+    background: rgba(74, 144, 184, 0.2) !important;
+}
+
+[data-testid="stTabs"] [role="tab"] {
+    min-height: 44px;
+    color: var(--nb-muted) !important;
+}
+[data-testid="stTabs"] [role="tab"][aria-selected="true"] {
+    color: var(--nb-text) !important;
+}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+    background: var(--nb-primary) !important;
+}
+[data-testid="stDataFrame"], [data-testid="stTable"] {
+    border: 1px solid var(--nb-border) !important;
+    border-radius: 12px !important;
+    background: var(--nb-surface) !important;
+}
+
+/* The first-run card stays welcoming without becoming a tall splash screen on phones. */
+.nutribot-welcome {
+    margin-bottom: 1.1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(123, 92, 219, 0.45);
+    border-radius: 20px;
+    background: linear-gradient(135deg, #172432, #202039);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+}
+.nutribot-welcome__heading { margin-bottom: 0.5rem; text-align: center; }
+.nutribot-welcome__title {
+    color: var(--nb-text);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+.nutribot-welcome__subtitle {
+    margin-top: 0.35rem;
+    color: #C2CBD7;
+    font-size: 0.95rem;
+}
+
+/* The compact hero echoes the blue/indigo identity without competing with conversation content. */
+.nutribot-hero {
+    height: 310px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(123, 92, 219, 0.3);
+    border-radius: 0 0 32px 32px;
+    background:
+        radial-gradient(ellipse at 85% 12%, rgba(123, 92, 219, 0.24), transparent 38%),
+        linear-gradient(135deg, #172432 0%, #17202D 55%, #202039 100%);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
+}
+.nutribot-hero__decoration { color: rgba(123, 92, 219, 0.14); }
+.nutribot-hero__title { color: var(--nb-text); }
+.nutribot-hero__tagline { color: #C5D5E3; }
+.nutribot-hero__byline { color: #9AA3B2; }
+.nutribot-hero__status {
+    border-color: rgba(74, 144, 184, 0.45);
+    background: rgba(74, 144, 184, 0.13);
+    color: #B7D9EC;
+}
+.nutribot-status-dot { color: var(--nb-primary); }
+
+@media (max-width: 640px) {
+    [data-testid="stMainBlockContainer"] {
+        padding: 0.65rem 0.8rem calc(5.75rem + env(safe-area-inset-bottom)) !important;
+    }
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+    }
+    [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+        width: 100% !important;
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+    [data-testid="stButton"] > button,
+    section[data-testid="stSidebar"] [data-testid="stButton"] > button {
+        min-height: 48px !important;
+        padding: 0.75rem 0.9rem !important;
+        border-radius: 14px !important;
+        font-size: 1rem !important;
+        white-space: normal !important;
+    }
+    [data-testid="stSelectbox"] [role="combobox"],
+    [data-testid="stMultiSelect"] [role="combobox"],
+    [data-testid="stTextInput"] input,
+    [data-testid="stTextArea"] textarea {
+        min-height: 48px !important;
+        font-size: 16px !important;
+    }
+    [data-testid="stChatMessage"] {
+        gap: 0.55rem !important;
+        margin: 0.35rem 0 0.75rem !important;
+        padding: 0.1rem 0 !important;
+    }
+    [data-testid="stChatMessageContent"] {
+        padding: 0.75rem 0.85rem;
+        border-radius: 4px 14px 14px 14px;
+    }
+    [data-testid="stChatMessage"]:has([data-testid="stChatMessageContent"][aria-label="Chat message from user"]) > [data-testid="stChatMessageContent"] {
+        max-width: 88%;
+        border-radius: 14px 4px 14px 14px;
+    }
+    [data-testid="stChatMessageContent"] p,
+    [data-testid="stChatMessageContent"] li,
+    [data-testid="stChatMessageContent"] span {
+        font-size: 0.98rem !important;
+        line-height: 1.68 !important;
+    }
+    .nutribot-welcome {
+        margin-bottom: 0.85rem;
+        padding: 1rem 0.9rem;
+        border-radius: 16px;
+    }
+    .nutribot-welcome__title { font-size: 1.2rem; }
+    .nutribot-welcome__subtitle { font-size: 0.9rem; }
+    .stChatInputContainer {
+        padding: 0.55rem 0 calc(0.65rem + env(safe-area-inset-bottom)) !important;
+    }
+    .stChatInputContainer > div,
+    [data-testid="stChatInput"] > div {
+        border-radius: 17px !important;
+    }
+    .stChatInputContainer textarea,
+    [data-testid="stChatInput"] textarea {
+        min-height: 52px !important;
+        padding: 0.75rem 0.8rem !important;
+        font-size: 16px !important;
+    }
+    .stChatInputContainer button,
+    [data-testid="stChatInput"] button {
+        min-width: 46px;
+        min-height: 46px;
+        margin: 0.25rem !important;
+    }
+    .nutribot-hero {
+        height: 250px;
+        margin-bottom: 0.7rem;
+        border-radius: 0 0 24px 24px;
+    }
+    .nutribot-hero__decoration--left { font-size: 68px; }
+    .nutribot-hero__decoration--right { font-size: 62px; }
+    .nutribot-hero__decoration--bottom { font-size: 48px; }
+    .nutribot-hero__logo {
+        width: min(92px, 26vw);
+        margin-bottom: 0.65rem;
+        filter: drop-shadow(0 0 10px rgba(74, 144, 184, 0.06));
+    }
+    .nutribot-hero__title { font-size: 1.6rem; letter-spacing: 0.5px; }
+    .nutribot-hero__tagline { font-size: 0.88rem; }
+    .nutribot-hero__byline { font-size: 0.7rem; }
+    .nutribot-hero__status { margin-top: 0.4rem; padding: 0.3rem 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
 # --- HEADER ---
-header_html = f"""<div style="background:linear-gradient(135deg,#1a5c38 0%,#2d8653 100%);border-radius:0 0 60px 60px;margin-bottom:2rem;box-shadow:0 15px 40px rgba(0,0,0,0.15);position:relative;height:450px;width:100%;overflow:hidden;"><span style="position:absolute;top:10px;left:10px;font-size:160px;color:rgba(255,255,255,0.2);font-family:serif;line-height:1;display:block;">健康</span><span style="position:absolute;top:10px;right:10px;font-size:140px;color:rgba(255,255,255,0.2);font-family:sans-serif;line-height:1;display:block;text-align:right;">건강</span><span style="position:absolute;bottom:10px;left:10px;font-size:90px;color:rgba(255,255,255,0.2);line-height:1;display:block;">صحة</span><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:10;width:100%;">
-    <div style="margin-bottom:0.5rem;background:transparent;display:flex;justify-content:center;">
-    <img src="data:image/png;base64,{logo_base64}" style="width:360px;height:360px;border-radius:20px;background:transparent;-webkit-filter:drop-shadow(0px 0px 0px transparent);filter:drop-shadow(0px 0px 0px transparent);">
+header_html = f"""<div class="nutribot-hero">
+    <span class="nutribot-hero__decoration nutribot-hero__decoration--left">健康</span>
+    <span class="nutribot-hero__decoration nutribot-hero__decoration--right">건강</span>
+    <span class="nutribot-hero__decoration nutribot-hero__decoration--bottom">صحة</span>
+    <div class="nutribot-hero__content">
+        <img class="nutribot-hero__logo" src="data:image/png;base64,{logo_base64}" alt="NutriBot logo">
+        <div class="nutribot-hero__title">NutriBot V2</div>
+        <div class="nutribot-hero__tagline">Holistic Wellness Powered by AI</div>
+        <div class="nutribot-hero__byline">A proprietary wellness platform by NutriBot Co. Ltd.</div>
+        <div class="nutribot-hero__status"><span class="nutribot-status-dot">●</span> Practitioner is Online</div>
     </div>
-    <div style="font-family:Georgia,serif;font-size:2.8rem;font-weight:700;color:#c9a84c;letter-spacing:3px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);">NutriBot V2</div>
-    <div style="color:rgba(255,255,255,0.9);font-style:italic;font-size:1rem;margin:0.4rem 0;">Holistic Wellness Powered by AI</div>
-    <div style="color:#c9a84c;font-size:0.85rem;font-weight:600;letter-spacing:1px;margin-top:0.3rem;">A proprietary wellness platform by NutriBot Co. Ltd.</div>
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.2);border:1px solid #c9a84c;color:#c9a84c;padding:0.3rem 1.2rem;border-radius:50px;font-size:0.85rem;font-weight:600;margin-top:0.8rem;"><span style="color:#00E676;">●</span> Practitioner is Online</div></div></div>"""
+</div>"""
 st.markdown(header_html, unsafe_allow_html=True)
 
 # --- SIDEBAR ---
@@ -1214,9 +1805,9 @@ with tab_chat:
 
 with tab_quantum:
     st.markdown("""
-    <div style="background:rgba(201,168,76,0.1); padding:1.5rem; border-radius:15px; border:1px solid #c9a84c;">
-    <h2 style="color:#1a5c38; margin-top:0;">🧬 YuanYingCore Quantum-Genetic Analysis</h2>
-    <p style="color:#555; font-style:italic;">
+    <div style="background:#1A1F2B; padding:1.5rem; border-radius:15px; border:1px solid #2A3140;">
+    <h2 style="color:#E8ECF1; margin-top:0;">🧬 YuanYingCore Quantum-Genetic Analysis</h2>
+    <p style="color:#9AA3B2; font-style:italic;">
     This advanced system uses <b>Quantum-Inspired algorithms</b> to correlate your genetic markers (SNPs) 
     with Traditional Chinese Medicine (TCM) patterns. It simulates a health wavefunction that explores 
     all potential recommendations before 'collapsing' into the most effective plan for you.
@@ -1377,9 +1968,9 @@ with tab_quantum:
 st.markdown('''
 <div style="text-align:center;
 padding:2rem;
-border-top:2px solid rgba(201,168,76,0.3);
+border-top:1px solid #2A3140;
 margin-top:2rem;">
-<div style="color:#c9a84c;
+<div style="color:#E8ECF1;
 font-family:Georgia,serif;
 font-size:1.2rem;
 font-weight:700;
@@ -1387,18 +1978,18 @@ letter-spacing:2px;
 margin-bottom:0.5rem;">
 NutriBot V2 — Holistic Wellness Powered by AI
 </div>
-<div style="color:#1a5c38;
+<div style="color:#4A90B8;
 font-size:1rem;
 font-weight:600;
 margin-bottom:0.3rem;">
 A proprietary wellness platform by NutriBot Co. Ltd.
 </div>
-<div style="color:#555555;
+<div style="color:#9AA3B2;
 font-size:0.85rem;
 margin-bottom:0.8rem;">
 © 2026 NutriBot Co. Ltd. All rights reserved.
 </div>
-<div style="color:#888888;
+<div style="color:#9AA3B2;
 font-size:0.75rem;
 font-style:italic;">
 ⚕️ For educational purposes only. Please consult 
