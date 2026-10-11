@@ -1729,7 +1729,11 @@ with tab_chat:
 
                 # Post-generation safety sanitization (Layer 2)
                 try:
-                    sanitized_text, info = sanitize_response(full_response, selected_lang)
+                    sanitized_text, info = sanitize_response(
+                        full_response,
+                        selected_lang,
+                        user_prompt=current_user_prompt,
+                    )
                     if info.get("sanitized"):
                         # Log the sanitization event for review
                         try:

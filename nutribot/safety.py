@@ -4,7 +4,7 @@ from typing import Tuple, Dict, Any, Optional
 from .dce_mcc import safety_gate
 
 
-SYSTEM_PROMPT_VERSION = "adult-wellness-v2"
+SYSTEM_PROMPT_VERSION = "adult-wellness-v3"
 ADULT_WELLNESS_POLICY = (
     "Answer lawful adult health and sexual-wellness questions in an educational, neutral, "
     "non-judgmental manner. Do not automatically refuse merely because a request includes "
@@ -16,13 +16,20 @@ ADULT_WELLNESS_POLICY = (
     "Do not assist illegal activity, self-harm, or medical emergencies; direct people in immediate "
     "danger to appropriate urgent help. "
     "For supplements, explain uncertainty and interactions; avoid specific product or dose "
-    "recommendations when contraindications or medicines are mentioned."
+    "recommendations when contraindications or medicines are mentioned. For general questions "
+    "about non-prescription herb or supplement dosage, do not blanket-refuse: explain that dosage "
+    "depends on the specific product and evidence, offer cautious general label-use information, "
+    "and recommend a clinician or pharmacist when health conditions or medicines may affect safety. "
+    "Redirect prescription-medication dosing questions to a licensed clinician."
 )
 
 _GENERIC_REFUSAL = re.compile(
     r"^(?:(?:i(?:'m| am) sorry[, ]*)?(?:but\s*)?)?"
     r"i\s+(?:cannot|can not|can't|cant|am unable to)\s+"
-    r"(?:provide|help with|assist with)\s+(?:that|this)(?:\s+request)?[.! ]*$",
+    r"(?:provide\s+(?:that|this)(?:\s+request)?|"
+    r"provide\s+dosage\s+recommendations|"
+    r"help with\s+(?:that|this)(?:\s+request)?|"
+    r"assist with\s+(?:that|this)(?:\s+request)?)[.! ]*$",
     re.IGNORECASE,
 )
 _SEXUAL_WELLNESS = re.compile(
@@ -49,8 +56,10 @@ _EXPLICIT_AROUSAL = re.compile(
     re.IGNORECASE,
 )
 _MEDICATION = re.compile(
-    r"\b(?:prescription|medication|medicine|drug|pill|tablet|sildenafil|viagra|"
-    r"tadalafil|cialis|antidepressant|blood pressure medicine)\b",
+    r"\b(?:prescription|prescribed)\s+(?:medication|medicine|drug|pill|tablet)\b"
+    r"|\b(?:my|current)\s+(?:prescription\s+)?medication\b"
+    r"|\b(?:sildenafil|viagra|tadalafil|cialis|metformin|insulin|warfarin|"
+    r"apixaban|rivaroxaban|antidepressant|blood pressure medicine)\b",
     re.IGNORECASE,
 )
 _MEDICATION_DOSE = re.compile(
@@ -65,6 +74,10 @@ _SUPPLEMENT_REQUEST = re.compile(
 )
 _EXERCISE_REQUEST = re.compile(
     r"\b(?:exercise|exercises|workout|workouts|physical activity|fitness)\b",
+    re.IGNORECASE,
+)
+_DOSAGE_REQUEST = re.compile(
+    r"\b(?:dose|dosage|dosing|how much|how many|amount|quantity)\b",
     re.IGNORECASE,
 )
 
@@ -223,6 +236,35 @@ def safe_educational_refusal_fallback(
     if sexual_wellness:
         return responses.get(lang, responses["en"])
     if _SUPPLEMENT_REQUEST.search(text):
+        if _DOSAGE_REQUEST.search(text):
+            dosage_responses = {
+                "en": (
+                    "There is no single standard dose for an unspecified herb or supplement. "
+                    "Dosage depends on the exact plant, preparation or extract, product strength, "
+                    "and available evidence. Check the label and use a quality-tested product; "
+                    "avoid combining products or exceeding label directions. Evidence varies, and "
+                    "products can interact with medicines or be unsuitable for some conditions. "
+                    "Ask a clinician or pharmacist before use if you take medicines, are pregnant "
+                    "or breastfeeding, or have a health condition. Share the product name if you "
+                    "would like general information about its evidence and cautions."
+                ),
+                "id": (
+                    "Tidak ada satu dosis baku untuk herbal atau suplemen yang tidak disebutkan "
+                    "secara spesifik. Dosis bergantung pada tanaman, bentuk sediaan atau ekstrak, "
+                    "kekuatan produk, dan bukti yang tersedia. Periksa label dan gunakan produk "
+                    "berkualitas; jangan menggabungkan produk atau melebihi petunjuk label. Bukti "
+                    "bervariasi dan produk dapat berinteraksi dengan obat atau tidak sesuai untuk "
+                    "kondisi tertentu. Tanyakan kepada tenaga kesehatan atau apoteker jika Anda "
+                    "menggunakan obat, sedang hamil atau menyusui, atau memiliki kondisi kesehatan."
+                ),
+                "zh": (
+                    "未具体说明的草药或补充剂没有统一的标准剂量。用量取决于具体植物、制剂或提取物、"
+                    "产品浓度及现有证据。请查看标签并选择经过质量检测的产品；不要混用多种产品或"
+                    "超过标签说明。相关证据各异，产品也可能与药物相互作用或不适合某些健康状况。"
+                    "如正在用药、怀孕或哺乳，或有健康问题，请先咨询医生或药剂师。"
+                ),
+            }
+            return dosage_responses.get(lang, dosage_responses["en"])
         exercise_responses = {
             "en": (
                 "Vitamin and supplement benefits depend on diet, health history, and sometimes lab results; "
@@ -276,10 +318,17 @@ def safe_educational_refusal_fallback(
     )
 
 
-# Contraindication keywords (English + Indonesian + common stems)
-CONTRA_KEYWORDS = [
-    r"\bpregnan", r"\bpregnancy\b", r"\bhamil\b", r"\bkehamilan\b",
-    r"\bcontraindicat", r"\bcontraindicated\b", r"\bavoid\b", r"\bkontraindikasi\b", r"\bhindari\b"
+# Explicit health conditions or medication use that can make herb/supplement advice higher risk.
+CONDITION_KEYWORDS = [
+    r"\bpregnan\w*", r"\bhamil\b", r"\bkehamilan\b",
+    r"\bbreast.?feeding\b", r"\bmenyusui\b",
+    r"\bblood thinners?\b", r"\banticoagulants?\b", r"\bwarfarin\b",
+    r"\bdiabet(?:es|ic)\b", r"\bdiabetes\b",
+    r"\bliver (?:disease|condition|failure)\b", r"\b(?:liver|hepatic) disease\b",
+    r"\bkidney (?:disease|condition|failure)\b", r"\b(?:kidney|renal) disease\b",
+    r"\bheart disease\b", r"\bheart condition\b", r"\bhigh blood pressure\b",
+    r"\bprescription (?:medication|medicine|drug)\b", r"\bprescribed medication\b",
+    r"\bminum obat resep\b", r"\bobat resep\b",
 ]
 
 
@@ -290,19 +339,23 @@ DOSAGE_PATTERN = re.compile(
 )
 
 
-def _has_contraindication(text: str) -> bool:
+def _has_relevant_condition(text: str) -> bool:
     t = text.lower()
-    return any(re.search(k, t) for k in CONTRA_KEYWORDS)
+    return any(re.search(k, t) for k in CONDITION_KEYWORDS)
 
 
 def _has_dosage(text: str) -> bool:
     return bool(DOSAGE_PATTERN.search(text))
 
 
-def sanitize_response(response_text: str, lang: str = "en") -> Tuple[str, Dict[str, Any]]:
+def sanitize_response(
+    response_text: str,
+    lang: str = "en",
+    user_prompt: Optional[str] = None,
+) -> Tuple[str, Dict[str, Any]]:
     """
     Inspect a generated response and remove any dosage recommendations when
-    contraindication language also appears in the response.
+    the user's prompt explicitly mentions a relevant health condition or medication.
 
     Returns a tuple of (sanitized_text, info) where info contains keys:
       - sanitized: bool
@@ -312,7 +365,8 @@ def sanitize_response(response_text: str, lang: str = "en") -> Tuple[str, Dict[s
     if not response_text:
         return response_text, {"sanitized": False, "removed_sentences": [], "found_contra": False}
 
-    found_contra = _has_contraindication(response_text)
+    condition_context = user_prompt if user_prompt is not None else response_text
+    found_contra = _has_relevant_condition(condition_context)
     found_dosage = _has_dosage(response_text)
 
     if not (found_contra and found_dosage):
@@ -331,7 +385,7 @@ def sanitize_response(response_text: str, lang: str = "en") -> Tuple[str, Dict[s
     # Ensure we still communicate the contraindication. If not present in kept sentences,
     # build a conservative fallback in the target language.
     kept_text = " ".join(kept).strip()
-    kept_has_contra = _has_contraindication(kept_text)
+    kept_has_contra = _has_relevant_condition(kept_text)
 
     if not kept_has_contra:
         # Language-specific conservative fallback
