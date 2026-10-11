@@ -1,4 +1,4 @@
-"""Simple lifestyle scoring for the Jing/Qi/Shen wellness framework."""
+"""Simple lifestyle scoring based on sleep, activity, stress, and diet variety."""
 from __future__ import annotations
 
 import math
@@ -41,10 +41,10 @@ class WellnessEngine:
     def recommend(self, state: dict) -> list[str]:
         """Return cautious lifestyle and supplement considerations for the lowest axis."""
         if not isinstance(state, dict):
-            raise TypeError("state must be a dict containing jing, qi, and shen scores")
+            raise TypeError("state must be a dict containing the three wellness scores")
 
         scores = {
-            axis: _score_input(axis, state[axis])
+            axis: _score_input("wellness score", state[axis])
             for axis in ("jing", "qi", "shen")
         }
         lowest_axis = min(scores, key=scores.get)

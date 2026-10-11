@@ -1490,8 +1490,15 @@ with st.sidebar:
             ("glossary_blood_stasis_term", "glossary_blood_stasis_def"),
             ("glossary_five_elements_term", "glossary_five_elements_def"),
         ]
+        plain_glossary_titles = {
+            "glossary_qi_term": "Energy & Activity",
+            "glossary_jing_term": "Rest & Recovery",
+            "glossary_shen_term": "Calm & Clarity",
+        }
         for term_k, def_k in glossary_items:
-            t_name = i18n.translate(term_k, st.session_state.lang)
+            t_name = plain_glossary_titles.get(
+                term_k, i18n.translate(term_k, st.session_state.lang)
+            )
             t_def = i18n.translate(def_k, st.session_state.lang)
             st.markdown(f"**{t_name}**\n\n{t_def}")
             st.markdown("---")
@@ -1738,7 +1745,7 @@ with tab_chat:
                                 full_response = retried_response
                                 request_model = LAST_COMPLETION_MODEL
                         except RateLimitError:
-                            st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                            st.warning("🌿 NutriBot is temporarily busy. Please try again in a few moments.")
                         except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
                             st.error(str(e))
                         except Exception as e:
@@ -1859,7 +1866,7 @@ with tab_chat:
                 if "generation_status" in locals():
                     generation_status.update(label=failed_label, state="error", expanded=False)
                 rate_limit_messages = {
-                    "en": "🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️",
+                    "en": "🌿 NutriBot is temporarily busy. Please try again in a few moments.",
                     "zh": "🌿 NutriBot 正在恢复，请稍后再试。☯️",
                     "id": "🌿 NutriBot sedang memulihkan tenaga. Silakan coba lagi sebentar lagi. ☯️",
                 }
@@ -2036,7 +2043,7 @@ with tab_quantum:
                     explanation_text = explanation_response.choices[0].message.content
                     st.markdown(explanation_text)
                 except RateLimitError:
-                    st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
+                    st.warning("🌿 NutriBot is temporarily busy. Please try again in a few moments.")
                     explanation_text = "AI explanation unavailable."
                 except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
                     st.error(str(e))
@@ -2071,36 +2078,58 @@ with tab_quantum:
 with tab_wellness:
     st.markdown("### Personal Wellness Check-in")
     st.caption("Rate each area from 0 (lowest) to 100 (highest).")
+    st.info(
+        "**Your three wellness scores:**\n"
+        "- **Rest & Recovery** — based on your sleep quality\n"
+        "- **Energy & Activity** — based on how physically active you are\n"
+        "- **Calm & Clarity** — based on your stress level and diet variety\n\n"
+        "Each score is a 0–100 rating that reflects your own input. There are no wrong answers."
+    )
     wellness_left, wellness_right = st.columns(2)
     with wellness_left:
         sleep_quality = st.slider(
-            "Sleep quality", 0, 100, 50, key="wellness_sleep_quality",
+            "Sleep quality (past week)", 0, 100, 50,
+            help="0 = terrible, hard to fall or stay asleep. 100 = deep, restorative sleep every night.",
+            key="wellness_sleep_quality",
             on_change=_mark_wellness_inputs_set,
         )
-        stress = st.slider(
-            "Stress", 0, 100, 50, key="wellness_stress",
+        stress_level = st.slider(
+            "Stress level (past week, inverted)", 0, 100, 50,
+            help="0 = constantly overwhelmed. 100 = calm, relaxed, in control.",
+            key="wellness_stress",
             on_change=_mark_wellness_inputs_set,
         )
     with wellness_right:
         activity = st.slider(
-            "Activity", 0, 100, 50, key="wellness_activity",
+            "Physical activity (past week)", 0, 100, 50,
+            help="0 = mostly sedentary. 100 = active most days (walks, gym, sports, manual work).",
+            key="wellness_activity",
             on_change=_mark_wellness_inputs_set,
         )
         diet_variety = st.slider(
-            "Diet variety", 0, 100, 50, key="wellness_diet_variety",
+            "Diet variety (past week)", 0, 100, 50,
+            help="0 = same few foods daily. 100 = wide variety of vegetables, proteins, grains, fruits.",
+            key="wellness_diet_variety",
             on_change=_mark_wellness_inputs_set,
         )
 
     wellness_state = WellnessEngine().compute_state(
         sleep_quality=sleep_quality,
-        stress=stress,
+        stress=100 - stress_level,
         activity=activity,
         diet_variety=diet_variety,
     )
     st.session_state.wellness_state = wellness_state
     score_columns = st.columns(3)
+    labels = {
+        "jing": ("Rest & Recovery", "How well you sleep and restore"),
+        "qi": ("Energy & Activity", "How much you move and how vital you feel"),
+        "shen": ("Calm & Clarity", "Mental balance from stress and diet variety"),
+    }
     for column, axis in zip(score_columns, ("jing", "qi", "shen")):
-        column.metric(axis.capitalize(), wellness_state[axis])
+        title, caption = labels[axis]
+        column.metric(title, wellness_state[axis])
+        column.caption(caption)
 
     st.markdown("#### Suggestions")
     for recommendation in WellnessEngine().recommend(wellness_state):

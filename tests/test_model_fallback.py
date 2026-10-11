@@ -122,9 +122,9 @@ def test_both_models_rate_limited_propagates_rate_limit():
     assert client.chat.completions.create.call_count == 2
 
 
-def test_rate_limit_handlers_show_existing_recharging_message():
+def test_rate_limit_handlers_show_neutral_busy_message():
     source = APP_PATH.read_text(encoding="utf-8")
-    message = "NutriBot is recharging its Qi. Please return in a few moments."
+    message = "NutriBot is temporarily busy. Please try again in a few moments."
     assert source.count("except RateLimitError:") >= 3
     assert source.count(message) >= 3
 
