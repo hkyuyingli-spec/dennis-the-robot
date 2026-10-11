@@ -1804,21 +1804,7 @@ with tab_chat:
                     missing_date = {"zh": "未记录", "id": "tanggal tidak tercatat", "en": "date not recorded"}.get(selected_lang, "date not recorded")
                     dates = [f"{path} — {freshness_label} {source_rows.get(path, {}).get('last_updated') or missing_date}" for path in sources_used]
                     source_note = "; ".join(dates)
-                if selected_lang == "zh":
-                    source_caption = f"AI 生成{'并参考知识库' if sources_used else ''} · 模型 {used_model} · 生成日期 {date.today().isoformat()}"
-                    if source_note:
-                        source_caption += f" · {source_note}"
-                elif selected_lang == "id":
-                    source_caption = f"Dihasilkan AI{' dengan basis pengetahuan' if sources_used else ''} · model {used_model} · tanggal {date.today().isoformat()}"
-                    if source_note:
-                        source_caption += f" · {source_note}"
-                else:
-                    source_caption = f"AI-generated{' with knowledge base' if sources_used else ''} · model {used_model} · generated {date.today().isoformat()}"
-                    if source_note:
-                        source_caption += f" · {source_note}"
-                if topic_cache_date:
-                    cache_label = {"en": "starter cache date", "zh": "缓存生成日期", "id": "tanggal cache"}.get(selected_lang, "starter cache date")
-                    source_caption += f" · {cache_label} {topic_cache_date}"
+                source_caption = i18n.translate("chat_disclaimer", st.session_state.lang)
                 st.caption(source_caption)
                 st.session_state.messages.append({"role": "assistant", "content": full_response, "source_caption": source_caption})
 
