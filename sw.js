@@ -1,9 +1,8 @@
-const CACHE_NAME = "nutribot-shell-v2";
+const CACHE_NAME = "nutribot-shell-v3";
 const SHELL_FILES = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./style.css",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];
