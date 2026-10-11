@@ -15,8 +15,12 @@ import json
 import logging
 import time
 from datetime import date
+from types import SimpleNamespace
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from yuanying_core import YuanYingCore
+from nutribot.agents import AgentOrchestrator
+from nutribot.nutrigenomics import recommend_from_markers
+from nutribot.wellness_engine import DISCLAIMER, WellnessEngine
 try:
     from nutribot import dce_mcc
 except Exception:
@@ -183,6 +187,31 @@ def create_groq_completion(messages, max_tokens, temperature=None, stream=False,
         except Exception as fallback_error:
             _raise_clear_groq_error(fallback_error, _groq_status_code(fallback_error))
             raise
+
+
+def _get_agent_groq_client(system_prompt):
+    """Route agent requests through shared app policy, fallback, and telemetry."""
+    def create_completion(model, messages, **_options):
+        messages = [dict(message) for message in messages]
+        if messages and messages[0].get("role") == "system":
+            messages[0]["content"] = (
+                f"{system_prompt}\n\n{messages[0].get('content', '')}"
+            )
+        response = create_groq_completion(
+            messages=messages,
+            max_tokens=600,
+            temperature=0.5,
+            stream=False,
+            token_parts=_default_prompt_parts(messages),
+        )
+        return response
+
+    return SimpleNamespace(
+        chat=SimpleNamespace(
+            completions=SimpleNamespace(create=create_completion)
+        )
+    )
+
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -1474,8 +1503,16 @@ with st.sidebar:
     st.markdown(i18n.translate("active_model_label", st.session_state.lang))
     st.markdown(f"`{MODEL_PRIMARY}`")
 
+def _mark_wellness_inputs_set():
+    st.session_state.wellness_inputs_set = True
+
+
 # --- TABS ---
-tab_chat, tab_quantum = st.tabs([i18n.translate("tab_chat", st.session_state.lang), i18n.translate("tab_quantum", st.session_state.lang)])
+tab_chat, tab_quantum, tab_wellness = st.tabs([
+    i18n.translate("tab_chat", st.session_state.lang),
+    i18n.translate("tab_quantum", st.session_state.lang),
+    "Wellness",
+])
 
 with tab_chat:
     # --- SESSION STATE ---
@@ -1590,20 +1627,7 @@ with tab_chat:
                 if active_topic in TOPICS:
                     topic_context = f"Topic: {topic_label(active_topic, selected_lang)}."
                 system_core = build_system_prompt(SYSTEM_SAFETY, topic_context, LANGUAGE_LINES.get(selected_lang, LANGUAGE_LINES["en"]))
-                groq_system = "\n\n".join(part for part in (system_core, rag_context, web_search_context) if part)
-
-                groq_messages = [{"role": "system", "content": groq_system}]
                 selected_history = trim_history(st.session_state.messages, max_messages=4, assistant_chars=500)
-                for msg in selected_history:
-                    content = msg["content"]
-                    groq_messages.append({"role": msg["role"], "content": content})
-                token_parts = {
-                    "system_prompt": system_core,
-                    "retrieved_knowledge": rag_context,
-                    "web_search": web_search_context,
-                    "chat_history": "\n".join(m["content"] for m in selected_history[:-1]),
-                    "current_user_message": current_user_prompt,
-                }
                 # Check for personal/symptom phrasing and short-circuit with a redirect
                 personal = is_personal_symptom_query(current_user_prompt)
                 medication_redirect = medication_dosing_redirect(current_user_prompt, selected_lang)
@@ -1658,19 +1682,29 @@ with tab_chat:
                     }
                     generating_label, ready_label, failed_label = status_labels.get(selected_lang, status_labels["en"])
                     generation_status = st.status(generating_label, state="running", expanded=False)
-                    completion = create_groq_completion(
-                        messages=groq_messages,
-                        max_tokens=600,
-                        temperature=0.5,
-                        stream=True,
-                        token_parts=token_parts,
-                    )
-
-                    completion_stream, stream_state = completion
-                    request_model = stream_state.get("model", LAST_COMPLETION_MODEL)
+                    agent_context = {
+                        "language": selected_lang,
+                        "chat_history": [
+                            {"role": message["role"], "content": message["content"]}
+                            for message in selected_history[:-1]
+                        ],
+                        "retrieved_knowledge": rag_context,
+                        "web_search": web_search_context,
+                    }
+                    if topic_context:
+                        agent_context["active_topic"] = topic_context
+                    if (
+                        st.session_state.get("wellness_inputs_set")
+                        and isinstance(st.session_state.get("wellness_state"), dict)
+                    ):
+                        agent_context["wellness_state"] = st.session_state.wellness_state
+                    agent_client = _get_agent_groq_client(system_core)
+                    full_response = AgentOrchestrator(
+                        agent_client, model=MODEL_PRIMARY
+                    ).respond(current_user_prompt, context=agent_context)
+                    request_model = LAST_COMPLETION_MODEL
                     with response_placeholder.container():
-                        full_response = st.write_stream(completion_stream)
-                    response_finish_reason = stream_state.get("finish_reason")
+                        st.markdown(full_response)
                     generation_status.update(label=ready_label, state="complete", expanded=False)
 
                     triggered_retry = (
@@ -1692,20 +1726,17 @@ with tab_chat:
 
                         try:
                             retry_instruction = "Regenerate the complete answer fully and finish any unfinished content."
-                            retry_messages = [groq_messages[0], {"role": "user", "content": current_user_prompt + "\n\n" + retry_instruction}]
-                            retry_comp = create_groq_completion(
-                                messages=retry_messages,
-                                max_tokens=600,
-                                temperature=0.5,
-                                stream=True,
-                                token_parts={**token_parts, "chat_history": "", "current_user_message": retry_messages[-1]["content"]},
+                            agent_client = _get_agent_groq_client(system_core)
+                            retried_response = AgentOrchestrator(
+                                agent_client, model=MODEL_PRIMARY
+                            ).respond(
+                                current_user_prompt + "\n\n" + retry_instruction,
+                                context=agent_context,
                             )
-
-                            retry_stream, _retry_state = retry_comp
-                            retried_response = "".join(retry_stream)
 
                             if retried_response:
                                 full_response = retried_response
+                                request_model = LAST_COMPLETION_MODEL
                         except RateLimitError:
                             st.warning("🌿 NutriBot is recharging its Qi. Please return in a few moments. ☯️")
                         except (GroqAuthenticationFailure, GroqInvalidRequestFailure) as e:
@@ -1883,6 +1914,19 @@ with tab_quantum:
             ["MTHFR_CT", "COMT_AA", "VDR_TA", "GSTP1_GG", "MTR_AA", "NOS3_CT"],
             help="Select the SNP variants from your genetic report."
         )
+        for selected_marker in snp_list:
+            marker_name, separator, marker_value = selected_marker.partition("_")
+            marker_results = recommend_from_markers({
+                marker_name: marker_value if separator else ""
+            })
+            st.markdown(f"**{selected_marker}**")
+            if not marker_results:
+                st.info("No specific guidance for that marker")
+            for result in marker_results:
+                st.write(f"**Supplement:** {result['supplement']}")
+                st.write(f"**Evidence note:** {result['note']}")
+                st.markdown(f"[Citation]({result['citation_url']})")
+                st.caption(result["disclaimer"])
         
         uploaded_file = st.file_uploader("Or upload raw DNA data (CSV/TXT)", type=['csv', 'txt'])
         if uploaded_file:
@@ -2023,6 +2067,45 @@ with tab_quantum:
                         file_name="NutriBot_Health_Plan.pdf",
                         mime="application/pdf"
                     )
+
+with tab_wellness:
+    st.markdown("### Personal Wellness Check-in")
+    st.caption("Rate each area from 0 (lowest) to 100 (highest).")
+    wellness_left, wellness_right = st.columns(2)
+    with wellness_left:
+        sleep_quality = st.slider(
+            "Sleep quality", 0, 100, 50, key="wellness_sleep_quality",
+            on_change=_mark_wellness_inputs_set,
+        )
+        stress = st.slider(
+            "Stress", 0, 100, 50, key="wellness_stress",
+            on_change=_mark_wellness_inputs_set,
+        )
+    with wellness_right:
+        activity = st.slider(
+            "Activity", 0, 100, 50, key="wellness_activity",
+            on_change=_mark_wellness_inputs_set,
+        )
+        diet_variety = st.slider(
+            "Diet variety", 0, 100, 50, key="wellness_diet_variety",
+            on_change=_mark_wellness_inputs_set,
+        )
+
+    wellness_state = WellnessEngine().compute_state(
+        sleep_quality=sleep_quality,
+        stress=stress,
+        activity=activity,
+        diet_variety=diet_variety,
+    )
+    st.session_state.wellness_state = wellness_state
+    score_columns = st.columns(3)
+    for column, axis in zip(score_columns, ("jing", "qi", "shen")):
+        column.metric(axis.capitalize(), wellness_state[axis])
+
+    st.markdown("#### Suggestions")
+    for recommendation in WellnessEngine().recommend(wellness_state):
+        st.markdown(f"- {recommendation}")
+    st.warning(DISCLAIMER)
 
 st.markdown('''
 <div style="text-align:center;

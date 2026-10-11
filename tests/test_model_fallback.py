@@ -195,7 +195,7 @@ def test_quantum_insights_uses_shared_helper_and_can_fallback():
 def test_all_app_call_paths_share_one_fallback_helper():
     source = APP_PATH.read_text(encoding="utf-8")
     assert source.count("client.chat.completions.create(") == 1
-    assert source.count("= create_groq_completion(") == 4
+    assert source.count("= create_groq_completion(") == 3
 
 
 def test_retired_qwen_name_absent_from_app_and_red_flag_script():
