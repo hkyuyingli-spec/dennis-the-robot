@@ -415,33 +415,68 @@ def load_cancer_education(data_dir=None):
 
 
 def is_personal_symptom_query(prompt):
-    """Return True if prompt appears to describe personal symptoms/history.
-
-    Simple rule-based detection: first-person pronouns combined with words
-    indicating symptoms, body parts, diagnoses, or direct questions about
-    the user's own condition.
-    """
+    """Detect urgent symptoms and explicit first-person health disclosures."""
     if not prompt:
         return False
-    p = prompt.lower()
-    # Look for first-person indicators
-    first_person_indicators = [" i ", "i'", " i'm ", "i am ", "my ", "me ", "mine", "was diagnosed", "diagnosed with", "i have", "i had", "i've"]
-    body_parts = ["breast", "lump", "tumor", "pain", "pelvic", "chest", "abdomen", "stomach", "headache", "rash", "bleeding", "bleed", "mass"]
-    for indicator in first_person_indicators:
-        if indicator in p:
-            # If first-person + symptom/bodypart keywords present, classify as personal
-            for bp in body_parts:
-                if bp in p:
-                    return True
-            # also phrases like 'is it dangerous' after I have
-            if "is it" in p or "danger" in p or "should i" in p:
-                return True
-    # Also explicit personal-history phrases
-    personal_phrases = ["i was diagnosed", "my diagnosis", "my tumor", "my lump", "my breast", "i have a lump"]
-    for ph in personal_phrases:
-        if ph in p:
-            return True
-    return False
+    p = re.sub(r"\s+", " ", str(prompt).casefold()).strip()
+
+    emergency_patterns = (
+        r"\bchest pain\b",
+        r"\b(?:can'?t|cannot|unable to)\s+breathe\b",
+        r"\b(?:heavy|severe|uncontrolled)\s+bleeding\b",
+        r"\bfaint(?:ed|ing)?\b",
+        r"\bsevere pain\b",
+        r"\bseizure\b",
+        r"\b(?:having|experiencing)\s+a seizure\b",
+    )
+    if any(re.search(pattern, p) for pattern in emergency_patterns):
+        return True
+
+    if re.search(
+        r"\b(?:i was diagnosed with|i have been diagnosed with|"
+        r"i have a diagnosis of|my diagnosis is)\s+[\w-]+",
+        p,
+    ):
+        return True
+
+    if re.search(
+        r"\bmy\s+(?:tumou?r|cancer|malignan(?:cy|t tumor))\b"
+        r"|\bmy\s+tumou?r\s+(?:is|was|has|keeps?)\b",
+        p,
+    ):
+        return True
+
+    symptoms = (
+        r"pain|bleeding|bleeding heavily|bleed(?:ing)?|faint(?:ing)?|"
+        r"shortness of breath|trouble breathing|difficulty breathing|"
+        r"nausea|vomiting|dizz(?:y|iness)|weakness|numbness|"
+        r"rash|swelling|fever|fatigue|tired|headache|lump|mass|"
+        r"cough|palpitations|blurred vision"
+    )
+    personal_experience = rf"\bi\s+(?:have|had|feel|felt|am experiencing|am feeling)\s+(?:(?:a|an|some|severe|mild)\s+)?(?:{symptoms})\b"
+    if re.search(personal_experience, p):
+        return True
+
+    body_parts = (
+        r"mole|skin|breast|chest|abdomen|stomach|head|leg|arm|"
+        r"eye|throat|back|pelvis|pelvic area|tumou?r|lump|mass"
+    )
+    body_part_experience = (
+        rf"\bmy\s+(?:{body_parts})\s+"
+        rf"(?:is|are|has been|have been|keeps? getting)\s+"
+        rf"(?:bleeding|bleed(?:ing)?|painful|swollen|swelling|"
+        rf"changing|growing|itching|numb|hurting|getting worse)\b"
+    )
+    if re.search(body_part_experience, p):
+        return True
+
+    personal_treatment_decision = (
+        r"\bshould\s+i\s+(?:stop|start|change|skip|continue|take)\b"
+        r".{0,100}\b(?:chemo(?:therapy)?|cancer treatment|"
+        r"radiation|prescription medication|medicine|medication|"
+        r"supplement|herb|herbal product)\b"
+    )
+    return bool(re.search(personal_treatment_decision, p))
 
 
 def find_relevant_cancer_education(prompt, cancer_data, max_matches=2, current_lang='en'):
@@ -485,8 +520,18 @@ def find_relevant_cancer_education(prompt, cancer_data, max_matches=2, current_l
     return [item for score, item in scored[:max_matches]]
 
 
-def cancer_personal_redirect_response():
+def cancer_personal_redirect_response(prompt=""):
+    """Redirect personal-assessment requests while welcoming general education questions."""
+    text = str(prompt).casefold()
+    cancer_related = re.search(r"\b(?:cancer|tumou?r|malignan(?:cy|t))\b", text)
+    clinician = (
+        "a qualified healthcare provider or oncologist"
+        if cancer_related
+        else "a qualified healthcare provider"
+    )
     return (
-        "I’m not able to provide a personal diagnosis. Descriptions of symptoms or a personal medical history could indicate a serious condition. "
-        "Please seek prompt evaluation from a qualified healthcare provider or an oncologist who can assess your situation in person. If you are experiencing severe or rapidly worsening symptoms (for example severe pain, heavy bleeding, difficulty breathing, fainting, or other emergency signs), seek emergency care immediately."
+        "This question seems to be about your own health situation, which I can’t assess. "
+        f"Please share it with {clinician} who can evaluate you in person. If you have "
+        "general questions about cancer or symptoms, I’m happy to explain those. "
+        "For severe or rapidly worsening symptoms, seek emergency care immediately."
     )
