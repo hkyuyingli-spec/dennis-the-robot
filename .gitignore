@@ -30,3 +30,17 @@ nutribot_report.pdf
 
 .venv/
 debug_log.txt
+
+# Generated reports and logs
+*.xlsx
+*.pdf
+logs/
+*.log
+
+# Local artifacts
+.env
+.streamlit/secrets.toml
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
