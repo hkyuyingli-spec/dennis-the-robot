@@ -1,5 +1,279 @@
 import re
-from typing import Tuple, Dict, Any
+from typing import Tuple, Dict, Any, Optional
+
+from .dce_mcc import safety_gate
+
+
+SYSTEM_PROMPT_VERSION = "adult-wellness-v2"
+ADULT_WELLNESS_POLICY = (
+    "Answer lawful adult health and sexual-wellness questions in an educational, neutral, "
+    "non-judgmental manner. Do not automatically refuse merely because a request includes "
+    "sexual health, ageing, herbs, vitamins, supplements, or performance. Provide appropriate "
+    "medical-safety caveats, avoid diagnosis and prescriptions, and encourage professional care "
+    "when warranted. Do not provide explicit sexual content intended for arousal or sexual content "
+    "involving minors or age-ambiguous people. Do not give medication dosing or instructions to "
+    "start or stop prescribed treatment; refer medication-dosing questions to a licensed clinician. "
+    "Do not assist illegal activity, self-harm, or medical emergencies; direct people in immediate "
+    "danger to appropriate urgent help. "
+    "For supplements, explain uncertainty and interactions; avoid specific product or dose "
+    "recommendations when contraindications or medicines are mentioned."
+)
+
+_GENERIC_REFUSAL = re.compile(
+    r"^(?:(?:i(?:'m| am) sorry[, ]*)?(?:but\s*)?)?"
+    r"i\s+(?:cannot|can not|can't|cant|am unable to)\s+"
+    r"(?:provide|help with|assist with)\s+(?:that|this)(?:\s+request)?[.! ]*$",
+    re.IGNORECASE,
+)
+_SEXUAL_WELLNESS = re.compile(
+    r"\b(?:sex(?:ual)?|erectile|libido|intimacy|sexual performance)\b", re.IGNORECASE
+)
+_CLEARLY_ADULT = re.compile(
+    r"\b(?:adult|adults|older adult|older adults|senior|seniors)\b"
+    r"|\bage(?:d)?\s*(?:over|above|of)\s*(?:18|[2-9]\d|1\d\d)\b"
+    r"|\b(?:over|above)\s*(?:18|[2-9]\d|1\d\d)\b"
+    r"|\b(?:18|[2-9]\d|1\d\d)\s*(?:\+|and older|or older|years? old|yo)\b",
+    re.IGNORECASE,
+)
+_MINOR_OR_AMBIGUOUS = re.compile(
+    r"\b(?:minor|underage|teen(?:s|ager|agers)?|adolescent|child(?:ren)?|kid(?:s)?|"
+    r"boy|girl|under[- ]?18)\b"
+    r"|\b(?:age\s*)?(?:1[0-7])\s*(?:years?\s*old|year[- ]old|yo)\b"
+    r"|\bage\s*(?:of\s*)?1[0-7]\b",
+    re.IGNORECASE,
+)
+_EXPLICIT_AROUSAL = re.compile(
+    r"\b(?:porn(?:ography)?|erotic|fetish|make me horny|turn me on|"
+    r"write (?:an? )?(?:explicit )?(?:erotic|sex) scene|"
+    r"explicit sexual (?:story|scene|content)|graphic sexual detail)\b",
+    re.IGNORECASE,
+)
+_MEDICATION = re.compile(
+    r"\b(?:prescription|medication|medicine|drug|pill|tablet|sildenafil|viagra|"
+    r"tadalafil|cialis|antidepressant|blood pressure medicine)\b",
+    re.IGNORECASE,
+)
+_MEDICATION_DOSE = re.compile(
+    r"\b(?:dose|dosage|dosing|mg|milligrams?|how much|how many|"
+    r"increase|decrease|double|halve)\b"
+    r"|\b(?:take|use)\s+\d+\b",
+    re.IGNORECASE,
+)
+_SUPPLEMENT_REQUEST = re.compile(
+    r"\b(?:vitamin|vitamins|supplement|supplements|herb|herbs|herbal)\b",
+    re.IGNORECASE,
+)
+_EXERCISE_REQUEST = re.compile(
+    r"\b(?:exercise|exercises|workout|workouts|physical activity|fitness)\b",
+    re.IGNORECASE,
+)
+
+
+def is_generic_provider_refusal(response_text: str) -> bool:
+    """Recognize only short, content-free refusal text, not specific safety explanations."""
+    text = (response_text or "").strip().replace("’", "'")
+    return len(text.split()) <= 20 and bool(_GENERIC_REFUSAL.fullmatch(text))
+
+
+def medication_dosing_redirect(prompt: str, lang: str = "en") -> Optional[str]:
+    """Redirect prescription-medication dose changes to a licensed clinician."""
+    text = prompt or ""
+    if not (_MEDICATION.search(text) and _MEDICATION_DOSE.search(text)):
+        return None
+    messages = {
+        "en": (
+            "I can’t recommend a prescription-medication dose or dose change. The safe dose "
+            "depends on your health history and other medicines. Please ask your prescriber or "
+            "pharmacist before taking or changing it; seek urgent care for severe or sudden symptoms. "
+            "This is general education, not medical advice."
+        ),
+        "id": (
+            "Saya tidak dapat menyarankan dosis atau perubahan dosis obat resep. Dosis yang aman "
+            "bergantung pada riwayat kesehatan dan obat lain yang digunakan. Tanyakan kepada dokter "
+            "atau apoteker sebelum menggunakan atau mengubah dosis; cari pertolongan segera untuk "
+            "gejala berat atau mendadak. Ini informasi edukasi umum, bukan nasihat medis."
+        ),
+        "zh": (
+            "我不能建议处方药的剂量或剂量调整。安全剂量取决于您的健康状况和其他用药。"
+            "请在服用或调整前咨询开药医生或药剂师；如出现严重或突然的症状，请及时就医。"
+            "以上仅供一般教育参考，不构成医疗建议。"
+        ),
+    }
+    return messages.get(lang, messages["en"])
+
+
+def sexual_wellness_safety_redirect(prompt: str, lang: str = "en") -> Optional[str]:
+    """Decline explicit arousal content and sexual guidance for minors/unclear age."""
+    text = prompt or ""
+    if not _SEXUAL_WELLNESS.search(text):
+        return None
+    if _EXPLICIT_AROUSAL.search(text):
+        reason = "explicit"
+    elif _MINOR_OR_AMBIGUOUS.search(text) or not _CLEARLY_ADULT.search(text):
+        reason = "age"
+    else:
+        return None
+
+    messages = {
+        "en": {
+            "explicit": (
+                "I can’t help create explicit sexual content intended to arouse. I can help with "
+                "neutral, educational information about adult sexual health."
+            ),
+            "age": (
+                "I can’t provide sexual-performance guidance when the person’s age is under 18 or "
+                "unclear. If this is a health concern, please speak with a licensed clinician; a "
+                "minor can also talk with a trusted adult."
+            ),
+        },
+        "id": {
+            "explicit": (
+                "Saya tidak dapat membuat konten seksual eksplisit yang bertujuan membangkitkan gairah. "
+                "Saya dapat membantu dengan informasi edukasi yang netral tentang kesehatan seksual orang dewasa."
+            ),
+            "age": (
+                "Saya tidak dapat memberikan panduan performa seksual jika usia orang tersebut di bawah "
+                "18 tahun atau tidak jelas. Untuk masalah kesehatan, bicarakan dengan tenaga kesehatan "
+                "berlisensi; anak di bawah umur juga dapat berbicara dengan orang dewasa tepercaya."
+            ),
+        },
+        "zh": {
+            "explicit": (
+                "我不能创作旨在引发性兴奋的露骨性内容，但可以提供关于成年人性健康的中立教育信息。"
+            ),
+            "age": (
+                "当对象未满 18 岁或年龄不明确时，我不能提供性表现指导。如涉及健康问题，请咨询"
+                "持牌医疗专业人员；未成年人也可以向可信任的成年人求助。"
+            ),
+        },
+    }
+    language_messages = messages.get(lang, messages["en"])
+    return language_messages[reason]
+
+
+def safe_educational_refusal_fallback(
+    prompt: str,
+    provider_response: str,
+    lang: str = "en",
+) -> Optional[str]:
+    """Replace a generic model refusal only for clearly safe, adult general-wellness prompts."""
+    text = prompt or ""
+    if not is_generic_provider_refusal(provider_response):
+        return None
+    if safety_gate(text).triggered or medication_dosing_redirect(text, lang):
+        return None
+    if _MINOR_OR_AMBIGUOUS.search(text) or _EXPLICIT_AROUSAL.search(text):
+        return None
+
+    sexual_wellness = bool(_SEXUAL_WELLNESS.search(text))
+    if sexual_wellness and not _CLEARLY_ADULT.search(text):
+        return None
+    if not (sexual_wellness or _SUPPLEMENT_REQUEST.search(text) or _EXERCISE_REQUEST.search(text)):
+        return None
+
+    responses = {
+        "en": (
+            "Sexual wellness can change with age, and persistent changes are worth discussing with a "
+            "licensed clinician. Reduced erections or sexual performance can sometimes be associated "
+            "with cardiovascular disease, diabetes, medication effects, hormonal changes, stress, or "
+            "mental health; this information cannot identify a cause.\n\n"
+            "For lifestyle support, build activity gradually with regular walking or other aerobic "
+            "exercise and strength work suited to your abilities; prioritize sleep, avoid smoking, "
+            "and limit alcohol. Stop exercise and seek urgent care for chest pain or shortness of breath.\n\n"
+            "Evidence for herbs and supplements marketed for sexual performance is limited and product "
+            "quality varies. They can interact with prescription medicines or affect blood pressure, "
+            "bleeding, or heart rhythm. There is no supplement that is appropriate for everyone; avoid "
+            "unverified blends and ask a clinician or pharmacist before starting one, especially if you "
+            "take medicines or have a chronic condition. Do not change prescribed treatment based on "
+            "this information.\n\n"
+            "For persistent symptoms, consult a licensed clinician. This is educational information, "
+            "not a diagnosis or medical advice."
+        ),
+        "id": (
+            "Kesehatan seksual dapat berubah seiring bertambahnya usia; perubahan yang menetap sebaiknya "
+            "dibicarakan dengan tenaga kesehatan berlisensi. Penurunan ereksi atau performa seksual "
+            "kadang berkaitan dengan penyakit kardiovaskular, diabetes, efek obat, perubahan hormon, "
+            "stres, atau kesehatan mental; informasi ini tidak dapat menentukan penyebabnya.\n\n"
+            "Untuk mendukung gaya hidup, tingkatkan aktivitas secara bertahap melalui jalan kaki atau "
+            "aktivitas aerobik dan latihan kekuatan yang sesuai kemampuan. Prioritaskan tidur, hindari "
+            "merokok, dan batasi alkohol. Hentikan aktivitas dan cari pertolongan segera bila mengalami "
+            "nyeri dada atau sesak napas.\n\n"
+            "Bukti manfaat herbal dan suplemen untuk performa seksual masih terbatas dan mutu produk "
+            "bervariasi. Produk tersebut dapat berinteraksi dengan obat resep atau memengaruhi tekanan "
+            "darah, perdarahan, atau irama jantung. Tidak ada suplemen yang cocok untuk semua orang; "
+            "hindari campuran yang tidak terverifikasi dan tanyakan kepada dokter atau apoteker sebelum "
+            "memulai, terutama jika menggunakan obat atau memiliki kondisi kronis. Jangan mengubah "
+            "pengobatan resep berdasarkan informasi ini.\n\n"
+            "Untuk gejala yang menetap, konsultasikan dengan tenaga kesehatan berlisensi. Ini informasi "
+            "edukasi, bukan diagnosis atau nasihat medis."
+        ),
+        "zh": (
+            "性健康可能随年龄变化；如果变化持续存在，建议咨询持牌医疗专业人员。勃起或性表现下降"
+            "有时可能与心血管疾病、"
+            "糖尿病、药物影响、激素变化、压力或心理健康有关；这些信息不能确定具体原因。\n\n"
+            "生活方式方面，可根据自身能力逐步增加步行等有氧活动和力量练习，保证睡眠，避免吸烟并"
+            "限制饮酒。如运动或性生活时出现胸痛或呼吸困难，请停止活动并及时寻求紧急医疗帮助。\n\n"
+            "用于性表现的草药和补充剂证据有限，产品质量也不一；它们可能与处方药相互作用，或影响"
+            "血压、出血风险和心律。没有适合所有人的补充剂；避免成分不明的混合产品。尤其正在服药"
+            "或患有慢性病时，开始使用前请咨询医生或药剂师。不要根据这些信息更改处方治疗。\n\n"
+            "症状持续时请咨询持牌医疗专业人员。以上仅供健康教育参考，不构成诊断或医疗建议。"
+        ),
+    }
+
+    if sexual_wellness:
+        return responses.get(lang, responses["en"])
+    if _SUPPLEMENT_REQUEST.search(text):
+        exercise_responses = {
+            "en": (
+                "Vitamin and supplement benefits depend on diet, health history, and sometimes lab results; "
+                "they do not replace a varied diet or clinical care. Evidence and product quality vary, "
+                "and supplements can interact with medicines or be unsuitable for some conditions. Avoid "
+                "high-dose or multi-product combinations, and check with a clinician or pharmacist before "
+                "starting a supplement if you take prescription medicines or have a chronic condition. "
+                "This is educational information, not a diagnosis or medical advice."
+            ),
+            "id": (
+                "Manfaat vitamin dan suplemen bergantung pada pola makan, riwayat kesehatan, dan terkadang "
+                "hasil pemeriksaan. Suplemen tidak menggantikan pola makan beragam atau perawatan klinis. "
+                "Bukti dan mutu produk bervariasi; suplemen dapat berinteraksi dengan obat atau tidak cocok "
+                "untuk kondisi tertentu. Hindari dosis tinggi atau kombinasi banyak produk. Jika menggunakan "
+                "obat resep atau memiliki kondisi kronis, tanyakan kepada dokter atau apoteker sebelum "
+                "memulai suplemen. Ini informasi edukasi, bukan diagnosis atau nasihat medis."
+            ),
+            "zh": (
+                "维生素和补充剂的益处取决于饮食、健康状况，有时也取决于化验结果；它们不能替代多样化"
+                "饮食或临床护理。相关证据"
+                "和产品质量不一，补充剂可能与药物相互作用，也可能不适合某些健康状况。避免大剂量"
+                "或同时使用多种产品；若正在服用处方药或患有慢性病，请在开始前咨询医生或药剂师。"
+                "以上仅供健康教育参考，不构成诊断或医疗建议。"
+            ),
+        }
+        return exercise_responses.get(lang, exercise_responses["en"])
+    return {
+        "en": (
+            "Regular physical activity can support overall health. Start gradually with activity that "
+            "matches your current ability, and consider a mix of aerobic movement and strength exercises. "
+            "If you have a chronic condition, have been inactive, or develop pain, dizziness, chest pain, "
+            "or shortness of breath, ask a clinician what level is appropriate; seek urgent care for "
+            "chest pain or trouble breathing. This is educational information, not medical advice."
+        ),
+        "id": (
+            "Aktivitas fisik teratur dapat mendukung kesehatan secara keseluruhan. Mulailah bertahap "
+            "sesuai kemampuan, dengan kombinasi aktivitas aerobik dan latihan kekuatan. Jika memiliki "
+            "kondisi kronis, lama tidak aktif, atau mengalami nyeri, pusing, nyeri dada, maupun sesak "
+            "napas, tanyakan tingkat aktivitas yang sesuai kepada tenaga kesehatan; cari pertolongan "
+            "segera untuk nyeri dada atau kesulitan bernapas. Ini informasi edukasi, bukan nasihat medis."
+        ),
+        "zh": (
+            "规律活动有助于整体健康。请根据当前能力逐步开始，并考虑结合有氧活动和力量练习。如患有"
+            "慢性疾病、长期缺乏运动，或出现"
+            "疼痛、头晕、胸痛或呼吸困难，请咨询医疗专业人员以确定适合的活动量；胸痛或呼吸困难时"
+            "请及时寻求紧急医疗帮助。以上仅供健康教育参考，不构成医疗建议。"
+        ),
+    }.get(
+        lang,
+        "This is educational information, not a diagnosis or medical advice.",
+    )
 
 
 # Contraindication keywords (English + Indonesian + common stems)

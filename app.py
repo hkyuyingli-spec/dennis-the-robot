@@ -287,7 +287,14 @@ from nutribot.rag import (
     is_personal_symptom_query,
     cancer_personal_redirect_response,
 )
-from nutribot.safety import sanitize_response
+from nutribot.safety import (
+    ADULT_WELLNESS_POLICY,
+    SYSTEM_PROMPT_VERSION,
+    medication_dosing_redirect,
+    safe_educational_refusal_fallback,
+    sexual_wellness_safety_redirect,
+    sanitize_response,
+)
 from nutribot.format_utils import normalize_markdown_tables, has_broken_table_header, has_incomplete_table
 from nutribot.live_search import search_live_tcm, asks_latest_research_or_news
 from topics import TOPICS, build_topic_prompt, topic_followups, topic_label
@@ -335,6 +342,7 @@ KNOWLEDGE_SOURCES = load_knowledge_sources()
 CACHE_TOPIC_STARTERS = True
 
 SYSTEM_SAFETY = (
+    f"Policy version {SYSTEM_PROMPT_VERSION}. {ADULT_WELLNESS_POLICY} "
     "You are NutriBot, an educational TCM wellness assistant, not a clinician. Keep replies concise: a short table or at most 200 words unless asked for detail. "
     "Say this is educational, not medical advice; advise a licensed practitioner, especially for pregnancy, medication, or illness. "
     "Flag herb-drug interactions and contraindications. For pregnancy, breastfeeding, children, prescription medicines/blood thinners, cancer treatment, or emergency symptoms, give no herb, supplement, or dose recommendation; refer to licensed care. "
@@ -346,25 +354,31 @@ personality = SYSTEM_SAFETY
 
 
 @st.cache_data(ttl=86400, show_spinner=False)
-def cached_topic_starter(topic: str, language: str):
-    """Cache one complete starter answer per category and language for 24 hours."""
-    prompt = build_topic_prompt(topic, language)
-    system = build_system_prompt(
-        SYSTEM_SAFETY,
-        f"Topic: {topic_label(topic, language)}.",
-        LANGUAGE_LINES.get(language, LANGUAGE_LINES["en"]),
-    )
-    parts = {"system_prompt": system, "retrieved_knowledge": "", "web_search": "",
+def cached_topic_starter(
+    topic: str,
+    language: str,
+    prompt: str,
+    system_prompt: str,
+    model_configuration: str,
+    system_prompt_version: str,
+    safety_gate_result: str,
+):
+    """Cache a starter only for its exact prompt, policy, model, and safety-gate result."""
+    parts = {"system_prompt": system_prompt, "retrieved_knowledge": "", "web_search": "",
              "chat_history": "", "current_user_message": prompt}
     try:
         stream, _state = create_groq_completion(
-            [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
+            [{"role": "system", "content": system_prompt}, {"role": "user", "content": prompt}],
             max_tokens=600, temperature=0.5, stream=True, token_parts=parts,
         )
         answer = "".join(stream)
         return answer, date.today().isoformat(), _state.get("model", LAST_COMPLETION_MODEL)
     except Exception as error:
-        log_exception_safely(error, context=f"cached_topic_starter topic={topic} language={language}", sensitive_values=[prompt, system])
+        log_exception_safely(
+            error,
+            context=f"cached_topic_starter topic={topic} language={language}",
+            sensitive_values=[prompt, system_prompt],
+        )
         raise
 
 
@@ -1581,7 +1595,13 @@ with tab_chat:
                 }
                 # Check for personal/symptom phrasing and short-circuit with a redirect
                 personal = is_personal_symptom_query(current_user_prompt)
-                if personal:
+                medication_redirect = medication_dosing_redirect(current_user_prompt, selected_lang)
+                sexual_redirect = sexual_wellness_safety_redirect(current_user_prompt, selected_lang)
+                if sexual_redirect:
+                    full_response = sexual_redirect
+                elif medication_redirect:
+                    full_response = medication_redirect
+                elif personal:
                     full_response = cancer_personal_redirect_response()
                     try:
                         log_interaction("cancer_personal_redirect", {"prompt": current_user_prompt, "language": selected_lang})
@@ -1597,7 +1617,23 @@ with tab_chat:
                     generating_label, ready_label, failed_label = status_labels.get(selected_lang, status_labels["en"])
                     generation_status = st.status(generating_label, state="running", expanded=False)
                     cache_topic, cache_language = topic_cache_key(active_topic, selected_lang)
-                    full_response, topic_cache_date, topic_cache_model = cached_topic_starter(cache_topic, cache_language)
+                    starter_prompt = build_topic_prompt(cache_topic, cache_language)
+                    starter_system = build_system_prompt(
+                        SYSTEM_SAFETY,
+                        f"Topic: {topic_label(cache_topic, cache_language)}.",
+                        LANGUAGE_LINES.get(cache_language, LANGUAGE_LINES["en"]),
+                    )
+                    starter_gate = dce_mcc.safety_gate(starter_prompt)
+                    safety_gate_result = f"{starter_gate.triggered}:{starter_gate.reason}"
+                    full_response, topic_cache_date, topic_cache_model = cached_topic_starter(
+                        cache_topic,
+                        cache_language,
+                        starter_prompt,
+                        starter_system,
+                        f"{MODEL_PRIMARY}|{MODEL_FALLBACK}",
+                        SYSTEM_PROMPT_VERSION,
+                        safety_gate_result,
+                    )
                     request_model = topic_cache_model
                     with response_placeholder.container():
                         st.write_stream(chunks_for_write_stream(full_response))
@@ -1671,6 +1707,14 @@ with tab_chat:
                     full_response = normalize_markdown_tables(full_response)
                 except Exception as e:
                     print(f"Table normalization failed: {e}")
+
+                # Provide a conservative educational answer only for generic upstream refusals
+                # to clearly adult, low-risk wellness questions; specific safety refusals remain.
+                fallback_response = safe_educational_refusal_fallback(
+                    current_user_prompt, full_response, selected_lang
+                )
+                if fallback_response:
+                    full_response = fallback_response
 
                 # Post-generation safety sanitization (Layer 2)
                 try:

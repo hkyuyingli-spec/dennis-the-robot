@@ -1,4 +1,5 @@
 import ast
+import uuid
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
@@ -38,6 +39,7 @@ def load_app_helpers(settings=None, responses=(), environment=None):
     helper_names = {
         "get_setting", "GroqAuthenticationFailure", "GroqInvalidRequestFailure",
         "_groq_status_code", "_raise_clear_groq_error", "_request_groq_completion",
+        "_default_prompt_parts",
         "create_groq_completion",
     }
     nodes = [
@@ -56,15 +58,23 @@ def load_app_helpers(settings=None, responses=(), environment=None):
         "os": fake_os,
         "st": SimpleNamespace(secrets=FakeSecrets(settings or {})),
         "client": client,
+        "uuid": uuid,
         "APIConnectionError": MockAPIConnectionError,
         "APITimeoutError": MockAPITimeoutError,
     }
     exec(compile(ast.Module(body=nodes, type_ignores=[]), str(APP_PATH), "exec"), namespace)
+
+    def request_with_metrics(model, messages, max_tokens, temperature, stream, token_parts, request_id):
+        return namespace["_request_groq_completion"](
+            model, messages, max_tokens, temperature, stream
+        ), None
+
+    namespace["_request_with_metrics"] = request_with_metrics
     return namespace, client, source
 
 
 def invoke(namespace, messages=None, **kwargs):
-    options = {"max_tokens": 900, "temperature": 0.7, "stream": True}
+    options = {"max_tokens": 600, "temperature": 0.7, "stream": False}
     options.update(kwargs)
     return namespace["create_groq_completion"](
         messages=messages or [{"role": "user", "content": "mock input"}],
@@ -129,7 +139,7 @@ def test_same_primary_and_fallback_skips_duplicate_request():
 
 @pytest.mark.parametrize(
     "model,expect_reasoning",
-    [("openai/gpt-oss-20b", True), ("openai/gpt-oss-120b", True), ("qwen/qwen3.8-27b", False), ("some/other-model", False)],
+    [("openai/gpt-oss-20b", True), ("openai/gpt-oss-120b", True), ("qwen/qwen3.8-27b", True), ("some/other-model", False)],
 )
 def test_reasoning_effort_only_for_gpt_oss_models(model, expect_reasoning):
     namespace, client, _ = load_app_helpers(responses=[object()])
@@ -166,7 +176,7 @@ def test_quantum_insights_uses_shared_helper_and_can_fallback():
     namespace, client, source = load_app_helpers(responses=[StatusError(404), answer])
     quantum_source = source[source.index("# AI Explanation using Groq"):]
     assert "explanation_response = create_groq_completion(" in quantum_source
-    assert "max_tokens=900" in quantum_source
+    assert "max_tokens=600" in quantum_source
     assert "stream=False" in quantum_source
     quantum_call = quantum_source.split("explanation_response = create_groq_completion(", 1)[1].split("\n                    )", 1)[0]
     assert "temperature=" not in quantum_call
@@ -185,7 +195,7 @@ def test_quantum_insights_uses_shared_helper_and_can_fallback():
 def test_all_app_call_paths_share_one_fallback_helper():
     source = APP_PATH.read_text(encoding="utf-8")
     assert source.count("client.chat.completions.create(") == 1
-    assert source.count("= create_groq_completion(") == 3
+    assert source.count("= create_groq_completion(") == 4
 
 
 def test_retired_qwen_name_absent_from_app_and_red_flag_script():
