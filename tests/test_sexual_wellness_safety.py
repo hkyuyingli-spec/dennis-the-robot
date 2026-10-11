@@ -13,16 +13,10 @@ EXAMPLE_PROMPT = (
 )
 
 
-def test_older_adult_sexual_wellness_question_gets_educational_fallback():
+def test_older_adult_sexual_wellness_with_supplements_is_not_replaced_by_fallback():
     response = safe_educational_refusal_fallback(EXAMPLE_PROMPT, GENERIC_REFUSAL)
 
-    assert response
-    assert "cardiovascular disease" in response
-    assert "exercise" in response
-    assert "interact with prescription medicines" in response
-    assert "licensed clinician" in response
-    assert "not a diagnosis" in response
-    assert "I can't provide that" not in response
+    assert response is None
 
 
 def test_adult_exercise_question_for_sexual_health_is_allowed():
@@ -36,15 +30,13 @@ def test_adult_exercise_question_for_sexual_health_is_allowed():
     assert "chest pain" in response
 
 
-def test_general_vitamin_question_is_allowed_with_interaction_cautions():
+def test_general_vitamin_question_is_not_replaced_by_canned_fallback():
     response = safe_educational_refusal_fallback(
         "What vitamins and supplements may support general wellness for older adults?",
         GENERIC_REFUSAL,
     )
 
-    assert response
-    assert "interact with medicines" in response
-    assert "clinician or pharmacist" in response
+    assert response is None
 
 
 def test_explicit_arousal_request_does_not_receive_wellness_fallback():
@@ -83,25 +75,20 @@ def test_fallback_does_not_replace_empty_specific_or_emergency_responses():
     ) is None
 
 
-def test_herbal_dosage_generic_refusal_gets_cautious_educational_answer():
+def test_herbal_dosage_is_left_to_model_instead_of_canned_fallback():
     response = safe_educational_refusal_fallback(
         "Herbal dosage", "I'm sorry, but I can't provide dosage recommendations."
     )
 
-    assert response
-    assert "dosage depends on the exact plant" in response.lower()
-    assert "clinician or pharmacist" in response
-    assert "can't provide dosage recommendations" not in response
+    assert response is None
 
 
-def test_herbal_type_generic_refusal_gets_helpful_answer_without_critical_block():
+def test_herbal_type_is_left_to_model_instead_of_canned_fallback():
     response = safe_educational_refusal_fallback(
         "Herbal type", GENERIC_REFUSAL
     )
 
-    assert response
-    assert "Evidence and product quality vary" in response
-    assert "CRITICAL SAFETY" not in response
+    assert response is None
 
 
 def test_bare_herbal_query_does_not_trigger_critical_safety_block():
@@ -142,3 +129,7 @@ def test_policy_explicitly_allows_educational_adult_sexual_wellness():
     assert "age-ambiguous people" in ADULT_WELLNESS_POLICY
     assert "Do not assist illegal activity" in ADULT_WELLNESS_POLICY
     assert "do not blanket-refuse" in ADULT_WELLNESS_POLICY
+    assert "Answer the question directly in your first sentence" in ADULT_WELLNESS_POLICY
+    assert "Never invent a dose" in ADULT_WELLNESS_POLICY
+    assert "give useful examples" in ADULT_WELLNESS_POLICY
+    assert "Do not answer only with a request for clarification" in ADULT_WELLNESS_POLICY

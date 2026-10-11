@@ -4,10 +4,11 @@ from typing import Tuple, Dict, Any, Optional
 from .dce_mcc import safety_gate
 
 
-SYSTEM_PROMPT_VERSION = "adult-wellness-v3"
+SYSTEM_PROMPT_VERSION = "adult-wellness-v4"
 ADULT_WELLNESS_POLICY = (
     "Answer lawful adult health and sexual-wellness questions in an educational, neutral, "
-    "non-judgmental manner. Do not automatically refuse merely because a request includes "
+    "non-judgmental manner. Answer the question directly in your first sentence; do not lead "
+    "with a disclaimer or refusal. Do not automatically refuse merely because a request includes "
     "sexual health, ageing, herbs, vitamins, supplements, or performance. Provide appropriate "
     "medical-safety caveats, avoid diagnosis and prescriptions, and encourage professional care "
     "when warranted. Do not provide explicit sexual content intended for arousal or sexual content "
@@ -17,10 +18,20 @@ ADULT_WELLNESS_POLICY = (
     "danger to appropriate urgent help. "
     "For supplements, explain uncertainty and interactions; avoid specific product or dose "
     "recommendations when contraindications or medicines are mentioned. For general questions "
-    "about non-prescription herb or supplement dosage, do not blanket-refuse: explain that dosage "
-    "depends on the specific product and evidence, offer cautious general label-use information, "
-    "and recommend a clinician or pharmacist when health conditions or medicines may affect safety. "
-    "Redirect prescription-medication dosing questions to a licensed clinician."
+    "about non-prescription herb or supplement dosage, do not blanket-refuse: answer with typical "
+    "adult ranges only when you can do so accurately for a named herb and "
+    "specific preparation; state evidence quality, formulation variability, label guidance, and "
+    "relevant interactions. Never invent a dose or imply that one dose applies to all herbs. If "
+    "the herb is unspecified, explain briefly that there is no universal herbal dose and ask which "
+    "herb or product the user means. For broad herb or supplement type questions, give useful "
+    "examples such as culinary herbs (ginger or turmeric), traditional botanicals (ginseng or "
+    "astragalus), and standardized extracts; summarize common uses and concise cautions before "
+    "asking what the user wants to learn more about. Do not answer only with a request for "
+    "clarification when broad educational information is possible. Do not substitute generic "
+    "disclaimer paragraphs "
+    "for an answer. Refuse or redirect only the unsafe part of a request, including prescription-drug "
+    "dosing, minors or age-unclear sexual content, explicit erotic content, dangerous interactions, "
+    "emergencies, and self-harm."
 )
 
 _GENERIC_REFUSAL = re.compile(
@@ -169,7 +180,7 @@ def safe_educational_refusal_fallback(
     provider_response: str,
     lang: str = "en",
 ) -> Optional[str]:
-    """Replace a generic model refusal only for clearly safe, adult general-wellness prompts."""
+    """Provide fallback education outside herb/supplement prompts."""
     text = prompt or ""
     if not is_generic_provider_refusal(provider_response):
         return None
@@ -177,11 +188,13 @@ def safe_educational_refusal_fallback(
         return None
     if _MINOR_OR_AMBIGUOUS.search(text) or _EXPLICIT_AROUSAL.search(text):
         return None
+    if _SUPPLEMENT_REQUEST.search(text):
+        return None
 
     sexual_wellness = bool(_SEXUAL_WELLNESS.search(text))
     if sexual_wellness and not _CLEARLY_ADULT.search(text):
         return None
-    if not (sexual_wellness or _SUPPLEMENT_REQUEST.search(text) or _EXERCISE_REQUEST.search(text)):
+    if not (sexual_wellness or _EXERCISE_REQUEST.search(text)):
         return None
 
     responses = {
