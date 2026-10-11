@@ -3,8 +3,8 @@ groq
 python-dotenv
 firebase-admin
 pandas
-numpy
-fpdf2
+numpy==2.4.6
+fpdf2==2.8.9
 scikit-learn
 joblib
 openpyxl

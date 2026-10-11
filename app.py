@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 # Ensure project root is on sys.path for reliable imports when launched from different CWDs
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import streamlit as st
@@ -16,7 +17,12 @@ import time
 from datetime import date
 from firebase_admin import credentials, firestore, initialize_app, get_app
 from yuanying_core import YuanYingCore
-from nutribot import dce_mcc
+try:
+    from nutribot import dce_mcc
+except Exception:
+    st.error("NutriBot safety dependency import failed. Full traceback:")
+    st.code(traceback.format_exc())
+    st.stop()
 from nutribot.core.translations import TRANSLATIONS as CORE_TRANSLATIONS
 
 def _pdf_latin1_text(value):
@@ -287,14 +293,19 @@ from nutribot.rag import (
     is_personal_symptom_query,
     cancer_personal_redirect_response,
 )
-from nutribot.safety import (
-    ADULT_WELLNESS_POLICY,
-    SYSTEM_PROMPT_VERSION,
-    medication_dosing_redirect,
-    safe_educational_refusal_fallback,
-    sexual_wellness_safety_redirect,
-    sanitize_response,
-)
+try:
+    from nutribot.safety import (
+        ADULT_WELLNESS_POLICY,
+        SYSTEM_PROMPT_VERSION,
+        medication_dosing_redirect,
+        safe_educational_refusal_fallback,
+        sexual_wellness_safety_redirect,
+        sanitize_response,
+    )
+except Exception:
+    st.error("NutriBot safety-module import failed. Full traceback:")
+    st.code(traceback.format_exc())
+    st.stop()
 from nutribot.format_utils import normalize_markdown_tables, has_broken_table_header, has_incomplete_table
 from nutribot.live_search import search_live_tcm, asks_latest_research_or_news
 from topics import TOPICS, build_topic_prompt, topic_followups, topic_label
