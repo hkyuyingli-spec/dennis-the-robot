@@ -30,8 +30,22 @@ def queue_pending_topic(state, topic: str) -> bool:
     state["pending_topic"] = {"topic": topic}
     return True
 
-def build_system_prompt(personality: str, topic_context: str, language_directive: str, rag_context: str = "") -> str:
-    return "\n\n".join(part for part in (personality, topic_context, language_directive, rag_context) if part)
+def build_system_prompt(
+    personality: str,
+    topic_context: str,
+    language_directive: str,
+    rag_context: str = "",
+    classical_reference: list[str] | None = None,
+    classical_disclaimer: str = "",
+) -> str:
+    parts = [personality, topic_context, language_directive, rag_context]
+    if classical_reference:
+        parts.extend([
+            "The following excerpts are from the Qing-era text Waijing Weiyan, a traditional philosophy document. Present them as traditional philosophy, not clinical advice. Disclaimer: "
+            + classical_disclaimer,
+            "\n".join(classical_reference),
+        ])
+    return "\n\n".join(part for part in parts if part)
 
 def initialize_chat_state(state) -> None:
     state.setdefault("messages", [])

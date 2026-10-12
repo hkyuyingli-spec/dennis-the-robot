@@ -308,6 +308,7 @@ SAFETY RULES (highest priority, override all other instructions):
 
 import time
 from nutribot import i18n
+from nutribot.classics import find_passages, get_disclaimer
 from nutribot.rag import (
     MAX_CHARS_PER_CHUNK,
     load_tcm_constitutions,
@@ -1619,6 +1620,12 @@ with tab_chat:
                     if len(snippets) < 3:
                         rag_context = (rag_context + "\n\n" + cancer_snippet) if rag_context else cancer_snippet
 
+                classical_passages = find_passages(current_user_prompt, max_matches=2)
+                classical_reference = [
+                    f"[{passage['id']} | {passage['theme']}] {passage['text']}"
+                    for passage in classical_passages
+                ]
+
                 # Live web search is opt-in, only for explicit latest/news requests, never for starters.
                 web_search_context = ""
                 if not topic_starter and include_latest_research and asks_latest_research_or_news(current_user_prompt):
@@ -1633,12 +1640,21 @@ with tab_chat:
                 topic_context = ""
                 if active_topic in TOPICS:
                     topic_context = f"Topic: {topic_label(active_topic, selected_lang)}."
-                system_core = build_system_prompt(SYSTEM_SAFETY, topic_context, LANGUAGE_LINES.get(selected_lang, LANGUAGE_LINES["en"]))
+                system_core = build_system_prompt(
+                    SYSTEM_SAFETY,
+                    topic_context,
+                    LANGUAGE_LINES.get(selected_lang, LANGUAGE_LINES["en"]),
+                    classical_reference=classical_reference,
+                    classical_disclaimer=(
+                        get_disclaimer() if classical_reference else ""
+                    ),
+                )
                 selected_history = trim_history(st.session_state.messages, max_messages=4, assistant_chars=500)
                 # Check for personal/symptom phrasing and short-circuit with a redirect
                 personal = is_personal_symptom_query(current_user_prompt)
                 medication_redirect = medication_dosing_redirect(current_user_prompt, selected_lang)
                 sexual_redirect = sexual_wellness_safety_redirect(current_user_prompt, selected_lang)
+                classical_reference_used = False
                 if sexual_redirect:
                     full_response = sexual_redirect
                 elif medication_redirect:
@@ -1700,11 +1716,14 @@ with tab_chat:
                     }
                     if topic_context:
                         agent_context["active_topic"] = topic_context
+                    if classical_reference:
+                        agent_context["classical_reference"] = classical_reference
                     if (
                         st.session_state.get("wellness_inputs_set")
                         and isinstance(st.session_state.get("wellness_state"), dict)
                     ):
                         agent_context["wellness_state"] = st.session_state.wellness_state
+                    classical_reference_used = bool(classical_reference)
                     agent_client = _get_agent_groq_client(system_core)
                     full_response = AgentOrchestrator(
                         agent_client, model=MODEL_PRIMARY
@@ -1805,6 +1824,10 @@ with tab_chat:
                     dates = [f"{path} — {freshness_label} {source_rows.get(path, {}).get('last_updated') or missing_date}" for path in sources_used]
                     source_note = "; ".join(dates)
                 source_caption = i18n.translate("chat_disclaimer", st.session_state.lang)
+                if classical_reference_used:
+                    source_caption += " · " + i18n.translate(
+                        "chat_classics_used", st.session_state.lang
+                    )
                 st.caption(source_caption)
                 st.session_state.messages.append({"role": "assistant", "content": full_response, "source_caption": source_caption})
 
