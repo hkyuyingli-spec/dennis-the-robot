@@ -1622,7 +1622,9 @@ with tab_chat:
 
                 classical_passages = find_passages(current_user_prompt, max_matches=2)
                 classical_reference = [
-                    f"[{passage['id']} | {passage['theme']}] {passage['text']}"
+                    f"[{passage['id']} | {passage['theme']}]\n"
+                    f"ZH: {passage['text_zh']}\n"
+                    f"EN: {passage['text_en']}"
                     for passage in classical_passages
                 ]
 

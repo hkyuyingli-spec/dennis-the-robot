@@ -3,106 +3,127 @@
   "author": "Attributed to Chen Shiduo, Qing Dynasty",
   "source": "https://zh.wikisource.org/wiki/外經微言",
   "authenticity_note": "This is the Qing-era Waijing Weiyan, not the lost Han-dynasty original. Scholarly authenticity is debated. Educational / traditional-philosophy use only; not medical advice.",
+  "translations_note": "English renderings are AI-assisted meaning-based translations created for accessibility. They are not a scholarly edition. For academic study, consult a published translation.",
   "passages": [
     {
       "id": "wj-001",
       "theme": "seasonal_balance",
-      "text": "雷公问于岐伯曰：春三月谓之发陈，夏三月谓之蕃秀，秋三月谓之容平，冬三月谓之闭藏。然调四时者，调阴阳之时令乎，抑调人身阴阳之气乎？ The passage asks how seasonal living relates to balance through the year."
+      "text_zh": "雷公问于岐伯曰：春三月谓之发陈，夏三月谓之蕃秀，秋三月谓之容平，冬三月谓之闭藏。然调四时者，调阴阳之时令乎，抑调人身阴阳之气乎？",
+      "text_en": "Leigong asked Qibo: The three months of spring are called renewal, summer flourishing, autumn settling, and winter storing away. Does adapting to the four seasons mean following seasonal yin (the receptive principle) and yang (the active principle), or balancing these forces within a person?"
     },
     {
       "id": "wj-002",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：明乎哉问也！调阴阳之气，在人不在时也。 The text frames seasonal balance as a relationship between a person and the changing seasons."
+      "text_zh": "岐伯曰：明乎哉问也！调阴阳之气，在人不在时也。",
+      "text_en": "Qibo replied: That is a perceptive question. The adjustment of yin (the receptive principle) and yang (the active principle) lies with the person, not simply with the season."
     },
     {
       "id": "wj-003",
       "theme": "seasonal_balance",
-      "text": "春三月调木气也，调木气者顺肝气也。夏三月调火气也，调火气者顺心气也。 This is a traditional account of seasonal living in spring and summer."
+      "text_zh": "春三月调木气也，调木气者顺肝气也。夏三月调火气也，调火气者顺心气也。",
+      "text_en": "In spring, the text says to attune oneself to the wood phase and its association with the liver. In summer, it says to follow the fire phase and its association with the heart."
     },
     {
       "id": "wj-004",
       "theme": "seasonal_balance",
-      "text": "秋三月调金气也，调金气者顺肺气也。冬三月调水气也，调水气者顺肾气也。 This is a traditional account of seasonal living in autumn and winter."
+      "text_zh": "秋三月调金气也，调金气者顺肺气也。冬三月调水气也，调水气者顺肾气也。",
+      "text_en": "In autumn, the text says to attune oneself to the metal phase and its association with the lungs. In winter, it says to follow the water phase and its association with the kidneys."
     },
     {
       "id": "wj-005",
       "theme": "seasonal_balance",
-      "text": "四时之气可不调乎？调之实难，以阴阳之气不易调也，故人多病耳。 This passage reflects on the challenge of keeping balance through the seasons."
+      "text_zh": "四时之气可不调乎？调之实难，以阴阳之气不易调也，故人多病耳。",
+      "text_en": "Qibo asks whether the influences of the four seasons should not be brought into harmony. He says this is difficult because the forces of yin and yang are not easily balanced, and the text therefore associates imbalance with people often becoming ill."
     },
     {
       "id": "wj-006",
       "theme": "seasonal_balance",
-      "text": "问曰：岁半以上，天气主之，岁半以下，地气主之乎？岐伯曰：然。 This excerpt describes a traditional view of seasonal cycles across the year."
+      "text_zh": "问曰：岁半以上，天气主之，岁半以下，地气主之乎？岐伯曰：然。",
+      "text_en": "The questioner asked: Does the influence of heaven govern the first half of the year, and the influence of earth the latter half? Qibo replied: Yes, that is so."
     },
     {
       "id": "wj-007",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：春夏者，天之阴阳也，阳生阴长，天之气也，故上半岁主之。 This passage associates spring and summer with the first half of the year in traditional seasonal thought."
+      "text_zh": "岐伯曰：春夏者，天之阴阳也，阳生阴长，天之气也，故上半岁主之。",
+      "text_en": "Qibo replied: Spring and summer express heaven's yin and yang. The active principle arises and the receptive principle grows; these are described as heaven's influence, governing the first half of the year."
     },
     {
       "id": "wj-008",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：秋冬者，地之阴阳也。阴杀阳藏，地之气也，故下半岁主之。 This passage associates autumn and winter with the latter half of the year in traditional seasonal thought."
+      "text_zh": "岐伯曰：秋冬者，地之阴阳也。阴杀阳藏，地之气也，故下半岁主之。",
+      "text_en": "Qibo replied: Autumn and winter express earth's yin and yang. The receptive principle brings decline while the active principle is stored away; these are described as earth's influence, governing the latter half of the year."
     },
     {
       "id": "wj-009",
       "theme": "seasonal_balance",
-      "text": "天老曰：司天之气主上半岁乎？在泉之气主下半岁乎？岐伯曰：然。 The dialogue describes how the text divides seasonal influences across the year."
+      "text_zh": "天老曰：司天之气主上半岁乎？在泉之气主下半岁乎？岐伯曰：然。",
+      "text_en": "Tianlao asked: Does the influence that presides above govern the first half of the year, and the influence below govern the latter half? Qibo replied: Yes."
     },
     {
       "id": "wj-010",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：五时之合五脏也，即六气之合五脏也。六气之应六经也，即五时之应六经也。 This is a traditional cosmological interpretation of seasonal balance."
+      "text_zh": "岐伯曰：五时之合五脏也，即六气之合五脏也。六气之应六经也，即五时之应六经也。",
+      "text_en": "Qibo replied: The correspondence between the five seasons and the five viscera is also the correspondence between the six climatic influences and those viscera. The six influences correspond to the six channels just as the five seasons do."
     },
     {
       "id": "wj-011",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：人身之脉气，上通天，下合地，未可一言尽也，故彼此错言之耳。 The text presents seasonal living through a traditional relationship between people, heaven, and earth."
+      "text_zh": "岐伯曰：人身之脉气，上通天，下合地，未可一言尽也，故彼此错言之耳。",
+      "text_en": "Qibo replied: The body's channel influences reach upward to heaven and connect downward with earth. Their relationships cannot be summed up in one statement, which is why the discussion presents them from different angles."
     },
     {
       "id": "wj-012",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：医统天地人以立论，不知天何知地，不知地何知人。 This passage situates traditional seasonal thought within a heaven, earth, and human framework."
+      "text_zh": "岐伯曰：医统天地人以立论，不知天何知地，不知地何知人。",
+      "text_en": "Qibo replied: The art of medicine sets forth its arguments through heaven, earth, and humanity. If one does not understand heaven, how can one understand earth? Without understanding earth, how can one understand people?"
     },
     {
       "id": "wj-013",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：脉气循于皮肉筋骨之间，内合五行，外合六气，安得一言而尽乎？ This excerpt describes the text's interconnected traditional view of nature and human life."
+      "text_zh": "岐伯曰：脉气循于皮肉筋骨之间，内合五行，外合六气，安得一言而尽乎？",
+      "text_en": "Qibo replied: The influences of the channels move among the skin, flesh, sinews, and bones. Within, they correspond to the five phases; outwardly, they correspond to the six climatic influences. How could one sentence encompass all this?"
     },
     {
       "id": "wj-014",
       "theme": "seasonal_balance",
-      "text": "陈士铎曰：何尝异，何必求同；何尝同，不妨言异。人惟善求之可耳。 The commentary encourages flexible interpretation rather than forcing one seasonal explanation."
+      "text_zh": "陈士铎曰：何尝异，何必求同；何尝同，不妨言异。人惟善求之可耳。",
+      "text_en": "Chen Shiduo commented: Why insist that things are different, or insist that they are the same? They may be spoken of as either, provided a person considers the matter well."
     },
     {
       "id": "wj-015",
       "theme": "preventive_health",
-      "text": "雷公曰：先时以养阴阳，又何可不讲乎？岐伯曰：阳根于阴，阴根于阳，养阳则取之阴也，养阴则取之阳也。 This passage considers preventive care and balance before a seasonal change."
+      "text_zh": "雷公曰：先时以养阴阳，又何可不讲乎？岐伯曰：阳根于阴，阴根于阳，养阳则取之阴也，养阴则取之阳也。",
+      "text_en": "Leigong asked: Should we not discuss nourishing yin and yang before their time? Qibo replied: Yang (the active principle) has its root in yin (the receptive principle), and yin has its root in yang. To nourish one, draw upon the other."
     },
     {
       "id": "wj-016",
       "theme": "preventive_health",
-      "text": "岐伯曰：以阳养阴，以阴养阳，贵养之于豫也，何邪能干乎？ The text emphasizes preparation and balance as traditional preventive-health ideas."
+      "text_zh": "岐伯曰：以阳养阴，以阴养阳，贵养之于豫也，何邪能干乎？",
+      "text_en": "Qibo replied: Use the active principle to nourish the receptive, and the receptive to nourish the active. What matters is attending to this beforehand; then, the text asks, what harmful influence could intrude?"
     },
     {
       "id": "wj-017",
       "theme": "preventive_health",
-      "text": "天老曰：阴阳不违背而人无病，养阳养阴之法止调心肾乎？岐伯曰：《内经》一书，皆养阳养阴之法也。 This dialogue presents balance as a broad traditional philosophy of maintaining well-being."
+      "text_zh": "天老曰：阴阳不违背而人无病，养阳养阴之法止调心肾乎？岐伯曰：《内经》一书，皆养阳养阴之法也。",
+      "text_en": "Tianlao asked: If yin and yang do not oppose one another, people remain free of illness; are the methods for nourishing them limited to regulating heart and kidneys? Qibo replied: The whole Inner Canon concerns ways of nourishing yin and yang."
     },
     {
       "id": "wj-018",
       "theme": "preventive_health",
-      "text": "岐伯曰：人以胃气为本，四时失调，致生疾病，仍调其胃气而已。 The passage records a traditional emphasis on digestive well-being in seasonal health thought."
+      "text_zh": "岐伯曰：人以胃气为本，四时失调，致生疾病，仍调其胃气而已。",
+      "text_en": "Qibo replied: A person takes the stomach's qi as a foundation. When the four seasons are out of harmony and illness follows, the text says to bring the stomach's qi back into harmony."
     },
     {
       "id": "wj-019",
       "theme": "preventive_health",
-      "text": "岐伯曰：胃调脾自调矣，脾调而肝心肺肾无不顺矣。 This excerpt reflects a traditional holistic view of bodily balance, not current clinical guidance."
+      "text_zh": "岐伯曰：胃调脾自调矣，脾调而肝心肺肾无不顺矣。",
+      "text_en": "Qibo replied: When the stomach is regulated, the spleen regulates itself. When the spleen is regulated, the liver, heart, lungs, and kidneys all proceed in harmony."
     },
     {
       "id": "wj-020",
       "theme": "seasonal_balance",
-      "text": "岐伯曰：八风者，春夏秋冬，东西南北之风也。春夏秋冬之风，特令之风也，属于天。 The text describes seasonal and directional winds as part of its traditional view of nature."
+      "text_zh": "岐伯曰：八风者，春夏秋冬，东西南北之风也。春夏秋冬之风，特令之风也，属于天。",
+      "text_en": "Qibo replied: The eight winds are those of spring, summer, autumn, and winter, as well as those from the four directions. The seasonal winds are particular to their times and belong to heaven."
     }
   ]
 }

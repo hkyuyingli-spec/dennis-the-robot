@@ -43,7 +43,7 @@ def load_waijing() -> dict:
 
 
 def find_passages(query: str, max_matches: int = 3) -> list[dict]:
-    """Return passages ranked by the number of query words in their text."""
+    """Return passages ranked by keyword matches across both language fields."""
     if not isinstance(query, str):
         raise TypeError("query must be a string")
     if isinstance(max_matches, bool) or not isinstance(max_matches, int):
@@ -57,14 +57,18 @@ def find_passages(query: str, max_matches: int = 3) -> list[dict]:
 
     scored = []
     for order, passage in enumerate(load_waijing()["passages"]):
-        passage_words = _search_words(passage["text"])
+        combined_text = f"{passage['text_zh']} {passage['text_en']}"
+        passage_words = _search_words(combined_text)
         score = len(query_words & passage_words)
         if score:
             scored.append((score, order, passage))
 
     scored.sort(key=lambda item: (-item[0], item[1]))
     return [
-        {key: passage[key] for key in ("id", "theme", "text")}
+        {
+            key: passage[key]
+            for key in ("id", "theme", "text_zh", "text_en")
+        }
         for _score, _order, passage in scored[:max_matches]
     ]
 
@@ -72,3 +76,8 @@ def find_passages(query: str, max_matches: int = 3) -> list[dict]:
 def get_disclaimer() -> str:
     """Return the source's authenticity and educational-use note."""
     return load_waijing()["authenticity_note"]
+
+
+def get_translations_note() -> str:
+    """Return the note describing the English translations."""
+    return load_waijing()["translations_note"]
