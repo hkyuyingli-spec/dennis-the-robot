@@ -13,9 +13,7 @@ env/
 venv/
 ENV/
 
-# Streamlit-specific (excluding secrets which is already listed)
-.streamlit/config.toml
-# You might want to keep config.toml but definitely ignore secrets.toml
+# Streamlit secrets stay local; the non-secret theme config is tracked.
 analytics_report.csv
 analytics_report.xlsx
 insights.json
@@ -44,3 +42,20 @@ logs/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# React/Vite and Capacitor generated output
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+!frontend/.env.android.example
+frontend/android/.gradle/
+frontend/android/**/build/
+frontend/android/local.properties
+
+# Frontend generated files (regenerable)
+frontend/build/
+frontend/android/app/build/
+frontend/android/build/
+frontend/android/capacitor-cordova-android-plugins/
+frontend/android/app/src/main/assets/public/
