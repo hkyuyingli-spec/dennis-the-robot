@@ -49,6 +49,7 @@ frontend/dist/
 frontend/.env
 frontend/.env.*
 !frontend/.env.android.example
+!frontend/.env.example
 frontend/android/.gradle/
 frontend/android/**/build/
 frontend/android/local.properties

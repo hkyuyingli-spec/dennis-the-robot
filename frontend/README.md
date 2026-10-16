@@ -9,7 +9,7 @@ This directory contains the shared React + TypeScript app used for browser build
 - `vite.config.ts` defines the web development proxy and build modes.
 - `capacitor.config.ts` points Capacitor at the generated `dist/` assets.
 - `android/` is the native Capacitor Android project, generated from this shared client.
-- `VITE_API_BASE_URL` is the public HTTPS API origin used by packaged Android builds. Copy `.env.android.example` to `.env.android` and set the real backend URL; this is an endpoint, not a secret.
+- `VITE_API_URL` is the backend base URL used by the client. Set it in `.env.android` for Android builds; this is an endpoint, not a secret.
 
 ## Local development
 
@@ -38,7 +38,7 @@ Web:
 npm --prefix frontend run build:web
 ```
 
-The static web build is emitted to `frontend/dist/`. Deploy it behind an HTTPS reverse proxy that routes `/api` to the backend, or set an appropriate `VITE_API_BASE_URL` at build time.
+The static web build is emitted to `frontend/dist/`. Deploy it behind an HTTPS reverse proxy that routes `/api` to the backend, or set an appropriate `VITE_API_URL` at build time.
 
 Android:
 

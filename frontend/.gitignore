@@ -16,6 +16,8 @@ android/app/src/main/assets/public/
 # Environment files
 .env
 .env.local
+.env.android
+!.env.example
 
 # IDE
 .vscode/

@@ -11,7 +11,9 @@ interface ChatResponse {
   classical_reference_used: boolean;
 }
 
-const apiBase = __NUTRIBOT_API_BASE_URL__.replace(/\/+$/, "");
+const apiBase = (
+  import.meta.env.VITE_API_URL || "http://localhost:8000"
+).replace(/\/+$/, "");
 
 export async function sendChat(
   messages: ChatMessage[],
