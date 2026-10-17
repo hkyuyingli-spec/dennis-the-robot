@@ -31,7 +31,9 @@ export async function sendChat(
     const payload = (await response.json().catch(() => null)) as
       | { detail?: string }
       | null;
-    throw new Error(payload?.detail || "NutriBot could not answer. Please try again.");
+    throw new Error(
+      `${response.status}: ${payload?.detail || "NutriBot could not answer. Please try again."}`
+    );
   }
 
   return (await response.json()) as ChatResponse;

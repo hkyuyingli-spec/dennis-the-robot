@@ -63,3 +63,9 @@ The existing app remains runnable from the repository root:
 ```
 
 The root `index.html`, `manifest.json`, `sw.js`, Python modules, and Streamlit config remain separate from the Vite client.
+
+## Android Stage 1 scope
+
+The Android client reuses the NutriBot V2 branding and localized onboarding and topic prompts from the Streamlit app. Onboarding answers are saved only in the device's local app storage and are not sent to the chat API. Chat history is kept for the current WebView session. The six topic starters and their suggested follow-up questions use the existing localized content from `topics.py`.
+
+Wellness scoring, the TCM glossary, genetic analysis, and live research search are not included in this stage. The Android client continues to use the existing `/api/v1/chat` request format; no backend endpoint or API contract change is required.
