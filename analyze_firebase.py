@@ -2,14 +2,15 @@ import os
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
+import smtplib
+import ssl
+from email.message import EmailMessage
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from nutribot import i18n
 import firebase_admin
 from firebase_admin import credentials, firestore
 from groq import Groq
-import base64
-import requests
 from fpdf import FPDF, XPos, YPos
 from pypdf import PdfWriter
 import schedule
@@ -18,6 +19,18 @@ import logging
 import argparse
 import sys
 from pathlib import Path
+
+# Ensure console streams handle UTF-8 safely (e.g. emojis in i18n text on Windows)
+if sys.stdout and hasattr(sys.stdout, 'reconfigure'):
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, 'reconfigure'):
+    try:
+        sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 # Resolve all local resources relative to this script, not Task Scheduler's
 # default working directory (usually C:\Windows\System32).
@@ -32,7 +45,7 @@ load_dotenv(PROJECT_ROOT / ".env")
 # --- CONFIGURATION ---
 SERVICE_ACCOUNT_PATH = PROJECT_ROOT / "serviceAccountKey.json"
 GMAIL_USER = os.getenv("GMAIL_USER")
-BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 RECIPIENT_EMAIL = "hkyuyingli@gmail.com"
 current_lang = os.getenv('NUTRIBOT_LANG') or 'en'
@@ -346,92 +359,78 @@ def export_pdf(insights, ai_insights):
 
 # --- SEND HTML EMAIL ---
 def send_email(insights, ai_insights):
-    """Sends a styled HTML email with attachments via Brevo API."""
-    if not GMAIL_USER or not BREVO_API_KEY:
-        raise RuntimeError(i18n.translate('email_skipped_credentials_missing', current_lang))
-
-    # HTML Body
-    goals_html = "".join([f"<tr><td>{k}</td><td>{v}</td></tr>" for k,v in insights['popular_health_goals'].items()])
-    questions_html = "".join([f"<tr><td>{k}</td><td>{v}</td></tr>" for k,v in insights['common_questions'].items()])
-    
-    html = f"""
-    <html>
-    <body style="font-family: Arial, sans-serif;">
-        <h2 style="color: #2e7d32;">NutriBot Performance Summary</h2>
-        <table border="1" cellpadding="5" style="border-collapse: collapse;">
-            <tr style="background-color: #f2f2f2;"><th>Metric</th><th>Value</th></tr>
-            <tr><td>Total Users</td><td>{insights['total_users']}</td></tr>
-            <tr><td>New Users (This Week)</td><td>{insights['new_users_this_week']}</td></tr>
-            <tr><td>Avg Questions/User</td><td>{insights['average_questions_per_user']}</td></tr>
-        </table>
-        
-        <h3>Popular Health Goals</h3>
-        <table border="1" cellpadding="5" style="border-collapse: collapse;">{goals_html}</table>
-        
-        <h3>Top Questions Asked</h3>
-        <table border="1" cellpadding="5" style="border-collapse: collapse;">{questions_html}</table>
-        
-        <h3>AI Insights</h3>
-        <p style="background-color: #e8f5e9; padding: 10px; border-left: 5px solid #2e7d32;">{ai_insights.replace(chr(10), '<br>')}</p>
-        
-        <p><i>Please find the detailed Excel and PDF reports attached.</i></p>
-    </body>
-    </html>
-    """
-
-    month_str = datetime.now().strftime('%Y-%m')
-    excel_file = f"analytics_report_{month_str}.xlsx"
-    pdf_file = f"nutribot_report_{month_str}.pdf"
-
-    # Prepare attachments
-    attachments = []
-    for filename in [excel_file, pdf_file]:
-        try:
-            if os.path.exists(filename):
-                with open(filename, "rb") as f:
-                    content_base64 = base64.b64encode(f.read()).decode('utf-8')
-                attachments.append({
-                    "name": filename,
-                    "content": content_base64
-                })
-            else:
-                logging.warning(f"Attachment file not found: {filename}")
-        except Exception as e:
-            logging.error(i18n.translate('error_attaching_file', current_lang).format(filename=filename, error=e))
-
-    # Brevo API Payload
-    url = "https://api.brevo.com/v3/smtp/email"
-    headers = {
-        "accept": "application/json",
-        "api-key": BREVO_API_KEY,
-        "content-type": "application/json"
-    }
-    
-    payload = {
-        "sender": {
-            "name": "NutriBot Analytics",
-            "email": GMAIL_USER
-        },
-        "to": [
-            {
-                "email": RECIPIENT_EMAIL
-            }
-        ],
-        "subject": f"NutriBot Analytics Report - {datetime.now().strftime('%Y-%m-%d')}",
-        "htmlContent": html
-    }
-    
-    if attachments:
-        payload["attachment"] = attachments
-
+    """Send the HTML analytics email and both reports through Gmail SMTP."""
     try:
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code in [200, 201, 202]:
-            logging.info(i18n.translate('email_sent_success', current_lang))
-        else:
-            raise RuntimeError(f"Brevo API Error: Status {response.status_code} - {response.text}")
-    except Exception as e:
-        logging.exception(f"Brevo API Connection Error: {e}")
+        if not GMAIL_USER or not GMAIL_APP_PASSWORD:
+            raise RuntimeError(
+                "GMAIL_USER and GMAIL_APP_PASSWORD must be configured to send email"
+            )
+
+        goals_html = "".join(
+            f"<tr><td>{key}</td><td>{value}</td></tr>"
+            for key, value in insights['popular_health_goals'].items()
+        )
+        questions_html = "".join(
+            f"<tr><td>{key}</td><td>{value}</td></tr>"
+            for key, value in insights['common_questions'].items()
+        )
+
+        html = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif;">
+            <h2 style="color: #2e7d32;">NutriBot Performance Summary</h2>
+            <table border="1" cellpadding="5" style="border-collapse: collapse;">
+                <tr style="background-color: #f2f2f2;"><th>Metric</th><th>Value</th></tr>
+                <tr><td>Total Users</td><td>{insights['total_users']}</td></tr>
+                <tr><td>New Users (This Week)</td><td>{insights['new_users_this_week']}</td></tr>
+                <tr><td>Avg Questions/User</td><td>{insights['average_questions_per_user']}</td></tr>
+            </table>
+
+            <h3>Popular Health Goals</h3>
+            <table border="1" cellpadding="5" style="border-collapse: collapse;">{goals_html}</table>
+
+            <h3>Top Questions Asked</h3>
+            <table border="1" cellpadding="5" style="border-collapse: collapse;">{questions_html}</table>
+
+            <h3>AI Insights</h3>
+            <p style="background-color: #e8f5e9; padding: 10px; border-left: 5px solid #2e7d32;">{ai_insights.replace(chr(10), '<br>')}</p>
+
+            <p><i>Please find the detailed Excel and PDF reports attached.</i></p>
+        </body>
+        </html>
+        """
+
+        month_str = datetime.now().strftime('%Y-%m')
+        excel_file = f"analytics_report_{month_str}.xlsx"
+        pdf_file = f"nutribot_report_{month_str}.pdf"
+        message = EmailMessage()
+        message["Subject"] = f"NutriBot Analytics Report - {datetime.now():%Y-%m-%d}"
+        message["From"] = f"NutriBot Analytics <{GMAIL_USER}>"
+        message["To"] = RECIPIENT_EMAIL
+        message.set_content("Please view this email in an HTML-capable mail client.")
+        message.add_alternative(html, subtype="html")
+
+        for filename, subtype in (
+            (excel_file, "vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+            (pdf_file, "pdf"),
+        ):
+            with open(filename, "rb") as attachment:
+                message.add_attachment(
+                    attachment.read(),
+                    maintype="application",
+                    subtype=subtype,
+                    filename=filename,
+                )
+
+        with smtplib.SMTP_SSL(
+            "smtp.gmail.com", 465, context=ssl.create_default_context()
+        ) as smtp:
+            smtp.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+            smtp.send_message(message)
+
+        logging.info(i18n.translate('email_sent_success', current_lang))
+    except Exception:
+        logging.exception("Gmail SMTP email delivery failed")
         raise
 
 # --- MAIN ---
