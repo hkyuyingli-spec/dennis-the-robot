@@ -64,6 +64,58 @@ def test_capacitor_origin_is_allowed():
     assert response.headers["access-control-allow-origin"] == "https://localhost"
 
 
+def test_capacitor_chat_preflight_allows_json_post():
+    response = client.options(
+        "/api/v1/chat",
+        headers={
+            "Origin": "capacitor://localhost",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "capacitor://localhost"
+    assert "POST" in response.headers["access-control-allow-methods"]
+    assert "content-type" in response.headers["access-control-allow-headers"].lower()
+
+
+def test_chat_reports_missing_provider_configuration_as_503(monkeypatch):
+    def missing_provider(**_options):
+        raise RuntimeError("GROQ_API_KEY is not configured on the backend")
+
+    monkeypatch.setattr("backend.main.answer_chat", missing_provider)
+
+    response = client.post(
+        "/api/v1/chat",
+        json={
+            "language": "en",
+            "messages": [{"role": "user", "content": "Suggest a simple wellness habit"}],
+        },
+    )
+
+    assert response.status_code == 503
+    assert "not configured" in response.json()["detail"]
+
+
+def test_chat_reports_provider_failure_as_502(monkeypatch):
+    def provider_failure(**_options):
+        raise RuntimeError("provider unavailable")
+
+    monkeypatch.setattr("backend.main.answer_chat", provider_failure)
+
+    response = client.post(
+        "/api/v1/chat",
+        json={
+            "language": "en",
+            "messages": [{"role": "user", "content": "Suggest a simple wellness habit"}],
+        },
+    )
+
+    assert response.status_code == 502
+    assert "could not complete" in response.json()["detail"]
+
+
 def test_per_ip_rate_limit_resets_after_its_window():
     ip = "test-rate-limit-client"
 

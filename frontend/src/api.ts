@@ -1,3 +1,5 @@
+import { ChatApiError, chatApiErrorKind } from "./apiErrors";
+
 export type ChatRole = "user" | "assistant";
 export type Language = "en" | "zh" | "id";
 
@@ -20,19 +22,30 @@ export async function sendChat(
   language: Language,
   signal?: AbortSignal
 ): Promise<ChatResponse> {
-  const response = await fetch(`${apiBase}/api/v1/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages, language }),
-    signal
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${apiBase}/api/v1/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages, language }),
+      signal
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") throw error;
+    throw new ChatApiError(
+      "connection",
+      error instanceof Error ? error.message : "Network request failed"
+    );
+  }
 
   if (!response.ok) {
     const payload = (await response.json().catch(() => null)) as
       | { detail?: string }
       | null;
-    throw new Error(
-      `${response.status}: ${payload?.detail || "NutriBot could not answer. Please try again."}`
+    throw new ChatApiError(
+      chatApiErrorKind(response.status),
+      payload?.detail || "NutriBot could not answer. Please try again.",
+      response.status
     );
   }
 

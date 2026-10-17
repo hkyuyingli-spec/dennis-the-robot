@@ -13,6 +13,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { sendChat, type ChatMessage, type Language } from "./api";
+import { ChatApiError } from "./apiErrors";
 import logoUrl from "../../static/hero_logo.png";
 
 type Goal = "stress" | "skin" | "energy" | "diet" | "sleep";
@@ -115,9 +116,11 @@ const text = {
     thinking: "NutriBot is thinking…",
     send: "Send message",
     retry: "Try again",
-    connectionError: "Could not connect. Check your internet connection and try again.",
-    unavailableError: "NutriBot is temporarily unavailable. Please try again later.",
+    connectionError: "Could not connect to NutriBot. Check your internet connection and try again.",
+    configurationError: "NutriBot is not configured correctly right now. Please try again later or contact support.",
+    providerError: "NutriBot's AI service could not complete your request. Please try again shortly.",
     rateLimitError: "There have been too many requests. Please wait a moment and try again.",
+    serverError: "NutriBot returned an unexpected server error. Please try again.",
     genericError: "NutriBot could not answer. Please try again.",
     topicsTitle: "Explore wellness topics",
     topicsSubtitle: "Choose a topic to start a guided conversation with NutriBot.",
@@ -162,9 +165,11 @@ const text = {
     thinking: "NutriBot 正在思考…",
     send: "发送消息",
     retry: "重试",
-    connectionError: "无法连接。请检查网络连接后重试。",
-    unavailableError: "NutriBot 暂时无法使用，请稍后重试。",
+    connectionError: "无法连接到 NutriBot。请检查网络连接后重试。",
+    configurationError: "NutriBot 服务配置暂不可用。请稍后重试或联系支持人员。",
+    providerError: "NutriBot 的 AI 服务暂时无法完成请求，请稍后重试。",
     rateLimitError: "请求次数过多，请稍等片刻后重试。",
+    serverError: "NutriBot 服务器发生错误，请重试。",
     genericError: "NutriBot 无法回答，请重试。",
     topicsTitle: "探索健康主题",
     topicsSubtitle: "选择一个主题，与 NutriBot 开始引导式对话。",
@@ -209,9 +214,11 @@ const text = {
     thinking: "NutriBot sedang berpikir…",
     send: "Kirim pesan",
     retry: "Coba lagi",
-    connectionError: "Tidak dapat terhubung. Periksa koneksi internet lalu coba lagi.",
-    unavailableError: "NutriBot sementara tidak tersedia. Silakan coba lagi nanti.",
+    connectionError: "Tidak dapat terhubung ke NutriBot. Periksa koneksi internet lalu coba lagi.",
+    configurationError: "Konfigurasi layanan NutriBot belum tersedia. Coba lagi nanti atau hubungi dukungan.",
+    providerError: "Layanan AI NutriBot tidak dapat menyelesaikan permintaan. Silakan coba lagi nanti.",
     rateLimitError: "Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.",
+    serverError: "Server NutriBot mengalami kesalahan. Silakan coba lagi.",
     genericError: "NutriBot tidak dapat menjawab. Silakan coba lagi.",
     topicsTitle: "Jelajahi topik kesehatan",
     topicsSubtitle: "Pilih topik untuk memulai percakapan terpandu dengan NutriBot.",
@@ -554,12 +561,16 @@ export default function App() {
       setMessages([...nextMessages, { role: "assistant", content: result.reply }]);
     } catch (caught) {
       if (controller.signal.aborted) return;
-      if (caught instanceof TypeError) {
+      if (caught instanceof ChatApiError && caught.kind === "connection") {
         setError(copy.connectionError);
-      } else if (caught instanceof Error && caught.message.includes("429")) {
+      } else if (caught instanceof ChatApiError && caught.kind === "rate_limit") {
         setError(copy.rateLimitError);
-      } else if (caught instanceof Error && caught.message.includes("503")) {
-        setError(copy.unavailableError);
+      } else if (caught instanceof ChatApiError && caught.kind === "backend_configuration") {
+        setError(copy.configurationError);
+      } else if (caught instanceof ChatApiError && caught.kind === "provider") {
+        setError(copy.providerError);
+      } else if (caught instanceof ChatApiError) {
+        setError(copy.serverError);
       } else {
         setError(copy.genericError);
       }
