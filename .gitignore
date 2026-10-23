@@ -53,6 +53,7 @@ frontend/.env.*
 frontend/android/.gradle/
 frontend/android/**/build/
 frontend/android/local.properties
+frontend/android/keystore.properties
 
 # Frontend generated files (regenerable)
 frontend/build/
