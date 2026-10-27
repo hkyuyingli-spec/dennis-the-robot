@@ -817,7 +817,18 @@ export default function App() {
                     {message.role === "assistant" && <span className="assistant-mark"><Leaf size={15} aria-hidden="true" /></span>}
                     <div className="message-content">
                       {message.role === "assistant" ? (
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            table: ({ children, ...props }) => (
+                              <div className="table-scroll">
+                                <table {...props}>{children}</table>
+                              </div>
+                            ),
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
                       ) : (
                         <p>{message.content}</p>
                       )}
