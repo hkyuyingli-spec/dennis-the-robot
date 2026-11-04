@@ -123,13 +123,35 @@ def test_dosage_and_contraindication_words_in_answer_do_not_replace_user_context
     assert info["found_contra"] is False
 
 
+def test_numeric_herbal_dosage_is_removed_without_condition_context():
+    response, info = sanitize_response(
+        "Ginger is commonly used in food. Take 500 mg daily. Avoid if allergic.",
+        user_prompt="Tell me about ginger.",
+    )
+
+    assert response == "Ginger is commonly used in food. Avoid if allergic."
+    assert info["sanitized"] is True
+    assert info["removed_sentences"] == ["Take 500 mg daily."]
+    assert info["found_contra"] is False
+
+
+def test_numeric_dosage_only_response_returns_safe_dosage_context():
+    response, info = sanitize_response("Take 2 capsules.", user_prompt="Herbal dosage")
+
+    assert response == (
+        "Dosage depends on the individual, preparation, and a licensed practitioner's assessment."
+    )
+    assert info["sanitized"] is True
+    assert info["removed_sentences"] == ["Take 2 capsules."]
+
+
 def test_policy_explicitly_allows_educational_adult_sexual_wellness():
     assert "Do not automatically refuse merely because" in ADULT_WELLNESS_POLICY
     assert "sexual health" in ADULT_WELLNESS_POLICY
     assert "age-ambiguous people" in ADULT_WELLNESS_POLICY
     assert "Do not assist illegal activity" in ADULT_WELLNESS_POLICY
-    assert "do not blanket-refuse" in ADULT_WELLNESS_POLICY
+    assert "Do not provide numeric dosages for any herb, formula, or supplement." in ADULT_WELLNESS_POLICY
     assert "Answer the question directly in your first sentence" in ADULT_WELLNESS_POLICY
-    assert "Never invent a dose" in ADULT_WELLNESS_POLICY
+    assert "a licensed practitioner's assessment" in ADULT_WELLNESS_POLICY
     assert "give useful examples" in ADULT_WELLNESS_POLICY
     assert "Do not answer only with a request for clarification" in ADULT_WELLNESS_POLICY

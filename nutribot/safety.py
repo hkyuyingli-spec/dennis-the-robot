@@ -17,13 +17,10 @@ ADULT_WELLNESS_POLICY = (
     "Do not assist illegal activity, self-harm, or medical emergencies; direct people in immediate "
     "danger to appropriate urgent help. "
     "For supplements, explain uncertainty and interactions; avoid specific product or dose "
-    "recommendations when contraindications or medicines are mentioned. For general questions "
-    "about non-prescription herb or supplement dosage, do not blanket-refuse: answer with typical "
-    "adult ranges only when you can do so accurately for a named herb and "
-    "specific preparation; state evidence quality, formulation variability, label guidance, and "
-    "relevant interactions. Never invent a dose or imply that one dose applies to all herbs. If "
-    "the herb is unspecified, explain briefly that there is no universal herbal dose and ask which "
-    "herb or product the user means. For broad herb or supplement type questions, give useful "
+    "recommendations when contraindications or medicines are mentioned. Do not provide numeric "
+    "dosages for any herb, formula, or supplement. Only say that dosage depends on the individual, "
+    "preparation, and a licensed practitioner's assessment. For broad herb or supplement type "
+    "questions, give useful "
     "examples such as culinary herbs (ginger or turmeric), traditional botanicals (ginseng or "
     "astragalus), and standardized extracts; summarize common uses and concise cautions before "
     "asking what the user wants to learn more about. Do not answer only with a request for "
@@ -350,6 +347,10 @@ DOSAGE_PATTERN = re.compile(
     r"(?:\b(?:\d+|\d+\/\d+|\d+\.\d+)(?:\s*(?:-\s*\d+|/\d+)?)\b)\s*(?:teaspoon|teaspoons|tsp|sendok|sendok\s*teh|sendok\s*makan|tablespoon|tbsp|tablespoons|gram|g|mg|ml|milliliter|ounce|oz|drop|drops)\b|(?:once daily|twice daily|per day|per hari|kali sehari|kali/hari|sehari|daily|times daily)",
     re.IGNORECASE
 )
+NUMERIC_DOSAGE_PATTERN = re.compile(
+    r"\b\d+(?:[.,]\d+)?\s*(?:mg|g|milligrams?|grams?|pills?|tablets?|capsules?)\b",
+    re.IGNORECASE,
+)
 
 
 def _has_relevant_condition(text: str) -> bool:
@@ -382,7 +383,7 @@ def sanitize_response(
     found_contra = _has_relevant_condition(condition_context)
     found_dosage = _has_dosage(response_text)
 
-    if not (found_contra and found_dosage):
+    if not (NUMERIC_DOSAGE_PATTERN.search(response_text) or (found_contra and found_dosage)):
         return response_text, {"sanitized": False, "removed_sentences": [], "found_contra": found_contra}
 
     # Split into sentences (simple heuristic)
@@ -390,7 +391,7 @@ def sanitize_response(
     removed = []
     kept = []
     for s in sentences:
-        if DOSAGE_PATTERN.search(s):
+        if NUMERIC_DOSAGE_PATTERN.search(s) or (found_contra and DOSAGE_PATTERN.search(s)):
             removed.append(s.strip())
         else:
             kept.append(s)
@@ -400,7 +401,7 @@ def sanitize_response(
     kept_text = " ".join(kept).strip()
     kept_has_contra = _has_relevant_condition(kept_text)
 
-    if not kept_has_contra:
+    if found_contra and not kept_has_contra:
         # Language-specific conservative fallback
         fallbacks = {
             "en": (
@@ -417,6 +418,13 @@ def sanitize_response(
         }
         fallback = fallbacks.get(lang, fallbacks["en"])
         sanitized = fallback
+    elif not kept_text and removed:
+        dosage_fallbacks = {
+            "en": "Dosage depends on the individual, preparation, and a licensed practitioner's assessment.",
+            "id": "Dosis bergantung pada individu, sediaan, dan penilaian praktisi berlisensi.",
+            "zh": "剂量取决于个人情况、制备方式以及持证从业者的评估。",
+        }
+        sanitized = dosage_fallbacks.get(lang, dosage_fallbacks["en"])
     else:
         sanitized = kept_text
 
@@ -424,5 +432,5 @@ def sanitize_response(
     if "⚕️ For educational purposes only." in response_text and "⚕️ For educational purposes only." not in sanitized:
         sanitized = sanitized + "\n\n⚕️ For educational purposes only. Please consult a qualified TCM practitioner for proper diagnosis and treatment."
 
-    info = {"sanitized": True, "removed_sentences": removed, "found_contra": True}
+    info = {"sanitized": True, "removed_sentences": removed, "found_contra": found_contra}
     return sanitized, info

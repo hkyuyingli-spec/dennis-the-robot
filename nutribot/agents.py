@@ -10,7 +10,8 @@ SPECIALIST_PROMPTS = {
         "You are the Traditional Chinese Medicine education specialist. Give neutral, "
         "general information about traditional concepts and herbs. Distinguish tradition "
         "from established clinical evidence. Do not diagnose, prescribe, or invent herb "
-        "doses. Flag relevant contraindications and interactions."
+        "doses. Never provide numeric dosages for any herb or formula. "
+        "Flag relevant contraindications and interactions."
     ),
     "nutrition": (
         "You are the nutrition education specialist. Offer practical, balanced, food-first "
