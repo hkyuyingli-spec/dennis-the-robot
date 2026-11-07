@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0F1218">
+    <meta name="description" content="NutriBot privacy policy and information about how data is handled.">
+    <title>Privacy Policy | NutriBot</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #0f1218;
+        color: #e8edf2;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        background: #0f1218;
+        line-height: 1.65;
+      }
+
+      a { color: #8fc9e8; }
+
+      .site-header,
+      .site-footer {
+        padding: 16px max(20px, env(safe-area-inset-right)) 16px max(20px, env(safe-area-inset-left));
+        background: #151b24;
+        border-bottom: 1px solid #293341;
+      }
+
+      .site-header a {
+        color: #e8edf2;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-decoration: none;
+      }
+
+      main {
+        width: min(100% - 32px, 760px);
+        margin: 0 auto;
+        padding: 36px 0 56px;
+      }
+
+      h1, h2 { line-height: 1.25; }
+      h1 { margin-top: 0; font-size: clamp(1.8rem, 5vw, 2.4rem); }
+      h2 { margin: 30px 0 10px; font-size: 1.2rem; color: #b7dff3; }
+      p, ul { margin: 10px 0; }
+      li + li { margin-top: 6px; }
+      .updated { color: #aeb8c4; font-size: 0.95rem; }
+
+      .site-footer {
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        border-top: 1px solid #293341;
+        border-bottom: 0;
+        color: #aeb8c4;
+        text-align: center;
+      }
+
+      @media (max-width: 480px) {
+        main { padding-top: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a href="/" aria-label="NutriBot home">NutriBot</a>
+    </header>
+    <main>
+      <h1>Privacy Policy</h1>
+      <p class="updated"><strong>Last Updated:</strong> 2026-11-07</p>
+
+      <h2>What NutriBot Does</h2>
+      <p>NutriBot is an educational wellness assistant that provides information about Traditional Chinese Medicine (TCM), herbs, wellness topics, and general health education. It is not a substitute for professional medical care.</p>
+
+      <h2>What Data We Collect</h2>
+      <ul>
+        <li>Messages and other information you choose to enter, which may include symptoms or health details. Please do not include your name, contact details, or other information that directly identifies you.</li>
+        <li>On the Streamlit web app, if you answer onboarding questions, your selected wellness goal, age group, and gender may be recorded for service operations.</li>
+        <li>On the Streamlit web app, service and safety-event records may include a broad question category, message character count, language, randomly generated session identifier, timestamp, matched knowledge-entry identifiers, event flags, and limited AI-response text removed by a safety check. These records are not a complete chat transcript.</li>
+        <li>The Android app stores conversation history and preferences in the app's local WebView storage. Conversation context is also sent to the backend when you send a message.</li>
+        <li>NutriBot does not require an account or ask you to provide your name, email address, or phone number to use the chat. Information you choose to include in a message may nevertheless identify you.</li>
+      </ul>
+
+      <h2>Where Your Data Goes</h2>
+      <ul>
+        <li><strong>Web chat:</strong> The web chat is hosted by Streamlit Cloud. Messages and conversation context are processed by the Streamlit app and sent to Groq to generate responses. The Streamlit deployment also writes the limited onboarding, service, and safety-event records described above to Google Firebase/Firestore.</li>
+        <li><strong>Android chat:</strong> The Android app sends messages and conversation context to the NutriBot backend hosted by IDCloudHost in Jakarta, Indonesia. That backend forwards the request to Groq and returns the response. The Android backend does not write chat data to Firestore.</li>
+        <li><strong>AI provider:</strong> Groq processes chat messages for both web and Android responses. Groq handles that information under its own policies. Read the <a href="https://groq.com/privacy-policy/" rel="noopener noreferrer">Groq Privacy Policy</a>.</li>
+        <li><strong>Website:</strong> Cloudflare Pages serves the marketing website and this privacy policy. It does not host chat or generate AI responses.</li>
+        <li>Streamlit Cloud, IDCloudHost, Google/Firebase, Cloudflare, and Groq may process technical information needed to provide, secure, or operate their respective services. Their own privacy terms and operational logs are governed by their policies.</li>
+      </ul>
+      <p>NutriBot does not sell chat messages. The web app keeps conversation context in its active session; the Android app keeps conversation history in local app storage. The Android backend does not save chat history to Firestore. The Streamlit app does save the limited records described above to Firestore, and no fixed retention period is specified here. Contact us to ask about or request deletion of data associated with a web session.</p>
+
+      <h2>Third Parties and Educational Sources</h2>
+      <ul>
+        <li>Groq (United States, as configured for the service) — processes chat messages to generate AI responses for both web and Android.</li>
+        <li>Streamlit Cloud — hosts the web chat application and its Firestore-integrated service logging.</li>
+        <li>IDCloudHost (Jakarta, Indonesia) — hosts the Android app's backend API; this backend does not use Firestore.</li>
+        <li>Google Firebase/Firestore — stores onboarding selections and limited service and safety-event records from the Streamlit web app.</li>
+        <li>Cloudflare Pages — serves the marketing website and privacy policy, not chat or AI services.</li>
+        <li>MSK About Herbs, TCM Wiki, and WHO publications may be cited as sources for educational content. NutriBot does not send your chat messages to these reference sources.</li>
+      </ul>
+
+      <h2>What We Do Not Do</h2>
+      <ul>
+        <li>We do not require your name, email, phone number, or address to use the chat.</li>
+        <li>We do not use chat messages for cross-site advertising or sell personal information.</li>
+        <li>We do not intentionally store a complete chat transcript in the Firestore service and safety-event records described above.</li>
+        <li>We do not use cookies for advertising or cross-site tracking.</li>
+      </ul>
+      <p>Essential cookies or similar technologies may be used by service providers to operate or secure their services. Website and hosting providers may also process connection information such as IP address, browser, or device details. Please consult their privacy notices for information about their processing.</p>
+
+      <h2>Your Choices and Rights</h2>
+      <ul>
+        <li>You can stop using NutriBot at any time.</li>
+        <li>You can clear web data through your browser settings and Android app data through your device settings. Uninstalling the Android app may remove local app data, but does not remove data held by service providers.</li>
+        <li>For privacy questions or requests concerning Streamlit/Firestore records, contact <a href="mailto:privacy@ainutribot.com">privacy@ainutribot.com</a>. Include the approximate date and session details if available, and do not send sensitive health information by email.</li>
+      </ul>
+
+      <h2>Not Medical Advice</h2>
+      <p>NutriBot provides educational information only. It is not a medical device and does not diagnose, treat, cure, or prevent any disease. Always consult a licensed healthcare provider before making health decisions.</p>
+
+      <h2>Children's Privacy</h2>
+      <p>NutriBot is not intended for users under 18, and we do not knowingly collect personal information from children. If you believe a child has provided personal information, contact us at <a href="mailto:privacy@ainutribot.com">privacy@ainutribot.com</a>.</p>
+
+      <h2>Changes to This Policy</h2>
+      <p>We may update this policy as NutriBot or its data practices change. The “Last Updated” date at the top will reflect the latest revision.</p>
+
+      <h2>Contact</h2>
+      <p>For privacy questions, contact <a href="mailto:privacy@ainutribot.com">privacy@ainutribot.com</a>.</p>
+    </main>
+    <footer class="site-footer">
+      <a href="/">NutriBot home</a>
+    </footer>
+  </body>
+</html>
