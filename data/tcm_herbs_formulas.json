@@ -5938,6 +5938,1286 @@
           "verified_date": "2026-11-07"
         }
       ]
+    },
+    {
+      "id": "gui_ban",
+      "name_english": "Tortoise Plastron",
+      "name_chinese": "\u9f9f\u677f",
+      "pinyin": "Gu\u012b B\u01cen",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to nourish Liver and Kidney Yin, subdue Yang, strengthen bones, and support blood-related patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/gui-ban",
+      "aliases": {
+        "id": [
+          "gui_ban",
+          "gu\u012b b\u01cen"
+        ],
+        "zh": [
+          "\u9f9f\u677f"
+        ]
+      },
+      "name_zh": "\u9f9f\u677f",
+      "name_en": "Tortoise Plastron",
+      "name_pinyin": "Gu\u012b B\u01cen",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to nourish Liver and Kidney Yin, subdue Yang, strengthen bones, and support blood-related patterns.",
+      "nature": "cold",
+      "taste": "sweet, salty",
+      "meridians": [
+        "Liver",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u9f9f\u677f",
+          "url": "https://tcmwiki.com/wiki/gui-ban",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "bie_jia",
+      "name_english": "Soft-Shelled Turtle Shell",
+      "name_chinese": "\u9c0d\u7532",
+      "pinyin": "Bi\u0113 Ji\u01ce",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to nourish Liver and Kidney Yin, subdue Yang, reduce deficiency heat, and soften masses.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/bie-jia",
+      "aliases": {
+        "id": [
+          "bie_jia",
+          "bi\u0113 ji\u01ce"
+        ],
+        "zh": [
+          "\u9c0d\u7532"
+        ]
+      },
+      "name_zh": "\u9c0d\u7532",
+      "name_en": "Soft-Shelled Turtle Shell",
+      "name_pinyin": "Bi\u0113 Ji\u01ce",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to nourish Liver and Kidney Yin, subdue Yang, reduce deficiency heat, and soften masses.",
+      "nature": "cold",
+      "taste": "salty",
+      "meridians": [
+        "Liver",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u9c0d\u7532",
+          "url": "https://tcmwiki.com/wiki/bie-jia",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "wu_jia_pi",
+      "name_english": "Acanthopanax Root Bark",
+      "name_chinese": "\u4e94\u52a0\u76ae",
+      "pinyin": "W\u01d4 Ji\u0101 P\u00ed",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to dispel wind-damp, support Liver and Kidney, strengthen sinews and bones, and promote urination.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/wu-jia-pi",
+      "aliases": {
+        "id": [
+          "wu_jia_pi",
+          "w\u01d4 ji\u0101 p\u00ed"
+        ],
+        "zh": [
+          "\u4e94\u52a0\u76ae"
+        ]
+      },
+      "name_zh": "\u4e94\u52a0\u76ae",
+      "name_en": "Acanthopanax Root Bark",
+      "name_pinyin": "W\u01d4 Ji\u0101 P\u00ed",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to dispel wind-damp, support Liver and Kidney, strengthen sinews and bones, and promote urination.",
+      "nature": "warm",
+      "taste": "pungent, bitter, sweet",
+      "meridians": [
+        "Liver",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u4e94\u52a0\u76ae",
+          "url": "https://tcmwiki.com/wiki/wu-jia-pi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "sang_ji_sheng",
+      "name_english": "Chinese Taxillus Twig",
+      "name_chinese": "\u6851\u5bc4\u751f",
+      "pinyin": "S\u0101ng J\u00ec Sh\u0113ng",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to dispel wind-damp, support Liver and Kidney, strengthen sinews and bones, and in traditional texts for pregnancy-related patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Traditional use described as preventing miscarriage is not evidence of pregnancy safety. Pregnancy: consult an obstetric clinician and licensed practitioner. Children: safety is not established. Drug interactions: not assessed by the cited source.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/sang-ji-sheng",
+      "aliases": {
+        "id": [
+          "sang_ji_sheng",
+          "s\u0101ng j\u00ec sh\u0113ng"
+        ],
+        "zh": [
+          "\u6851\u5bc4\u751f"
+        ]
+      },
+      "name_zh": "\u6851\u5bc4\u751f",
+      "name_en": "Chinese Taxillus Twig",
+      "name_pinyin": "S\u0101ng J\u00ec Sh\u0113ng",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to dispel wind-damp, support Liver and Kidney, strengthen sinews and bones, and in traditional texts for pregnancy-related patterns.",
+      "nature": "neutral",
+      "taste": "pungent, bitter, sweet",
+      "meridians": [
+        "Liver",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6851\u5bc4\u751f",
+          "url": "https://tcmwiki.com/wiki/sang-ji-sheng",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "chi_shao",
+      "name_english": "Red Peony Root",
+      "name_chinese": "\u8d64\u828d",
+      "pinyin": "Ch\u00ec Sh\u00e1o",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear heat, cool Blood, invigorate Blood, and resolve stasis.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/chi-shao",
+      "aliases": {
+        "id": [
+          "chi_shao",
+          "ch\u00ec sh\u00e1o"
+        ],
+        "zh": [
+          "\u8d64\u828d"
+        ]
+      },
+      "name_zh": "\u8d64\u828d",
+      "name_en": "Red Peony Root",
+      "name_pinyin": "Ch\u00ec Sh\u00e1o",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear heat, cool Blood, invigorate Blood, and resolve stasis.",
+      "nature": "slightly cold",
+      "taste": "bitter, pungent",
+      "meridians": [
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u8d64\u828d",
+          "url": "https://tcmwiki.com/wiki/chi-shao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "mu_gua",
+      "name_english": "Chinese Quince",
+      "name_chinese": "\u6728\u74dc",
+      "pinyin": "M\u00f9 Gu\u0101",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to dispel wind-damp, relax sinews, activate collaterals, and harmonize the Stomach.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/mu-gua",
+      "aliases": {
+        "id": [
+          "mu_gua",
+          "m\u00f9 gu\u0101"
+        ],
+        "zh": [
+          "\u6728\u74dc"
+        ]
+      },
+      "name_zh": "\u6728\u74dc",
+      "name_en": "Chinese Quince",
+      "name_pinyin": "M\u00f9 Gu\u0101",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to dispel wind-damp, relax sinews, activate collaterals, and harmonize the Stomach.",
+      "nature": "warm",
+      "taste": "sour",
+      "meridians": [
+        "Liver",
+        "Spleen"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6728\u74dc",
+          "url": "https://tcmwiki.com/wiki/mu-gua",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "huo_ma_ren",
+      "name_english": "Hemp Seed",
+      "name_chinese": "\u706b\u9ebb\u4ec1",
+      "pinyin": "Hu\u01d2 M\u00e1 R\u00e9n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to moisten the intestines and relieve dryness-related constipation.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy and postpartum mention in traditional use does not establish safety. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/huo-ma-ren",
+      "aliases": {
+        "id": [
+          "huo_ma_ren",
+          "hu\u01d2 m\u00e1 r\u00e9n"
+        ],
+        "zh": [
+          "\u706b\u9ebb\u4ec1"
+        ]
+      },
+      "name_zh": "\u706b\u9ebb\u4ec1",
+      "name_en": "Hemp Seed",
+      "name_pinyin": "Hu\u01d2 M\u00e1 R\u00e9n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to moisten the intestines and relieve dryness-related constipation.",
+      "nature": "neutral",
+      "taste": "sweet",
+      "meridians": [
+        "Large Intestine",
+        "Spleen",
+        "Stomach"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u706b\u9ebb\u4ec1",
+          "url": "https://tcmwiki.com/wiki/huo-ma-ren",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "bai_zi_ren",
+      "name_english": "Biota Seed",
+      "name_chinese": "\u67cf\u5b50\u4ec1",
+      "pinyin": "B\u01cei Z\u01d0 R\u00e9n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to nourish the Heart, calm the spirit, and moisten the intestines.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "The cited source advises caution for loose stools or profuse phlegm. Pregnancy: safety is not established. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/bai-zi-ren",
+      "aliases": {
+        "id": [
+          "bai_zi_ren",
+          "b\u01cei z\u01d0 r\u00e9n"
+        ],
+        "zh": [
+          "\u67cf\u5b50\u4ec1"
+        ]
+      },
+      "name_zh": "\u67cf\u5b50\u4ec1",
+      "name_en": "Biota Seed",
+      "name_pinyin": "B\u01cei Z\u01d0 R\u00e9n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to nourish the Heart, calm the spirit, and moisten the intestines.",
+      "nature": "neutral",
+      "taste": "sweet",
+      "meridians": [
+        "Heart",
+        "Liver",
+        "Large Intestine"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u67cf\u5b50\u4ec1",
+          "url": "https://tcmwiki.com/wiki/bai-zi-ren",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "yuan_zhi",
+      "name_english": "Polygala Root",
+      "name_chinese": "\u8fdc\u5fd7",
+      "pinyin": "Yu\u01cen Zh\u00ec",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to calm the spirit, support memory, transform phlegm, and reduce swelling in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/yuan-zhi",
+      "aliases": {
+        "id": [
+          "yuan_zhi",
+          "yu\u01cen zh\u00ec"
+        ],
+        "zh": [
+          "\u8fdc\u5fd7"
+        ]
+      },
+      "name_zh": "\u8fdc\u5fd7",
+      "name_en": "Polygala Root",
+      "name_pinyin": "Yu\u01cen Zh\u00ec",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to calm the spirit, support memory, transform phlegm, and reduce swelling in traditional patterns.",
+      "nature": "slightly warm",
+      "taste": "bitter, pungent",
+      "meridians": [
+        "Liver",
+        "Kidney",
+        "Lung"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u8fdc\u5fd7",
+          "url": "https://tcmwiki.com/wiki/yuan-zhi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "shi_chang_pu",
+      "name_english": "Acorus Rhizome",
+      "name_chinese": "\u77f3\u83d6\u84b2",
+      "pinyin": "Sh\u00ed Ch\u0101ng P\u00fa",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to transform dampness, harmonize the Stomach, calm the spirit, and open the sensory orifices in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/shi-chang-pu",
+      "aliases": {
+        "id": [
+          "shi_chang_pu",
+          "sh\u00ed ch\u0101ng p\u00fa"
+        ],
+        "zh": [
+          "\u77f3\u83d6\u84b2"
+        ]
+      },
+      "name_zh": "\u77f3\u83d6\u84b2",
+      "name_en": "Acorus Rhizome",
+      "name_pinyin": "Sh\u00ed Ch\u0101ng P\u00fa",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to transform dampness, harmonize the Stomach, calm the spirit, and open the sensory orifices in traditional patterns.",
+      "nature": "warm",
+      "taste": "pungent, bitter",
+      "meridians": [
+        "Heart",
+        "Spleen",
+        "Stomach"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u77f3\u83d6\u84b2",
+          "url": "https://tcmwiki.com/wiki/shi-chang-pu",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "he_huan_pi",
+      "name_english": "Albizia Bark",
+      "name_chinese": "\u5408\u6b22\u76ae",
+      "pinyin": "H\u00e9 Hu\u0101n P\u00ed",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to calm the spirit, ease constraint, invigorate Blood, and reduce swelling.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "The cited source advises caution during pregnancy; this is not stated as an absolute contraindication. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/he-huan-pi",
+      "aliases": {
+        "id": [
+          "he_huan_pi",
+          "h\u00e9 hu\u0101n p\u00ed"
+        ],
+        "zh": [
+          "\u5408\u6b22\u76ae"
+        ]
+      },
+      "name_zh": "\u5408\u6b22\u76ae",
+      "name_en": "Albizia Bark",
+      "name_pinyin": "H\u00e9 Hu\u0101n P\u00ed",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to calm the spirit, ease constraint, invigorate Blood, and reduce swelling.",
+      "nature": "neutral",
+      "taste": "sweet",
+      "meridians": [
+        "Heart",
+        "Liver",
+        "Lung"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u5408\u6b22\u76ae",
+          "url": "https://tcmwiki.com/wiki/he-huan-pi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "ye_jiao_teng",
+      "name_english": "Fleeceflower Vine",
+      "name_chinese": "\u591c\u4ea4\u85e4",
+      "pinyin": "Y\u00e8 Ji\u0101o T\u00e9ng",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to nourish the Heart, calm the spirit, dispel wind, and unblock collaterals.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/ye-jiao-teng",
+      "aliases": {
+        "id": [
+          "ye_jiao_teng",
+          "y\u00e8 ji\u0101o t\u00e9ng"
+        ],
+        "zh": [
+          "\u591c\u4ea4\u85e4"
+        ]
+      },
+      "name_zh": "\u591c\u4ea4\u85e4",
+      "name_en": "Fleeceflower Vine",
+      "name_pinyin": "Y\u00e8 Ji\u0101o T\u00e9ng",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to nourish the Heart, calm the spirit, dispel wind, and unblock collaterals.",
+      "nature": "neutral",
+      "taste": "sweet",
+      "meridians": [
+        "Heart",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u591c\u4ea4\u85e4",
+          "url": "https://tcmwiki.com/wiki/ye-jiao-teng",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "long_dan_cao",
+      "name_english": "Chinese Gentian Root",
+      "name_chinese": "\u9f99\u80c6\u8349",
+      "pinyin": "L\u00f3ng D\u01cen C\u01ceo",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear damp-heat and drain fire in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/long-dan-cao",
+      "aliases": {
+        "id": [
+          "long_dan_cao",
+          "l\u00f3ng d\u01cen c\u01ceo"
+        ],
+        "zh": [
+          "\u9f99\u80c6\u8349"
+        ]
+      },
+      "name_zh": "\u9f99\u80c6\u8349",
+      "name_en": "Chinese Gentian Root",
+      "name_pinyin": "L\u00f3ng D\u01cen C\u01ceo",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear damp-heat and drain fire in traditional patterns.",
+      "nature": "cold",
+      "taste": "bitter",
+      "meridians": [
+        "Liver",
+        "Gallbladder",
+        "Stomach",
+        "Bladder"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u9f99\u80c6\u8349",
+          "url": "https://tcmwiki.com/wiki/long-dan-cao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "ban_lan_gen",
+      "name_english": "Isatis Root",
+      "name_chinese": "\u677f\u84dd\u6839",
+      "pinyin": "B\u01cen L\u00e1n G\u0113n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear heat, remove toxicity, cool Blood, and soothe the throat in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/ban-lan-gen",
+      "aliases": {
+        "id": [
+          "ban_lan_gen",
+          "b\u01cen l\u00e1n g\u0113n"
+        ],
+        "zh": [
+          "\u677f\u84dd\u6839"
+        ]
+      },
+      "name_zh": "\u677f\u84dd\u6839",
+      "name_en": "Isatis Root",
+      "name_pinyin": "B\u01cen L\u00e1n G\u0113n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear heat, remove toxicity, cool Blood, and soothe the throat in traditional patterns.",
+      "nature": "cold",
+      "taste": "bitter",
+      "meridians": [
+        "Lung",
+        "Stomach",
+        "Heart",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u677f\u84dd\u6839",
+          "url": "https://tcmwiki.com/wiki/ban-lan-gen",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "da_qing_ye",
+      "name_english": "Isatis Leaf",
+      "name_chinese": "\u5927\u9752\u53f6",
+      "pinyin": "D\u00e0 Q\u012bng Y\u00e8",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear heat, remove toxicity, cool Blood, and address macules in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/da-qing-ye",
+      "aliases": {
+        "id": [
+          "da_qing_ye",
+          "d\u00e0 q\u012bng y\u00e8"
+        ],
+        "zh": [
+          "\u5927\u9752\u53f6"
+        ]
+      },
+      "name_zh": "\u5927\u9752\u53f6",
+      "name_en": "Isatis Leaf",
+      "name_pinyin": "D\u00e0 Q\u012bng Y\u00e8",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear heat, remove toxicity, cool Blood, and address macules in traditional patterns.",
+      "nature": "cold",
+      "taste": "bitter",
+      "meridians": [
+        "Lung",
+        "Stomach",
+        "Heart",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u5927\u9752\u53f6",
+          "url": "https://tcmwiki.com/wiki/da-qing-ye",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "qing_hao",
+      "name_english": "Sweet Wormwood",
+      "name_chinese": "\u9752\u84bf",
+      "pinyin": "Q\u012bng H\u0101o",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear deficiency heat, summer-heat, and damp-heat in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/qing-hao",
+      "aliases": {
+        "id": [
+          "qing_hao",
+          "q\u012bng h\u0101o"
+        ],
+        "zh": [
+          "\u9752\u84bf"
+        ]
+      },
+      "name_zh": "\u9752\u84bf",
+      "name_en": "Sweet Wormwood",
+      "name_pinyin": "Q\u012bng H\u0101o",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear deficiency heat, summer-heat, and damp-heat in traditional patterns.",
+      "nature": "cold",
+      "taste": "bitter, pungent",
+      "meridians": [
+        "Liver",
+        "Gallbladder",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u9752\u84bf",
+          "url": "https://tcmwiki.com/wiki/qing-hao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "yu_xing_cao",
+      "name_english": "Houttuynia Herb",
+      "name_chinese": "\u9c7c\u8165\u8349",
+      "pinyin": "Y\u00fa X\u012bng C\u01ceo",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear heat, remove toxicity, clear Lung heat, and promote discharge of pus in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "The cited source cautions against prolonged decoction. Pregnancy: safety is not established. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/yu-xing-cao",
+      "aliases": {
+        "id": [
+          "yu_xing_cao",
+          "y\u00fa x\u012bng c\u01ceo"
+        ],
+        "zh": [
+          "\u9c7c\u8165\u8349"
+        ]
+      },
+      "name_zh": "\u9c7c\u8165\u8349",
+      "name_en": "Houttuynia Herb",
+      "name_pinyin": "Y\u00fa X\u012bng C\u01ceo",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear heat, remove toxicity, clear Lung heat, and promote discharge of pus in traditional patterns.",
+      "nature": "cold",
+      "taste": "pungent",
+      "meridians": [
+        "Lung",
+        "Liver",
+        "Bladder",
+        "Large Intestine"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u9c7c\u8165\u8349",
+          "url": "https://tcmwiki.com/wiki/yu-xing-cao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "she_gan",
+      "name_english": "Blackberry Lily Rhizome",
+      "name_chinese": "\u5c04\u5e72",
+      "pinyin": "Sh\u00e8 G\u0101n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear Lung heat, transform phlegm, and soothe a sore throat in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/she-gan",
+      "aliases": {
+        "id": [
+          "she_gan",
+          "sh\u00e8 g\u0101n"
+        ],
+        "zh": [
+          "\u5c04\u5e72"
+        ]
+      },
+      "name_zh": "\u5c04\u5e72",
+      "name_en": "Blackberry Lily Rhizome",
+      "name_pinyin": "Sh\u00e8 G\u0101n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear Lung heat, transform phlegm, and soothe a sore throat in traditional patterns.",
+      "nature": "cold",
+      "taste": "bitter",
+      "meridians": [
+        "Lung"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u5c04\u5e72",
+          "url": "https://tcmwiki.com/wiki/she-gan",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "bai_tou_weng",
+      "name_english": "Pulsatilla Root",
+      "name_chinese": "\u767d\u5934\u7fc1",
+      "pinyin": "B\u00e1i T\u00f3u W\u0113ng",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear heat, remove toxicity, cool Blood, and address dysentery patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/bai-tou-weng",
+      "aliases": {
+        "id": [
+          "bai_tou_weng",
+          "b\u00e1i t\u00f3u w\u0113ng"
+        ],
+        "zh": [
+          "\u767d\u5934\u7fc1"
+        ]
+      },
+      "name_zh": "\u767d\u5934\u7fc1",
+      "name_en": "Pulsatilla Root",
+      "name_pinyin": "B\u00e1i T\u00f3u W\u0113ng",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear heat, remove toxicity, cool Blood, and address dysentery patterns.",
+      "nature": "cold",
+      "taste": "bitter",
+      "meridians": [
+        "Large Intestine",
+        "Liver",
+        "Stomach"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u767d\u5934\u7fc1",
+          "url": "https://tcmwiki.com/wiki/bai-tou-weng",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "che_qian_zi",
+      "name_english": "Plantain Seed",
+      "name_chinese": "\u8f66\u524d\u5b50",
+      "pinyin": "Ch\u0113 Qi\u00e1n Z\u01d0",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to promote urination, drain dampness, and clear Liver and Lung heat in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/che-qian-zi",
+      "aliases": {
+        "id": [
+          "che_qian_zi",
+          "ch\u0113 qi\u00e1n z\u01d0"
+        ],
+        "zh": [
+          "\u8f66\u524d\u5b50"
+        ]
+      },
+      "name_zh": "\u8f66\u524d\u5b50",
+      "name_en": "Plantain Seed",
+      "name_pinyin": "Ch\u0113 Qi\u00e1n Z\u01d0",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to promote urination, drain dampness, and clear Liver and Lung heat in traditional patterns.",
+      "nature": "slightly cold",
+      "taste": "sweet, bland",
+      "meridians": [
+        "Kidney",
+        "Bladder",
+        "Liver",
+        "Lung"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u8f66\u524d\u5b50",
+          "url": "https://tcmwiki.com/wiki/che-qian-zi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "ze_xie",
+      "name_english": "Alisma Rhizome",
+      "name_chinese": "\u6cfd\u6cfb",
+      "pinyin": "Z\u00e9 Xi\u00e8",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to promote urination, drain dampness, and clear heat in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/ze-xie",
+      "aliases": {
+        "id": [
+          "ze_xie",
+          "z\u00e9 xi\u00e8"
+        ],
+        "zh": [
+          "\u6cfd\u6cfb"
+        ]
+      },
+      "name_zh": "\u6cfd\u6cfb",
+      "name_en": "Alisma Rhizome",
+      "name_pinyin": "Z\u00e9 Xi\u00e8",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to promote urination, drain dampness, and clear heat in traditional patterns.",
+      "nature": "cold",
+      "taste": "sweet, bland",
+      "meridians": [
+        "Kidney",
+        "Bladder"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6cfd\u6cfb",
+          "url": "https://tcmwiki.com/wiki/ze-xie",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "mu_tong",
+      "name_english": "Mu Tong Stem (botanical identity requires verification)",
+      "name_chinese": "\u6728\u901a",
+      "pinyin": "M\u00f9 T\u014dng",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to clear Heart fire, promote urination, and promote menstrual flow in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "TCM Wiki explicitly lists pregnancy as a contraindication. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner; botanical identity and product quality require professional confirmation.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/mu-tong",
+      "aliases": {
+        "id": [
+          "mu_tong",
+          "m\u00f9 t\u014dng"
+        ],
+        "zh": [
+          "\u6728\u901a"
+        ]
+      },
+      "name_zh": "\u6728\u901a",
+      "name_en": "Mu Tong Stem (botanical identity requires verification)",
+      "name_pinyin": "M\u00f9 T\u014dng",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to clear Heart fire, promote urination, and promote menstrual flow in traditional patterns.",
+      "nature": "cool",
+      "taste": "bitter",
+      "meridians": [
+        "Heart",
+        "Small Intestine",
+        "Bladder"
+      ],
+      "pregnancy_safe": false,
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6728\u901a",
+          "url": "https://tcmwiki.com/wiki/mu-tong",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "tong_cao",
+      "name_english": "Rice Paper Plant Pith",
+      "name_chinese": "\u901a\u8349",
+      "pinyin": "T\u014dng C\u01ceo",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to promote urination and lactation in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "The cited source advises caution during pregnancy, but does not state an absolute contraindication. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/tong-cao",
+      "aliases": {
+        "id": [
+          "tong_cao",
+          "t\u014dng c\u01ceo"
+        ],
+        "zh": [
+          "\u901a\u8349"
+        ]
+      },
+      "name_zh": "\u901a\u8349",
+      "name_en": "Rice Paper Plant Pith",
+      "name_pinyin": "T\u014dng C\u01ceo",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to promote urination and lactation in traditional patterns.",
+      "nature": "slightly cold",
+      "taste": "sweet, bland",
+      "meridians": [
+        "Stomach",
+        "Lung"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u901a\u8349",
+          "url": "https://tcmwiki.com/wiki/tong-cao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "hua_shi",
+      "name_english": "Talc",
+      "name_chinese": "\u6ed1\u77f3",
+      "pinyin": "Hu\u00e1 Sh\u00ed",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to promote urination, clear heat and summer-heat, and for external dampness-related applications.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner; use only products intended for medicinal use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/hua-shi",
+      "aliases": {
+        "id": [
+          "hua_shi",
+          "hu\u00e1 sh\u00ed"
+        ],
+        "zh": [
+          "\u6ed1\u77f3"
+        ]
+      },
+      "name_zh": "\u6ed1\u77f3",
+      "name_en": "Talc",
+      "name_pinyin": "Hu\u00e1 Sh\u00ed",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to promote urination, clear heat and summer-heat, and for external dampness-related applications.",
+      "nature": "cold",
+      "taste": "sweet, bland",
+      "meridians": [
+        "Bladder",
+        "Lung",
+        "Stomach"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6ed1\u77f3",
+          "url": "https://tcmwiki.com/wiki/hua-shi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "xian_mao",
+      "name_english": "Curculigo Rhizome",
+      "name_chinese": "\u4ed9\u8305",
+      "pinyin": "Xi\u0101n M\u00e1o",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to warm the Kidney, support Yang, and dispel cold-damp in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "TCM Wiki identifies the herb as toxic and contraindicates it in Yin deficiency with effulgent fire and long-term use. Pregnancy: safety is not established. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/xian-mao",
+      "aliases": {
+        "id": [
+          "xian_mao",
+          "xi\u0101n m\u00e1o"
+        ],
+        "zh": [
+          "\u4ed9\u8305"
+        ]
+      },
+      "name_zh": "\u4ed9\u8305",
+      "name_en": "Curculigo Rhizome",
+      "name_pinyin": "Xi\u0101n M\u00e1o",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to warm the Kidney, support Yang, and dispel cold-damp in traditional patterns.",
+      "nature": "hot",
+      "taste": "sweet, pungent",
+      "meridians": [
+        "Liver",
+        "Kidney"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u4ed9\u8305",
+          "url": "https://tcmwiki.com/wiki/xian-mao",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "ba_ji_tian",
+      "name_english": "Morinda Root",
+      "name_chinese": "\u5df4\u6208\u5929",
+      "pinyin": "B\u0101 J\u00ec Ti\u0101n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to support Kidney Yang, strengthen sinews and bones, and dispel wind-damp.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/ba-ji-tian",
+      "aliases": {
+        "id": [
+          "ba_ji_tian",
+          "b\u0101 j\u00ec ti\u0101n"
+        ],
+        "zh": [
+          "\u5df4\u6208\u5929"
+        ]
+      },
+      "name_zh": "\u5df4\u6208\u5929",
+      "name_en": "Morinda Root",
+      "name_pinyin": "B\u0101 J\u00ec Ti\u0101n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to support Kidney Yang, strengthen sinews and bones, and dispel wind-damp.",
+      "nature": "slightly warm",
+      "taste": "sweet, pungent",
+      "meridians": [
+        "Kidney",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u5df4\u6208\u5929",
+          "url": "https://tcmwiki.com/wiki/ba-ji-tian",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "yi_zhi_ren",
+      "name_english": "Alpinia Fruit",
+      "name_chinese": "\u76ca\u667a\u4ec1",
+      "pinyin": "Y\u00ec Zh\u00ec R\u00e9n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to warm and support the Kidney and Spleen and to astringe in traditional patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/yi-zhi-ren",
+      "aliases": {
+        "id": [
+          "yi_zhi_ren",
+          "y\u00ec zh\u00ec r\u00e9n"
+        ],
+        "zh": [
+          "\u76ca\u667a\u4ec1"
+        ]
+      },
+      "name_zh": "\u76ca\u667a\u4ec1",
+      "name_en": "Alpinia Fruit",
+      "name_pinyin": "Y\u00ec Zh\u00ec R\u00e9n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to warm and support the Kidney and Spleen and to astringe in traditional patterns.",
+      "nature": "warm",
+      "taste": "sweet, pungent, astringent",
+      "meridians": [
+        "Kidney",
+        "Spleen"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u76ca\u667a\u4ec1",
+          "url": "https://tcmwiki.com/wiki/yi-zhi-ren",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "tu_si_zi",
+      "name_english": "Chinese Dodder Seed",
+      "name_chinese": "\u83df\u4e1d\u5b50",
+      "pinyin": "T\u00f9 S\u012b Z\u01d0",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to support the Kidney, nourish essence, and astringe; traditional sources also describe use in pregnancy-related patterns.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Traditional use in pregnancy-related patterns does not establish safety. Pregnancy: consult an obstetric clinician and licensed practitioner. Children: safety is not established. Drug interactions: not assessed by the cited source.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/tu-si-zi",
+      "aliases": {
+        "id": [
+          "tu_si_zi",
+          "t\u00f9 s\u012b z\u01d0"
+        ],
+        "zh": [
+          "\u83df\u4e1d\u5b50"
+        ]
+      },
+      "name_zh": "\u83df\u4e1d\u5b50",
+      "name_en": "Chinese Dodder Seed",
+      "name_pinyin": "T\u00f9 S\u012b Z\u01d0",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to support the Kidney, nourish essence, and astringe; traditional sources also describe use in pregnancy-related patterns.",
+      "nature": "slightly warm",
+      "taste": "sweet, astringent",
+      "meridians": [
+        "Kidney",
+        "Spleen",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u83df\u4e1d\u5b50",
+          "url": "https://tcmwiki.com/wiki/tu-si-zi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "gui_zhi",
+      "name_english": "Cinnamon Twig",
+      "name_chinese": "\u6842\u679d",
+      "pinyin": "Gu\u00ec Zh\u012b",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to release the exterior, warm and unblock channels, and support Yang Qi.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "Pregnancy: safety is not established by the cited source. Children: safety is not established. Drug interactions: not assessed by the cited source. Consult a licensed practitioner before use.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/gui-zhi",
+      "aliases": {
+        "id": [
+          "gui_zhi",
+          "gu\u00ec zh\u012b"
+        ],
+        "zh": [
+          "\u6842\u679d"
+        ]
+      },
+      "name_zh": "\u6842\u679d",
+      "name_en": "Cinnamon Twig",
+      "name_pinyin": "Gu\u00ec Zh\u012b",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to release the exterior, warm and unblock channels, and support Yang Qi.",
+      "nature": "warm",
+      "taste": "pungent, sweet",
+      "meridians": [
+        "Lung",
+        "Heart",
+        "Kidney",
+        "Liver"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u6842\u679d",
+          "url": "https://tcmwiki.com/wiki/gui-zhi",
+          "verified_date": "2026-11-07"
+        }
+      ]
+    },
+    {
+      "id": "xing_ren",
+      "name_english": "Apricot Kernel",
+      "name_chinese": "\u674f\u4ec1",
+      "pinyin": "X\u00ecng R\u00e9n",
+      "category": "single_herb",
+      "traditional_uses": "Traditionally used to direct Lung Qi downward, relieve cough, and moisten the intestines.",
+      "typical_preparation": "",
+      "cautions_and_contraindications": "TCM Wiki describes this herb as slightly toxic. Pregnancy: safety is not established. Children: safety is not established. Drug interactions: not assessed. Consult a licensed practitioner; do not self-prescribe.",
+      "related_constitutions": [],
+      "source_note": "Traditional materia medica summary from the checked TCM Wiki entry; not a modern clinical safety review. https://tcmwiki.com/wiki/xing-ren",
+      "aliases": {
+        "id": [
+          "xing_ren",
+          "x\u00ecng r\u00e9n"
+        ],
+        "zh": [
+          "\u674f\u4ec1"
+        ]
+      },
+      "name_zh": "\u674f\u4ec1",
+      "name_en": "Apricot Kernel",
+      "name_pinyin": "X\u00ecng R\u00e9n",
+      "entry_type": "herb",
+      "traditional_use": "Traditionally used to direct Lung Qi downward, relieve cough, and moisten the intestines.",
+      "nature": "slightly warm",
+      "taste": "bitter",
+      "meridians": [
+        "Lung",
+        "Large Intestine"
+      ],
+      "pregnancy_safe": "consult_practitioner",
+      "pediatric_note": "Pediatric safety is not established by the cited source; use only with guidance from a licensed pediatric practitioner.",
+      "review_status": "needs_expert_review",
+      "sources": [
+        {
+          "name": "TCM Wiki - \u674f\u4ec1",
+          "url": "https://tcmwiki.com/wiki/xing-ren",
+          "verified_date": "2026-11-07"
+        }
+      ]
     }
   ],
   "dataset_disclaimer": "This app cites sources that vary by entry (e.g., MSK About Herbs, TCM Wiki). Some entries are unverified traditional references. This is educational information only ? not medical advice. Always consult a licensed practitioner."
