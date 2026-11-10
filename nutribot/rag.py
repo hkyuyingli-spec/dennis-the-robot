@@ -520,6 +520,126 @@ def find_relevant_cancer_education(prompt, cancer_data, max_matches=2, current_l
     return [item for score, item in scored[:max_matches]]
 
 
+def _load_reference_records(data_dir, filename, key):
+    root = Path(data_dir) if data_dir is not None else PROJECT_ROOT / "data"
+    with (root / filename).open("r", encoding="utf-8") as source_file:
+        data = json.load(source_file)
+    records = data.get(key) if isinstance(data, dict) else None
+    if not isinstance(records, list):
+        raise ValueError(f"{filename} must contain a list under '{key}'")
+    return records
+
+
+def load_tcm_theory(data_dir=None):
+    return _load_reference_records(data_dir, "tcm_theory.json", "frameworks")
+
+
+def load_seasonal_foods(data_dir=None):
+    return _load_reference_records(data_dir, "seasonal_foods.json", "seasons")
+
+
+def load_acupressure(data_dir=None):
+    return _load_reference_records(data_dir, "acupressure.json", "points")
+
+
+def _reference_phrase_matches(prompt, phrase):
+    phrase = str(phrase or "").strip()
+    if not phrase:
+        return False
+    if re.search(r"[\u3400-\u9fff]", phrase):
+        return phrase in prompt
+    return re.search(rf"(?<!\w){re.escape(phrase.casefold())}(?!\w)", prompt) is not None
+
+
+def find_tcm_theory(prompt, theory_data, max_matches=4):
+    if not prompt or not theory_data or max_matches <= 0:
+        return []
+    query = str(prompt).casefold()
+    matches = []
+    for framework in theory_data:
+        framework_terms = (
+            framework.get("id", "").replace("_", " "),
+            framework.get("name_en", ""),
+            framework.get("name_zh", ""),
+            framework.get("name_pinyin", ""),
+        )
+        framework_matched = any(_reference_phrase_matches(query, term) for term in framework_terms)
+        matched_categories = [
+            category
+            for category in framework.get("categories", [])
+            if any(
+                _reference_phrase_matches(query, term)
+                for term in (
+                    category.get("id", "").replace("_", " "),
+                    category.get("name_en", ""),
+                    category.get("name_zh", ""),
+                    category.get("name_pinyin", ""),
+                )
+            )
+        ]
+        if framework_matched or matched_categories:
+            result = dict(framework)
+            if matched_categories and not framework_matched:
+                result["categories"] = matched_categories
+            matches.append(result)
+    return matches[:max_matches]
+
+
+def find_seasonal_foods(prompt, seasonal_data, max_matches=4):
+    if not prompt or not seasonal_data or max_matches <= 0:
+        return []
+    query = str(prompt).casefold()
+    explicit_season = []
+    for item in seasonal_data:
+        if any(
+            _reference_phrase_matches(query, term)
+            for term in (item.get("season", ""), item.get("season_zh", ""))
+        ):
+            explicit_season.append(item)
+    if explicit_season:
+        return explicit_season[:max_matches]
+    if re.search(r"\bseasons?\b|\bseasonal\b|季节", query):
+        return seasonal_data[:max_matches]
+
+    scored = []
+    for order, item in enumerate(seasonal_data):
+        foods = item.get("foods_to_favor", []) + item.get("foods_to_limit", [])
+        score = sum(
+            1 for food in foods
+            if _reference_phrase_matches(query, food)
+        )
+        if score:
+            scored.append((score, order, item))
+    scored.sort(key=lambda result: (-result[0], result[1]))
+    return [item for _score, _order, item in scored[:max_matches]]
+
+
+def find_acupressure(prompt, points, max_matches=3):
+    if not prompt or not points or max_matches <= 0:
+        return []
+    query = str(prompt).casefold()
+    scored = []
+    for order, point in enumerate(points):
+        code = str(point.get("code", "")).casefold()
+        compact_code = re.sub(r"\s+", "", code)
+        code_match = bool(
+            compact_code
+            and re.search(rf"(?<![a-z0-9]){re.escape(compact_code)}(?!\d)", query)
+        )
+        name_match = any(
+            _reference_phrase_matches(query, point.get(field, ""))
+            for field in ("name_en", "name_zh")
+        )
+        use_terms = re.findall(r"[a-z]{4,}", str(point.get("traditional_use", "")).casefold())
+        query_words = set(re.findall(r"[a-z]{4,}", query))
+        use_score = len(query_words.intersection(use_terms))
+        score = (8 if code_match else 0) + (6 if name_match else 0) + use_score
+        if score:
+            scored.append((score, order, point))
+    scored.sort(key=lambda result: (-result[0], result[1]))
+    return [point for _score, _order, point in scored[:max_matches]]
+
+
 def cancer_personal_redirect_response(prompt=""):
     """Redirect personal-assessment requests while welcoming general education questions."""
     text = str(prompt).casefold()

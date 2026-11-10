@@ -1,0 +1,156 @@
+{
+  "review_status": "needs_expert_review",
+  "scope_note": "Educational descriptions of traditional acupressure points, not evidence of treatment efficacy. Locations are approximate and must be confirmed by a trained practitioner. Do not use pressure to delay medical care.",
+  "points": [
+    {
+      "code": "LI4",
+      "name_zh": "合谷",
+      "name_en": "Hegu",
+      "location": "On the back of the hand, in the web between the thumb and index finger, near the midpoint of the second metacarpal.",
+      "traditional_use": "Traditionally discussed for head, face, or hand discomfort.",
+      "cautions": "Use only gentle pressure on intact skin and stop if painful, numb, or uncomfortable. Conservative pregnancy restriction: do not stimulate during pregnancy; seek advice from an obstetric clinician and licensed practitioner.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review, not a claim of proven effect."
+    },
+    {
+      "code": "LI11",
+      "name_zh": "曲池",
+      "name_en": "Quchi",
+      "location": "At the outer end of the elbow crease when the elbow is flexed.",
+      "traditional_use": "Traditionally discussed for elbow or forearm discomfort and in heat-pattern descriptions.",
+      "cautions": "Avoid pressure over injured, inflamed, or numb skin. Use gentle pressure only and stop if uncomfortable. Consult a licensed practitioner for individualized guidance.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "ST36",
+      "name_zh": "足三里",
+      "name_en": "Zusanli",
+      "location": "On the outer lower leg, roughly four finger-widths below the kneecap and one finger-width lateral to the shin bone.",
+      "traditional_use": "Traditionally discussed in relation to digestion and general wellbeing.",
+      "cautions": "Avoid pressure over injury, swelling, or altered sensation. Use gentle pressure only and stop if uncomfortable. Consult a licensed practitioner for individualized guidance.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "SP6",
+      "name_zh": "三阴交",
+      "name_en": "Sanyinjiao",
+      "location": "On the inner lower leg, about four finger-widths above the inner ankle bone, just behind the shin bone.",
+      "traditional_use": "Traditionally discussed in relation to lower-abdominal and menstrual concerns.",
+      "cautions": "Conservative pregnancy restriction: do not stimulate during pregnancy; seek advice from an obstetric clinician and licensed practitioner. Avoid pressure over injured or unusually tender skin.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review, not a claim of proven effect."
+    },
+    {
+      "code": "PC6",
+      "name_zh": "内关",
+      "name_en": "Neiguan",
+      "location": "On the inner forearm, about three finger-widths above the wrist crease, between the two prominent tendons.",
+      "traditional_use": "Traditionally discussed for nausea-related complaints and chest or wrist discomfort.",
+      "cautions": "Avoid pressure over injury or irritated skin. Use gentle pressure only and stop if uncomfortable. Persistent, severe, or new symptoms need medical assessment.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "HT7",
+      "name_zh": "神门",
+      "name_en": "Shenmen",
+      "location": "At the wrist crease on the little-finger side, near the small wrist tendon.",
+      "traditional_use": "Traditionally discussed in relation to restlessness and sleep concerns.",
+      "cautions": "Avoid pressure over injury, swelling, or altered sensation. Acupressure is not a substitute for assessment of persistent sleep or mental-health concerns.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "LR3",
+      "name_zh": "太冲",
+      "name_en": "Taichong",
+      "location": "On the top of the foot between the first and second metatarsal bones, in the depression just before they meet.",
+      "traditional_use": "Traditionally discussed for head or foot discomfort and in patterns described as constrained Qi.",
+      "cautions": "Avoid pressure over injury, bruising, or irritated skin. Use gentle pressure only and stop if uncomfortable. Consult a licensed practitioner for individualized guidance.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "GB20",
+      "name_zh": "风池",
+      "name_en": "Fengchi",
+      "location": "At the base of the skull, in the hollows on either side of the neck muscles.",
+      "traditional_use": "Traditionally discussed for head or neck tension.",
+      "cautions": "Use only light pressure; do not press on the front or sides of the throat or apply forceful neck manipulation. Avoid if neck injury is suspected. Seek medical care for sudden severe headache, weakness, fainting, or other urgent symptoms.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "GB21",
+      "name_zh": "肩井",
+      "name_en": "Jianjing",
+      "location": "On the upper trapezius, approximately midway between the base of the neck and the outer shoulder.",
+      "traditional_use": "Traditionally discussed for shoulder or upper-back tension.",
+      "cautions": "Conservative pregnancy restriction: do not stimulate during pregnancy; seek advice from an obstetric clinician and licensed practitioner. Use gentle pressure only; avoid forceful manipulation or pressure over injury.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review, not a claim of proven effect."
+    },
+    {
+      "code": "CV6",
+      "name_zh": "气海",
+      "name_en": "Qihai",
+      "location": "On the midline of the lower abdomen, about two finger-widths below the navel.",
+      "traditional_use": "Traditionally discussed in relation to abdominal wellbeing and vitality.",
+      "cautions": "Avoid abdominal pressure during pregnancy, after recent surgery, or over pain, injury, or a mass unless a qualified clinician advises otherwise. Persistent abdominal symptoms require medical assessment.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review."
+    },
+    {
+      "code": "CV4",
+      "name_zh": "关元",
+      "name_en": "Guanyuan",
+      "location": "On the midline of the lower abdomen, about four finger-widths below the navel.",
+      "traditional_use": "Traditionally discussed in relation to lower-abdominal and reproductive-health concepts.",
+      "cautions": "Avoid abdominal pressure during pregnancy, after recent surgery, or over pain, injury, or a mass unless a qualified clinician advises otherwise. Do not use this information to self-treat reproductive or urinary symptoms.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review."
+    },
+    {
+      "code": "ST25",
+      "name_zh": "天枢",
+      "name_en": "Tianshu",
+      "location": "On the abdomen, about three finger-widths to either side of the navel.",
+      "traditional_use": "Traditionally discussed in relation to digestive complaints.",
+      "cautions": "Avoid abdominal pressure during pregnancy, after recent surgery, or over pain, injury, or a mass unless a qualified clinician advises otherwise. Severe or persistent digestive symptoms need medical assessment.",
+      "pregnancy_safe": false,
+      "source_note": "Traditional point description; pregnancy restriction is a conservative safety flag pending expert review."
+    },
+    {
+      "code": "BL60",
+      "name_zh": "昆仑",
+      "name_en": "Kunlun",
+      "location": "In the hollow between the outer ankle bone and the Achilles tendon.",
+      "traditional_use": "Traditionally discussed for ankle or lower-back discomfort.",
+      "cautions": "Avoid pressure over ankle injury, swelling, or irritated skin. Use gentle pressure only and stop if uncomfortable. Consult a licensed practitioner for individualized guidance.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "LU7",
+      "name_zh": "列缺",
+      "name_en": "Lieque",
+      "location": "On the thumb side of the forearm, just above the wrist near the radial styloid.",
+      "traditional_use": "Traditionally discussed for wrist, head, or neck discomfort and respiratory-pattern concepts.",
+      "cautions": "Avoid pressure over injury or irritated skin. Acupressure is not a treatment for breathing difficulty or other urgent respiratory symptoms.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    },
+    {
+      "code": "EX-HN3",
+      "name_zh": "印堂",
+      "name_en": "Yintang",
+      "location": "At the midpoint between the inner ends of the eyebrows.",
+      "traditional_use": "Traditionally discussed in relation to relaxation and head or facial tension.",
+      "cautions": "Use light touch only; avoid pressure on injured or irritated skin and avoid pressing on the eyes. Persistent headache or vision symptoms need medical assessment.",
+      "pregnancy_safe": "consult_practitioner",
+      "source_note": "Traditional point description; exact location and use require expert review."
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "review_status": "needs_expert_review",
+  "scope_note": "Educational summaries of traditional TCM frameworks only. These concepts are not biomedical diagnoses and should not be used to diagnose or prescribe treatment.",
+  "frameworks": [
+    {
+      "id": "eight_principles",
+      "name_en": "Eight Principles",
+      "name_zh": "八纲",
+      "name_pinyin": "Ba Gang",
+      "description": "A traditional framework for describing patterns through four paired distinctions. It is an educational model, not a stand-alone diagnostic method.",
+      "categories": [
+        {
+          "id": "yin_yang",
+          "name_en": "Yin and Yang",
+          "name_zh": "阴阳",
+          "description": "A broad paired distinction used in traditional theory to summarize aspects of a pattern. Its interpretation depends on the full clinical context."
+        },
+        {
+          "id": "interior_exterior",
+          "name_en": "Interior and Exterior",
+          "name_zh": "里表",
+          "description": "A traditional distinction describing whether a pattern is considered more internal or more superficial within the framework."
+        },
+        {
+          "id": "cold_heat",
+          "name_en": "Cold and Heat",
+          "name_zh": "寒热",
+          "description": "A traditional description of qualities attributed to a pattern; it is not the same as a measured body temperature."
+        },
+        {
+          "id": "deficiency_excess",
+          "name_en": "Deficiency and Excess",
+          "name_zh": "虚实",
+          "description": "A traditional distinction describing how a pattern is understood in relation to insufficiency or excess within the TCM model."
+        }
+      ]
+    },
+    {
+      "id": "four_examinations",
+      "name_en": "Four Examinations",
+      "name_zh": "四诊",
+      "name_pinyin": "Si Zhen",
+      "description": "The traditional categories of information gathering used by a trained practitioner. They are considered together rather than used as isolated self-diagnosis tests.",
+      "categories": [
+        {
+          "id": "observation",
+          "name_en": "Observation",
+          "name_zh": "望诊",
+          "description": "Observing visible features as part of a broader practitioner assessment."
+        },
+        {
+          "id": "listening_smelling",
+          "name_en": "Listening and Smelling",
+          "name_zh": "闻诊",
+          "description": "Attending to sounds and odors as described in traditional examination."
+        },
+        {
+          "id": "inquiry",
+          "name_en": "Inquiry",
+          "name_zh": "问诊",
+          "description": "Asking about the person's experience and relevant history."
+        },
+        {
+          "id": "palpation",
+          "name_en": "Palpation",
+          "name_zh": "切诊",
+          "description": "Touch-based examination performed by a trained practitioner, including traditional pulse assessment."
+        }
+      ]
+    },
+    {
+      "id": "six_stages",
+      "name_en": "Six Stages",
+      "name_zh": "六经",
+      "name_pinyin": "Liu Jing",
+      "description": "A classical framework associated with the Shang Han Lun for discussing progression and pattern relationships in traditional medicine. It is not a map of biomedical disease stages.",
+      "categories": [
+        {
+          "id": "taiyang",
+          "name_en": "Taiyang",
+          "name_zh": "太阳",
+          "description": "One of the six traditional stages in this framework."
+        },
+        {
+          "id": "yangming",
+          "name_en": "Yangming",
+          "name_zh": "阳明",
+          "description": "One of the six traditional stages in this framework."
+        },
+        {
+          "id": "shaoyang",
+          "name_en": "Shaoyang",
+          "name_zh": "少阳",
+          "description": "One of the six traditional stages in this framework."
+        },
+        {
+          "id": "taiyin",
+          "name_en": "Taiyin",
+          "name_zh": "太阴",
+          "description": "One of the six traditional stages in this framework."
+        },
+        {
+          "id": "shaoyin",
+          "name_en": "Shaoyin",
+          "name_zh": "少阴",
+          "description": "One of the six traditional stages in this framework."
+        },
+        {
+          "id": "jueyin",
+          "name_en": "Jueyin",
+          "name_zh": "厥阴",
+          "description": "One of the six traditional stages in this framework."
+        }
+      ]
+    },
+    {
+      "id": "four_levels",
+      "name_en": "Four Levels",
+      "name_zh": "卫气营血",
+      "name_pinyin": "Wei Qi Ying Xue",
+      "description": "A traditional framework, especially associated with warm-disease theory, for describing stages of a pattern. These are not biomedical severity levels.",
+      "categories": [
+        {
+          "id": "wei",
+          "name_en": "Wei Level",
+          "name_zh": "卫分",
+          "description": "The outermost level in this traditional framework."
+        },
+        {
+          "id": "qi",
+          "name_en": "Qi Level",
+          "name_zh": "气分",
+          "description": "The second level in this traditional framework."
+        },
+        {
+          "id": "ying",
+          "name_en": "Ying Level",
+          "name_zh": "营分",
+          "description": "The third level in this traditional framework."
+        },
+        {
+          "id": "xue",
+          "name_en": "Blood Level",
+          "name_zh": "血分",
+          "description": "The deepest level in this traditional framework."
+        }
+      ]
+    }
+  ]
+}

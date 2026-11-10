@@ -1,0 +1,106 @@
+{
+  "review_status": "needs_expert_review",
+  "scope_note": "General food-education examples only. Seasonal availability varies by region, climate, culture, allergies, and individual health needs. These examples are not treatment advice.",
+  "seasons": [
+    {
+      "season": "spring",
+      "season_zh": "春",
+      "organs": ["Liver (traditional five-phase association)"],
+      "flavor": "Sour (traditional five-flavor association; not a dietary prescription)",
+      "foods_to_favor": [
+        "Leafy greens",
+        "Spinach",
+        "Asparagus",
+        "Peas",
+        "Radishes",
+        "Carrots",
+        "Scallions",
+        "Mushrooms",
+        "Strawberries",
+        "Citrus fruits"
+      ],
+      "foods_to_limit": [
+        "Foods that trigger a known allergy or intolerance",
+        "Highly processed foods when they displace a varied diet",
+        "Excessively restrictive seasonal diets"
+      ],
+      "lifestyle_advice": "Choose a varied eating pattern that fits local seasonal availability and personal needs. There is no need to use seasonal foods as a cleanse or treatment.",
+      "source_note": "Foods are general seasonal examples, not claims of TCM therapeutic effects. Organ and flavor labels describe traditional associations. This draft has not been checked against a cited seasonal materia-dietetica source; expert review required."
+    },
+    {
+      "season": "summer",
+      "season_zh": "夏",
+      "organs": ["Heart (traditional five-phase association)"],
+      "flavor": "Bitter (traditional five-flavor association; not a dietary prescription)",
+      "foods_to_favor": [
+        "Tomatoes",
+        "Cucumbers",
+        "Zucchini",
+        "Bell peppers",
+        "Eggplant",
+        "Green beans",
+        "Corn",
+        "Watermelon",
+        "Peaches",
+        "Blueberries"
+      ],
+      "foods_to_limit": [
+        "Foods that trigger a known allergy or intolerance",
+        "Excessively salty packaged foods",
+        "Highly restrictive diets that do not meet individual nutrition needs"
+      ],
+      "lifestyle_advice": "Favor safe food handling and adequate fluids according to personal needs and clinical guidance, especially in hot weather. Seasonal foods do not prevent or treat heat-related illness.",
+      "source_note": "Foods are general seasonal examples, not claims of TCM therapeutic effects. Organ and flavor labels describe traditional associations. This draft has not been checked against a cited seasonal materia-dietetica source; expert review required."
+    },
+    {
+      "season": "autumn",
+      "season_zh": "秋",
+      "organs": ["Lung (traditional five-phase association)"],
+      "flavor": "Pungent (traditional five-flavor association; not a dietary prescription)",
+      "foods_to_favor": [
+        "Pears",
+        "Apples",
+        "Grapes",
+        "Pumpkin",
+        "Winter squash",
+        "Sweet potatoes",
+        "Carrots",
+        "Cauliflower",
+        "Broccoli",
+        "Oats"
+      ],
+      "foods_to_limit": [
+        "Foods that trigger a known allergy or intolerance",
+        "Excessively salty or highly processed foods",
+        "Highly restrictive diets that do not meet individual nutrition needs"
+      ],
+      "lifestyle_advice": "Use a varied eating pattern and adapt food choices to local harvests and personal preferences. Dryness or respiratory symptoms should not be self-diagnosed or treated based on this seasonal list.",
+      "source_note": "Foods are general seasonal examples, not claims of TCM therapeutic effects. Organ and flavor labels describe traditional associations. This draft has not been checked against a cited seasonal materia-dietetica source; expert review required."
+    },
+    {
+      "season": "winter",
+      "season_zh": "冬",
+      "organs": ["Kidney (traditional five-phase association)"],
+      "flavor": "Salty (traditional five-flavor association; not a dietary prescription)",
+      "foods_to_favor": [
+        "Oats",
+        "Barley",
+        "Brown rice",
+        "Lentils",
+        "Chickpeas",
+        "Winter squash",
+        "Cabbage",
+        "Carrots",
+        "Mushrooms",
+        "Citrus fruits"
+      ],
+      "foods_to_limit": [
+        "Foods that trigger a known allergy or intolerance",
+        "Excessively salty foods",
+        "Highly restrictive diets that do not meet individual nutrition needs"
+      ],
+      "lifestyle_advice": "Choose satisfying, varied meals that suit local climate and individual needs. Do not interpret traditional organ associations as medical advice or a reason to change prescribed care.",
+      "source_note": "Foods are general seasonal examples, not claims of TCM therapeutic effects. Organ and flavor labels describe traditional associations. This draft has not been checked against a cited seasonal materia-dietetica source; expert review required."
+    }
+  ]
+}
