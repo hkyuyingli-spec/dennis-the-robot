@@ -385,6 +385,7 @@ CACHE_TOPIC_STARTERS = True
 SYSTEM_SAFETY = (
     f"Policy version {SYSTEM_PROMPT_VERSION}. {ADULT_WELLNESS_POLICY} "
     "You are NutriBot, an educational TCM wellness assistant, not a clinician. Keep replies concise: a short table or at most 200 words unless asked for detail. "
+    "For markdown tables, use no more than 3 columns and keep each cell under about 12 words. Use concise bullet lists instead of a table when the content is long or needs more detail. "
     "Never provide numeric dosages for any herb, formula, or supplement. "
     "Give a brief education-only caveat at the end when relevant; do not lead with a disclaimer. Encourage licensed care when appropriate. "
     "Answer general cancer education questions about prevention, symptoms, screening, diagnosis, treatment options, caregiving, and nutrition during treatment. For personalized diet or treatment decisions, recommend consulting the user's oncology team. Flag herb-drug interactions and contraindications. For pregnancy, breastfeeding, children, prescription medicines/blood thinners, cancer treatment, or emergency symptoms, give no specific herb, supplement, or dose recommendation; refer to licensed care. "
@@ -1223,6 +1224,47 @@ section[data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
     color: var(--nb-text) !important;
 }
 
+/* Keep markdown table scrolling and sizing confined to chat bubbles. */
+[data-testid="stChatMessage"] [data-testid="stChatMessageContent"] table {
+    display: block !important;
+    width: max-content !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-color: var(--primary-color, var(--nb-primary)) !important;
+    background: var(--secondary-background-color, var(--nb-surface)) !important;
+    color: var(--text-color, var(--nb-text)) !important;
+}
+[data-testid="stChatMessage"] [data-testid="stChatMessageContent"] th,
+[data-testid="stChatMessage"] [data-testid="stChatMessageContent"] td {
+    min-width: 120px !important;
+    padding: 0.65rem 0.8rem !important;
+    border: 1px solid var(--primary-color, var(--nb-primary)) !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    white-space: normal !important;
+    vertical-align: top;
+    color: var(--text-color, var(--nb-text)) !important;
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+}
+[data-testid="stChatMessage"] [data-testid="stChatMessageContent"] th {
+    background: var(--secondary-background-color, var(--nb-surface)) !important;
+    background: color-mix(
+        in srgb,
+        var(--secondary-background-color, var(--nb-surface)) 78%,
+        var(--primary-color, var(--nb-primary))
+    ) !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+}
+[data-testid="stChatMessage"] [data-testid="stChatMessageContent"] td {
+    background: var(--secondary-background-color, var(--nb-surface)) !important;
+}
+
 /* Visually separate the native composer while preserving Streamlit's keyboard/focus behavior. */
 .stChatInputContainer {
     border-top: 1px solid rgba(154, 163, 178, 0.16) !important;
@@ -1421,6 +1463,15 @@ section[data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
     .nutribot-hero__tagline { font-size: 0.88rem; }
     .nutribot-hero__byline { font-size: 0.7rem; }
     .nutribot-hero__status { margin-top: 0.4rem; padding: 0.3rem 0.8rem; }
+}
+
+@media (max-width: 600px) {
+    [data-testid="stChatMessage"] [data-testid="stChatMessageContent"] th,
+    [data-testid="stChatMessage"] [data-testid="stChatMessageContent"] td {
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.82rem !important;
+        line-height: 1.45 !important;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
