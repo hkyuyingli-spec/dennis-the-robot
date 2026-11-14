@@ -3,22 +3,19 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
   ArrowDown,
-  ArrowLeft,
   ArrowRight,
   ArrowUp,
   BookOpen,
   Leaf,
   LoaderCircle,
   Plus,
-  UserRound,
 } from "lucide-react";
 import { sendChat, type ChatMessage, type Language } from "./api";
 import { ChatApiError } from "./apiErrors";
 import logoUrl from "../../static/hero_logo.png";
+import HerbalKitchen from "./HerbalKitchen";
+import herbalKitchenStrings from "./data/herbal_kitchen_strings.json";
 
-type Goal = "stress" | "skin" | "energy" | "diet" | "sleep";
-type AgeGroup = "18-25" | "26-35" | "36-50" | "50+";
-type Gender = "male" | "female" | "prefer-not";
 type TopicId =
   | "consultation"
   | "herbs"
@@ -26,69 +23,7 @@ type TopicId =
   | "seasonal"
   | "skincare"
   | "nutrition";
-type Page = "chat" | "topics" | "profile";
-
-interface Profile {
-  goal: Goal | "";
-  ageGroup: AgeGroup | "";
-  gender: Gender | "";
-  completed: boolean;
-}
-
-const emptyProfile: Profile = {
-  goal: "",
-  ageGroup: "",
-  gender: "",
-  completed: false,
-};
-
-const goals: Record<Language, { value: Goal; label: string }[]> = {
-  en: [
-    { value: "stress", label: "💆 Stress Relief" },
-    { value: "skin", label: "✨ Better Skin" },
-    { value: "energy", label: "🔋 More Energy" },
-    { value: "diet", label: "🍎 Better Diet" },
-    { value: "sleep", label: "😴 Better Sleep" },
-  ],
-  zh: [
-    { value: "stress", label: "💆 缓解压力" },
-    { value: "skin", label: "✨ 改善皮肤" },
-    { value: "energy", label: "🔋 增强精力" },
-    { value: "diet", label: "🍎 改善饮食" },
-    { value: "sleep", label: "😴 改善睡眠" },
-  ],
-  id: [
-    { value: "stress", label: "💆 Meredakan Stres" },
-    { value: "skin", label: "✨ Kulit Lebih Baik" },
-    { value: "energy", label: "🔋 Lebih Bertenaga" },
-    { value: "diet", label: "🍎 Pola Makan Lebih Baik" },
-    { value: "sleep", label: "😴 Tidur Lebih Baik" },
-  ],
-};
-
-const ageGroups: Record<Language, { value: AgeGroup; label: string }[]> = {
-  en: ["18-25", "26-35", "36-50", "50+"].map((value) => ({ value: value as AgeGroup, label: value })),
-  zh: ["18-25", "26-35", "36-50", "50+"].map((value) => ({ value: value as AgeGroup, label: value })),
-  id: ["18-25", "26-35", "36-50", "50+"].map((value) => ({ value: value as AgeGroup, label: value })),
-};
-
-const genders: Record<Language, { value: Gender; label: string }[]> = {
-  en: [
-    { value: "male", label: "👨 Male" },
-    { value: "female", label: "👩 Female" },
-    { value: "prefer-not", label: "⭕ Prefer not to say" },
-  ],
-  zh: [
-    { value: "male", label: "👨 男" },
-    { value: "female", label: "👩 女" },
-    { value: "prefer-not", label: "⭕ 不愿透露" },
-  ],
-  id: [
-    { value: "male", label: "👨 Laki-laki" },
-    { value: "female", label: "👩 Perempuan" },
-    { value: "prefer-not", label: "⭕ Lebih suka tidak berkata" },
-  ],
-};
+type Page = "chat" | "topics" | "herbal";
 
 const text = {
   en: {
@@ -96,16 +31,16 @@ const text = {
     tagline: "Holistic Wellness Powered by AI",
     byline: "A proprietary wellness platform by NutriBot Co. Ltd.",
     welcomeTitle: "Welcome to NutriBot V2",
-    welcomeSubtitle: "Help us personalise your wellness experience. Please answer 3 quick questions.",
-    questionGoal: "1. What is your primary wellness goal today?",
-    questionAge: "2. What is your age group?",
-    questionGender: "3. What is your gender?",
-    continue: "Continue",
-    back: "Back",
-    finish: "Save and continue",
+
+
+
+
+
+
+
     chat: "Chat",
     topics: "Wellness topics",
-    profile: "Your profile",
+
     newChat: "New chat",
     language: "Language",
     greeting: "What would you like to explore today?",
@@ -127,12 +62,12 @@ const text = {
     startTopic: "Start this topic",
     followups: "Suggested follow-up questions",
     storageNotice: "Some information could not be saved on this device. Your current screen will still work, but it may not be restored after closing the app.",
-    privacyNote: "Your answers are saved only on this device. They are not sent to NutriBot or used to personalize AI replies.",
-    profileTitle: "Personalisation answers",
-    profileSubtitle: "You can change these answers at any time. They stay on this device and do not change AI replies.",
-    saveProfile: "Save answers",
-    profileSaved: "Your answers are saved on this device.",
-    changeProfile: "Edit answers",
+
+
+
+
+
+
     restTopic: "A guided, educational TCM wellness intake, one question at a time.",
     herbsTopic: "Explore traditional herb information grounded in NutriBot's knowledge base.",
     constitutionTopic: "Learn about traditional constitution concepts without receiving a diagnosis.",
@@ -145,16 +80,16 @@ const text = {
     tagline: "AI 赋能的整体健康养生平台",
     byline: "NutriBot 有限公司专属健康平台",
     welcomeTitle: "欢迎来到 NutriBot V2",
-    welcomeSubtitle: "帮助我们个性化您的健康体验。请回答 3 个简短问题。",
-    questionGoal: "1. 您今天的主要健康目标是什么？",
-    questionAge: "2. 您的年龄段是？",
-    questionGender: "3. 您的性别？",
-    continue: "继续",
-    back: "返回",
-    finish: "保存并继续",
+
+
+
+
+
+
+
     chat: "聊天",
     topics: "健康主题",
-    profile: "个人资料",
+
     newChat: "新对话",
     language: "语言",
     greeting: "今天想了解什么？",
@@ -176,12 +111,12 @@ const text = {
     startTopic: "开始此主题",
     followups: "推荐的后续问题",
     storageNotice: "部分信息无法保存在此设备上。当前页面仍可使用，但关闭应用后可能无法恢复。",
-    privacyNote: "您的答案仅保存在此设备上，不会发送给 NutriBot，也不会用于个性化 AI 回复。",
-    profileTitle: "个性化问题答案",
-    profileSubtitle: "您可以随时更改答案。答案仅保存在此设备上，不会改变 AI 回复。",
-    saveProfile: "保存答案",
-    profileSaved: "答案已保存在此设备上。",
-    changeProfile: "编辑答案",
+
+
+
+
+
+
     restTopic: "逐步进行教育性质的中医健康问询，每次一个问题。",
     herbsTopic: "根据 NutriBot 知识库了解传统草药信息。",
     constitutionTopic: "了解传统体质概念，不进行诊断。",
@@ -194,16 +129,16 @@ const text = {
     tagline: "Kesehatan Holistik Didukung AI",
     byline: "Platform kesehatan eksklusif dari NutriBot Co. Ltd.",
     welcomeTitle: "Selamat datang di NutriBot V2",
-    welcomeSubtitle: "Bantu kami menyesuaikan pengalaman kesehatan Anda. Silakan jawab 3 pertanyaan singkat.",
-    questionGoal: "1. Apa tujuan kesehatan utama Anda hari ini?",
-    questionAge: "2. Kelompok usia Anda?",
-    questionGender: "3. Jenis kelamin Anda?",
-    continue: "Lanjutkan",
-    back: "Kembali",
-    finish: "Simpan dan lanjutkan",
+
+
+
+
+
+
+
     chat: "Obrolan",
     topics: "Topik kesehatan",
-    profile: "Profil Anda",
+
     newChat: "Obrolan baru",
     language: "Bahasa",
     greeting: "Apa yang ingin Anda pelajari hari ini?",
@@ -225,12 +160,12 @@ const text = {
     startTopic: "Mulai topik ini",
     followups: "Pertanyaan lanjutan yang disarankan",
     storageNotice: "Sebagian informasi tidak dapat disimpan di perangkat ini. Layar tetap dapat digunakan, tetapi mungkin tidak pulih setelah aplikasi ditutup.",
-    privacyNote: "Jawaban Anda hanya disimpan di perangkat ini. Jawaban tidak dikirim ke NutriBot atau digunakan untuk menyesuaikan balasan AI.",
-    profileTitle: "Jawaban personalisasi",
-    profileSubtitle: "Anda dapat mengubah jawaban kapan saja. Jawaban hanya tersimpan di perangkat ini dan tidak mengubah balasan AI.",
-    saveProfile: "Simpan jawaban",
-    profileSaved: "Jawaban Anda tersimpan di perangkat ini.",
-    changeProfile: "Ubah jawaban",
+
+
+
+
+
+
     restTopic: "Wawancara kesehatan TCM edukatif secara terpandu, satu pertanyaan setiap kali.",
     herbsTopic: "Jelajahi informasi herbal tradisional yang didukung basis pengetahuan NutriBot.",
     constitutionTopic: "Pelajari konsep konstitusi tradisional tanpa menerima diagnosis.",
@@ -335,9 +270,6 @@ const topics: Record<TopicId, TopicFlow> = {
 };
 
 const topicIds = Object.keys(topics) as TopicId[];
-const goalValues = goals.en.map(({ value }) => value);
-const ageValues = ageGroups.en.map(({ value }) => value);
-const genderValues = genders.en.map(({ value }) => value);
 
 function isLanguage(value: unknown): value is Language {
   return value === "en" || value === "zh" || value === "id";
@@ -349,30 +281,6 @@ function readLanguage(): Language {
     return isLanguage(saved) ? saved : "en";
   } catch {
     return "en";
-  }
-}
-
-function readProfile(): Profile {
-  try {
-    const saved = localStorage.getItem("nutribot-profile");
-    if (!saved) return emptyProfile;
-    const value: unknown = JSON.parse(saved);
-    if (!value || typeof value !== "object") return emptyProfile;
-    const profile = value as Partial<Profile>;
-    const validGoal = profile.goal === "" || goalValues.includes(profile.goal as Goal);
-    const validAge = profile.ageGroup === "" || ageValues.includes(profile.ageGroup as AgeGroup);
-    const validGender = profile.gender === "" || genderValues.includes(profile.gender as Gender);
-    if (!validGoal || !validAge || !validGender) return emptyProfile;
-    return {
-      goal: profile.goal ?? "",
-      ageGroup: profile.ageGroup ?? "",
-      gender: profile.gender ?? "",
-      completed:
-        profile.completed === true &&
-        Boolean(profile.goal && profile.ageGroup && profile.gender),
-    };
-  } catch {
-    return emptyProfile;
   }
 }
 
@@ -412,50 +320,15 @@ function localDate(): string {
   return `${now.getFullYear()}-${month}-${day}`;
 }
 
-function OptionGroup<T extends string>({
-  title,
-  options,
-  value,
-  onChange,
-}: {
-  title: string;
-  options: { value: T; label: string }[];
-  value: T | "";
-  onChange: (value: T) => void;
-}) {
-  return (
-    <fieldset className="question-group">
-      <legend>{title}</legend>
-      <div className="choice-grid">
-        {options.map((option) => (
-          <button
-            aria-pressed={value === option.value}
-            className={`choice-button${value === option.value ? " selected" : ""}`}
-            key={option.value}
-            onClick={() => onChange(option.value)}
-            type="button"
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
 export default function App() {
   const [messages, setMessages] = useState<ChatMessage[]>(readMessages);
   const [draft, setDraft] = useState("");
   const [language, setLanguage] = useState<Language>(readLanguage);
-  const [profile, setProfile] = useState<Profile>(readProfile);
-  const [profileDraft, setProfileDraft] = useState<Profile>(readProfile);
-  const [onboardingStep, setOnboardingStep] = useState(0);
   const [page, setPage] = useState<Page>("chat");
   const [activeTopic, setActiveTopic] = useState<TopicId | null>(readTopic);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState("");
   const [storageWarning, setStorageWarning] = useState(false);
-  const [profileSaved, setProfileSaved] = useState(false);
   const [showLatest, setShowLatest] = useState(false);
   const listRef = useRef<HTMLElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -469,14 +342,6 @@ export default function App() {
       setStorageWarning(true);
     }
   }, [language]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem("nutribot-profile", JSON.stringify(profile));
-    } catch {
-      setStorageWarning(true);
-    }
-  }, [profile]);
 
   useEffect(() => {
     try {
@@ -591,112 +456,6 @@ export default function App() {
     void submitMessage(undefined, prompt, false, topic);
   }
 
-  function finishOnboarding() {
-    setProfile((current) => ({ ...current, completed: true }));
-    setProfileDraft((current) => ({ ...current, completed: true }));
-    setPage("chat");
-  }
-
-  function saveProfile() {
-    setProfile({ ...profileDraft, completed: true });
-    setProfileSaved(true);
-  }
-
-  const onboardingQuestion = onboardingStep === 0 ? (
-    <OptionGroup<Goal>
-      title={copy.questionGoal}
-      options={goals[language]}
-      value={profile.goal}
-      onChange={(goal) => setProfile((current) => ({ ...current, goal }))}
-    />
-  ) : onboardingStep === 1 ? (
-    <OptionGroup<AgeGroup>
-      title={copy.questionAge}
-      options={ageGroups[language]}
-      value={profile.ageGroup}
-      onChange={(ageGroup) => setProfile((current) => ({ ...current, ageGroup }))}
-    />
-  ) : (
-    <OptionGroup<Gender>
-      title={copy.questionGender}
-      options={genders[language]}
-      value={profile.gender}
-      onChange={(gender) => setProfile((current) => ({ ...current, gender }))}
-    />
-  );
-  const stepHasAnswer = onboardingStep === 0
-    ? Boolean(profile.goal)
-    : onboardingStep === 1
-      ? Boolean(profile.ageGroup)
-      : Boolean(profile.gender);
-
-  if (!profile.completed) {
-    return (
-      <main className="app-shell onboarding-shell">
-        <header className="onboarding-topbar">
-          <img className="onboarding-logo-small" src={logoUrl} alt="" />
-          <label className="language-picker">
-            <span className="sr-only">{copy.language}</span>
-            <select
-              aria-label={copy.language}
-              onChange={(event) => setLanguage(event.target.value as Language)}
-              value={language}
-            >
-              <option value="en">English</option>
-              <option value="zh">中文</option>
-              <option value="id">Bahasa Indonesia</option>
-            </select>
-          </label>
-        </header>
-        <section className="onboarding-scroll">
-          <div className="onboarding-card">
-            <div className="brand-hero">
-              <div className="hero-decoration hero-decoration-left" aria-hidden="true">健康</div>
-              <div className="hero-decoration hero-decoration-right" aria-hidden="true">건강</div>
-              <img className="hero-logo" src={logoUrl} alt="NutriBot logo" />
-              <h1>{copy.title}</h1>
-              <p className="hero-tagline">{copy.tagline}</p>
-              <p className="hero-byline">{copy.byline}</p>
-            </div>
-            <div className="onboarding-content">
-              <h2>{copy.welcomeTitle}</h2>
-              <p className="section-subtitle">{copy.welcomeSubtitle}</p>
-              <div className="step-indicator" aria-label={`${onboardingStep + 1} / 3`}>
-                {[0, 1, 2].map((step) => (
-                  <span className={step <= onboardingStep ? "active" : ""} key={step} />
-                ))}
-              </div>
-              {onboardingQuestion}
-              <div className="onboarding-actions">
-                {onboardingStep > 0 && (
-                  <button className="secondary-button" onClick={() => setOnboardingStep((step) => step - 1)} type="button">
-                    <ArrowLeft size={17} />{copy.back}
-                  </button>
-                )}
-                {onboardingStep < 2 ? (
-                  <button
-                    className="primary-button"
-                    disabled={!stepHasAnswer}
-                    onClick={() => setOnboardingStep((step) => step + 1)}
-                    type="button"
-                  >
-                    {copy.continue}<ArrowRight size={17} />
-                  </button>
-                ) : (
-                  <button className="primary-button" disabled={!stepHasAnswer} onClick={finishOnboarding} type="button">
-                    {copy.finish}<ArrowRight size={17} />
-                  </button>
-                )}
-              </div>
-              <p className="privacy-note">{copy.privacyNote}</p>
-              {storageWarning && <p className="storage-warning" role="status">{copy.storageNotice}</p>}
-            </div>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -734,8 +493,8 @@ export default function App() {
         <button className={page === "topics" ? "active" : ""} onClick={() => setPage("topics")} type="button">
           <BookOpen size={17} />{copy.topics}
         </button>
-        <button className={page === "profile" ? "active" : ""} onClick={() => { setProfileDraft(profile); setProfileSaved(false); setPage("profile"); }} type="button">
-          <UserRound size={17} />{copy.profile}
+        <button className={page === "herbal" ? "active" : ""} onClick={() => setPage("herbal")} type="button">
+          <Leaf size={17} />{herbalKitchenStrings[language].tab}
         </button>
       </nav>
 
@@ -762,24 +521,7 @@ export default function App() {
         </section>
       )}
 
-      {page === "profile" && (
-        <section className="screen-scroll profile-screen">
-          <div className="screen-heading">
-            <p className="eyebrow">{copy.title}</p>
-            <h1>{copy.profileTitle}</h1>
-            <p className="section-subtitle">{copy.profileSubtitle}</p>
-          </div>
-          <div className="profile-form">
-            <OptionGroup title={copy.questionGoal} options={goals[language]} value={profileDraft.goal} onChange={(goal) => setProfileDraft((current) => ({ ...current, goal }))} />
-            <OptionGroup title={copy.questionAge} options={ageGroups[language]} value={profileDraft.ageGroup} onChange={(ageGroup) => setProfileDraft((current) => ({ ...current, ageGroup }))} />
-            <OptionGroup title={copy.questionGender} options={genders[language]} value={profileDraft.gender} onChange={(gender) => setProfileDraft((current) => ({ ...current, gender }))} />
-            <button className="primary-button" disabled={!profileDraft.goal || !profileDraft.ageGroup || !profileDraft.gender} onClick={saveProfile} type="button">
-              {copy.saveProfile}<ArrowRight size={17} />
-            </button>
-            {profileSaved && <p className="profile-saved" role="status">{copy.profileSaved}</p>}
-          </div>
-        </section>
-      )}
+      {page === "herbal" && <HerbalKitchen language={language} />}
 
       {page === "chat" && (
         <>

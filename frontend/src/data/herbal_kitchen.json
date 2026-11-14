@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "herbs": [
+    {
+      "id": "placeholder-herb-a",
+      "tier": "A",
+      "status": "draft",
+      "names": {
+        "id": "PLACEHOLDER - not real data",
+        "zh": "PLACEHOLDER - not real data",
+        "en": "PLACEHOLDER - not real data",
+        "latin": "PLACEHOLDER - not real data"
+      },
+      "look": "PLACEHOLDER - not real data",
+      "whereToBuy": "PLACEHOLDER - not real data",
+      "preparation": "PLACEHOLDER - not real data",
+      "amountPerServing": "PLACEHOLDER - not real data",
+      "goodIn": ["placeholder-dish"],
+      "substitutes": "PLACEHOLDER - not real data",
+      "sources": ["PLACEHOLDER - not real data", "PLACEHOLDER - not real data"],
+      "checkedOn": "PLACEHOLDER - not real data"
+    },
+    {
+      "id": "placeholder-herb-b",
+      "tier": "B",
+      "status": "draft",
+      "names": {
+        "id": "PLACEHOLDER - not real data",
+        "zh": "PLACEHOLDER - not real data",
+        "en": "PLACEHOLDER - not real data",
+        "latin": "PLACEHOLDER - not real data"
+      },
+      "look": "PLACEHOLDER - not real data",
+      "whereToBuy": "PLACEHOLDER - not real data",
+      "preparation": "PLACEHOLDER - not real data",
+      "amountPerServing": "PLACEHOLDER - not real data",
+      "goodIn": [],
+      "substitutes": "PLACEHOLDER - not real data",
+      "sources": ["PLACEHOLDER - not real data", "PLACEHOLDER - not real data"],
+      "checkedOn": "PLACEHOLDER - not real data"
+    }
+  ],
+  "dishes": [
+    {
+      "id": "placeholder-dish",
+      "status": "draft",
+      "name": "PLACEHOLDER - not real data",
+      "type": "PLACEHOLDER - not real data",
+      "serves": "PLACEHOLDER - not real data",
+      "minutes": "PLACEHOLDER - not real data",
+      "steps": ["PLACEHOLDER - not real data"]
+    }
+  ],
+  "links": [
+    {
+      "herbId": "placeholder-herb-a",
+      "dishId": "placeholder-dish",
+      "amount": "PLACEHOLDER - not real data",
+      "step": 1
+    }
+  ]
+}
