@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "herbs": [
+    {
+      "id": "draft-herb-1",
+      "name": "Placeholder herb",
+      "status": "draft"
+    }
+  ],
+  "dishes": [
+    {
+      "id": "draft-dish-1",
+      "name": "Placeholder dish",
+      "status": "draft"
+    }
+  ],
+  "links": [
+    {
+      "id": "draft-link-1",
+      "herb_id": "draft-herb-1",
+      "dish_id": "draft-dish-1",
+      "status": "draft"
+    }
+  ]
+}
