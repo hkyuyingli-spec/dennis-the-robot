@@ -1808,13 +1808,121 @@
         "id": "Cook or roast candlenuts before eating; do not eat them raw.",
         "zh": "Cook or roast candlenuts before eating; do not eat them raw."
       }
+    },
+    {
+      "id": "black_sesame_porridge",
+      "status": "draft",
+      "name": {
+        "en": "Black Sesame Porridge",
+        "id": "Bubur Wijen Hitam",
+        "zh": "黑芝麻糊"
+      },
+      "type": "dessert",
+      "serves": 4,
+      "minutes": 60,
+      "diet": [],
+      "allergens": [
+        "sesame"
+      ],
+      "intro": {
+        "en": "A smooth, gently sweet porridge made with toasted black sesame and glutinous rice.",
+        "id": "Bubur lembut dengan rasa manis ringan, dibuat dari wijen hitam sangrai dan beras ketan.",
+        "zh": "用烤香的黑芝麻和糯米煮成的细滑甜粥，甜度清淡。"
+      },
+      "ingredients": [
+        {
+          "qty": 80,
+          "unit": "g",
+          "text": {
+            "en": "80 g black sesame seeds, rinsed and dried",
+            "id": "80 g biji wijen hitam, dibilas dan dikeringkan",
+            "zh": "80克黑芝麻，洗净并擦干"
+          },
+          "herbId": "black_sesame"
+        },
+        {
+          "qty": 60,
+          "unit": "g",
+          "text": {
+            "en": "60 g glutinous rice, rinsed",
+            "id": "60 g beras ketan, dicuci",
+            "zh": "60克糯米，淘洗干净"
+          }
+        },
+        {
+          "qty": 1000,
+          "unit": "ml",
+          "text": {
+            "en": "1,000 ml water, divided",
+            "id": "1,000 ml air, dibagi",
+            "zh": "1,000毫升水，分开使用"
+          }
+        },
+        {
+          "qty": 40,
+          "unit": "g",
+          "text": {
+            "en": "40 g rock sugar or granulated sugar",
+            "id": "40 g gula batu atau gula pasir",
+            "zh": "40克冰糖或白砂糖"
+          }
+        },
+        {
+          "qty": 0.125,
+          "unit": "tsp",
+          "text": {
+            "en": "1/8 tsp salt",
+            "id": "1/8 sdt garam",
+            "zh": "1/8茶匙盐"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "en": "Soak the rinsed rice in a bowl of water for 20 minutes, then drain.",
+          "id": "Rendam beras yang sudah dicuci selama 20 menit, lalu tiriskan.",
+          "zh": "将淘洗好的糯米浸泡20分钟，然后沥干。"
+        },
+        {
+          "en": "Toast the sesame seeds in a dry pan over low heat for 4–5 minutes, stirring often, until fragrant. Let them cool slightly.",
+          "id": "Sangrai wijen dalam wajan kering dengan api kecil selama 4–5 menit sambil sering diaduk hingga harum. Biarkan agak dingin.",
+          "zh": "将黑芝麻放入干锅中小火翻炒4–5分钟，直到香气出来，然后稍微放凉。"
+        },
+        {
+          "en": "Blend the toasted sesame with 200 ml of the measured water until smooth.",
+          "id": "Blender wijen sangrai dengan 200 ml air yang sudah ditakar hingga halus.",
+          "zh": "将炒香的芝麻与量好的200毫升水一起搅打至细滑。"
+        },
+        {
+          "en": "Put the drained rice and the remaining 800 ml water in a saucepan. Bring to a boil, then simmer gently for 25 minutes, stirring occasionally, until the rice is very soft and beginning to break apart.",
+          "id": "Masukkan beras yang sudah ditiriskan dan sisa 800 ml air ke panci. Didihkan, lalu masak perlahan selama 25 menit sambil sesekali diaduk, hingga beras sangat lunak dan mulai hancur.",
+          "zh": "将沥干的糯米和剩余的800毫升水放入锅中。煮沸后转小火煮25分钟，期间偶尔搅拌，直到米粒软烂并开始散开。"
+        },
+        {
+          "en": "Stir in the sesame mixture, sugar and salt. Simmer for 8 minutes, stirring frequently, until creamy. Serve warm.",
+          "id": "Masukkan campuran wijen, gula, dan garam. Masak perlahan selama 8 menit sambil sering diaduk hingga lembut dan kental. Sajikan hangat.",
+          "zh": "加入芝麻糊、糖和盐，继续小火煮8分钟并勤加搅拌，直到浓稠细滑。趁温热食用。"
+        }
+      ],
+      "tips": [],
+      "variations": [],
+      "storage": {
+        "en": "Cool promptly, cover and refrigerate; use within 3 days.",
+        "id": "Dinginkan segera, tutup, lalu simpan di kulkas dan habiskan dalam 3 hari.",
+        "zh": "尽快放凉后加盖冷藏，并在3天内食用。"
+      },
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": ""
     }
   ],
   "herbs": [
     {
       "id": "ginger",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "ginger",
       "names": {
@@ -1857,7 +1965,7 @@
     {
       "id": "garlic",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -1900,7 +2008,7 @@
     {
       "id": "turmeric",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -1943,7 +2051,7 @@
     {
       "id": "cinnamon",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "cinnamon",
       "names": {
@@ -1986,7 +2094,7 @@
     {
       "id": "mint",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "bo_he",
       "names": {
@@ -2029,7 +2137,7 @@
     {
       "id": "basil",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2072,7 +2180,7 @@
     {
       "id": "oregano",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2115,7 +2223,7 @@
     {
       "id": "thyme",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2158,7 +2266,7 @@
     {
       "id": "rosemary",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2201,7 +2309,7 @@
     {
       "id": "cumin",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2244,7 +2352,7 @@
     {
       "id": "coriander_seed",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2287,7 +2395,7 @@
     {
       "id": "fennel",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "xiao_hui_xiang",
       "names": {
@@ -2330,7 +2438,7 @@
     {
       "id": "cardamom",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2373,7 +2481,7 @@
     {
       "id": "clove",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "ding_xiang",
       "names": {
@@ -2416,7 +2524,7 @@
     {
       "id": "nutmeg",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "rou_dou_kou",
       "names": {
@@ -2459,7 +2567,7 @@
     {
       "id": "star_anise",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2502,7 +2610,7 @@
     {
       "id": "lemongrass",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2545,7 +2653,7 @@
     {
       "id": "gao_liang_jiang",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "gao_liang_jiang",
       "names": {
@@ -2588,7 +2696,7 @@
     {
       "id": "black_pepper",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2631,7 +2739,7 @@
     {
       "id": "white_pepper",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2674,7 +2782,7 @@
     {
       "id": "sichuan_pepper",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2717,7 +2825,7 @@
     {
       "id": "dill",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2760,7 +2868,7 @@
     {
       "id": "parsley",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2803,7 +2911,7 @@
     {
       "id": "cilantro",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2846,7 +2954,7 @@
     {
       "id": "bay_leaf",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2889,7 +2997,7 @@
     {
       "id": "sage",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2932,7 +3040,7 @@
     {
       "id": "tarragon",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -2975,7 +3083,7 @@
     {
       "id": "chili",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3018,7 +3126,7 @@
     {
       "id": "paprika",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3061,7 +3169,7 @@
     {
       "id": "cayenne",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3104,7 +3212,7 @@
     {
       "id": "makrut_lime_leaf",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3147,7 +3255,7 @@
     {
       "id": "pandan",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3190,7 +3298,7 @@
     {
       "id": "candlenut",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3233,7 +3341,7 @@
     {
       "id": "goji",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "goji_berry",
       "names": {
@@ -3276,7 +3384,7 @@
     {
       "id": "red_date",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "jujube",
       "names": {
@@ -3319,7 +3427,7 @@
     {
       "id": "chrysanthemum",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "chrysanthemum",
       "names": {
@@ -3362,7 +3470,7 @@
     {
       "id": "lotus_seed",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "lian_zi",
       "names": {
@@ -3405,7 +3513,7 @@
     {
       "id": "lily_bulb",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "lily_bulb",
       "names": {
@@ -3448,7 +3556,7 @@
     {
       "id": "black_sesame",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3491,7 +3599,7 @@
     {
       "id": "white_sesame",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3534,7 +3642,7 @@
     {
       "id": "walnut",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3577,7 +3685,7 @@
     {
       "id": "almond",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3620,7 +3728,7 @@
     {
       "id": "makrut_lime",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3663,7 +3771,7 @@
     {
       "id": "turmeric_leaf",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3706,7 +3814,7 @@
     {
       "id": "curry_leaf",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3749,7 +3857,7 @@
     {
       "id": "ginger_flower",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3792,7 +3900,7 @@
     {
       "id": "fingerroot",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3835,7 +3943,7 @@
     {
       "id": "shallot",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3878,7 +3986,7 @@
     {
       "id": "scallion",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3921,7 +4029,7 @@
     {
       "id": "garlic_chives",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "culinary_only",
       "tcmHerbId": null,
       "names": {
@@ -3964,7 +4072,7 @@
     {
       "id": "perilla",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "zi_su_ye",
       "names": {
@@ -4007,7 +4115,7 @@
     {
       "id": "fish_mint",
       "tier": "A",
-      "status": "draft",
+      "status": "published",
       "origin": "tcm_database",
       "tcmHerbId": "yu_xing_cao",
       "names": {
