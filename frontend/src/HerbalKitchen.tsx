@@ -66,11 +66,14 @@ function HerbAvatar({ image, alt }: { image?: string; alt: string }) {
           src={imgSrc(image)}
           alt={alt}
           loading="lazy"
+          width={40}
+          height={40}
           onError={() => setImageFailed(true)}
-          className="w-10 h-10 rounded-full object-cover shrink-0"
+          style={{ width: 40, height: 40 }}
+          className="rounded-full object-cover shrink-0"
         />
       ) : (
-        <Leaf size={18} />
+        <Leaf size={40} />
       )}
     </span>
   );
@@ -165,8 +168,10 @@ export default function HerbalKitchen({
             {visibleHerbs.map((herb) => (
               <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => navigate(herb.id)} type="button">
                 <span className="herbal-card-title">
-                  <HerbAvatar image={herb.image} alt={localize(herb.names, language)} />
-                  {localize(herb.names, language)}
+                  <span className="flex items-center gap-3 flex-1 min-w-0">
+                    <HerbAvatar image={herb.image} alt={localize(herb.names, language)} />
+                    <span className="min-w-0">{localize(herb.names, language)}</span>
+                  </span>
                 </span>
                 {herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
               </button>
