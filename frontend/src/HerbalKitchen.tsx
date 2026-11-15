@@ -56,7 +56,13 @@ function readAcceptance(): boolean {
   try { return localStorage.getItem(ACCEPTED_KEY) === "yes"; } catch { return false; }
 }
 
-export default function HerbalKitchen({ language }: { language: Language }) {
+export default function HerbalKitchen({
+  language,
+  onAskAboutRecipe,
+}: {
+  language: Language;
+  onAskAboutRecipe: (recipeName: string, herbName: string) => void;
+}) {
   const [history, setHistory] = useState<View[]>([{ kind: "list" }]);
   const [accepted, setAccepted] = useState(readAcceptance);
   const [search, setSearch] = useState("");
@@ -90,6 +96,13 @@ export default function HerbalKitchen({ language }: { language: Language }) {
   function allergenName(code: string): string {
     const translated = copy.allergenNames[code as keyof typeof copy.allergenNames];
     return translated ?? code;
+  }
+
+  function askAboutSelectedRecipe() {
+    if (!selectedRecipe || !selectedHerb) return;
+    const recipeName = localize(selectedRecipe.name, language).trim();
+    const herbName = localize(selectedHerb.names, language).trim();
+    if (recipeName || herbName) onAskAboutRecipe(recipeName, herbName);
   }
 
   return (
@@ -175,9 +188,11 @@ export default function HerbalKitchen({ language }: { language: Language }) {
               {selectedRecipe.cookingSafety && <p className="herbal-caution">{localize(selectedRecipe.cookingSafety, language)}</p>}
             </>
           )}
-          <button className="secondary-button herbal-ask-ai" type="button" disabled>
-            {copy.askAI} <span>{copy.comingSoon}</span>
-          </button>
+          {selectedRecipe && selectedHerb.tier === "A" && (
+            <button className="secondary-button herbal-ask-ai" onClick={askAboutSelectedRecipe} type="button">
+              {copy.askAI}
+            </button>
+          )}
           <p className="herbal-caution">{localize(selectedHerb.caution, language)}</p>
         </>
       )}

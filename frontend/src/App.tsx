@@ -456,6 +456,38 @@ export default function App() {
     void submitMessage(undefined, prompt, false, topic);
   }
 
+  function askAboutRecipe(recipeName: string, herbName: string) {
+    const recipe = recipeName.trim();
+    const herb = herbName.trim();
+    if (!recipe && !herb) return;
+
+    let question: string;
+    if (language === "id") {
+      const context = recipe && herb
+        ? `resep ${recipe} yang menggunakan ${herb}`
+        : recipe ? `resep ${recipe}` : `resep yang menggunakan ${herb}`;
+      question = `Saya sedang melihat ${context}. Bisakah Anda menjelaskan manfaat kesehatannya dan cara menyiapkannya?`;
+    } else if (language === "zh") {
+      const context = recipe && herb
+        ? `使用${herb}制作的食谱“${recipe}”`
+        : recipe ? `食谱“${recipe}”` : `使用${herb}制作的食谱`;
+      question = `我正在查看${context}。可以介绍一下它的健康益处和做法吗？`;
+    } else {
+      const context = recipe && herb
+        ? `the recipe for ${recipe} using ${herb}`
+        : recipe ? `the recipe for ${recipe}` : `a recipe using ${herb}`;
+      question = `I am looking at ${context}. Can you tell me more about its health benefits and how to prepare it?`;
+    }
+
+    setActiveTopic(null);
+    setDraft(question);
+    setPage("chat");
+    requestAnimationFrame(() => {
+      resizeComposer();
+      textareaRef.current?.focus();
+    });
+  }
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -521,7 +553,7 @@ export default function App() {
         </section>
       )}
 
-      {page === "herbal" && <HerbalKitchen language={language} />}
+      {page === "herbal" && <HerbalKitchen language={language} onAskAboutRecipe={askAboutRecipe} />}
 
       {page === "chat" && (
         <>
