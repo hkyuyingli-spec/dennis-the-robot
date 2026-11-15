@@ -2,61 +2,3367 @@
   "version": 1,
   "herbs": [
     {
-      "id": "placeholder-herb-a",
+      "id": "ginger",
       "tier": "A",
       "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "ginger",
       "names": {
-        "id": "PLACEHOLDER - not real data",
-        "zh": "PLACEHOLDER - not real data",
-        "en": "PLACEHOLDER - not real data",
-        "latin": "PLACEHOLDER - not real data"
+        "en": "Ginger",
+        "id": "Jahe",
+        "zh": "生姜"
       },
-      "look": "PLACEHOLDER - not real data",
-      "whereToBuy": "PLACEHOLDER - not real data",
-      "preparation": "PLACEHOLDER - not real data",
-      "amountPerServing": "PLACEHOLDER - not real data",
-      "goodIn": ["placeholder-dish"],
-      "substitutes": "PLACEHOLDER - not real data",
-      "sources": ["PLACEHOLDER - not real data", "PLACEHOLDER - not real data"],
-      "checkedOn": "PLACEHOLDER - not real data"
+      "look": {
+        "en": "A firm, aromatic rhizome, usually sold fresh or dried.",
+        "id": "Rimpang padat dan beraroma, biasanya dijual segar atau kering.",
+        "zh": "?????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse and slice or grate; peel if desired, then use as the recipe directs.",
+        "id": "Bilas lalu iris atau parut; kupas bila diinginkan, kemudian gunakan sesuai resep.",
+        "zh": "??????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "MSK About Herbs ? Ginger"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Teh Jahe",
+          "en": "Ginger Tea",
+          "zh": "姜茶"
+        },
+        "serves": 2,
+        "minutes": 15,
+        "ingredients": [
+          {
+            "id": "2,5 cm jahe segar, iris tipis",
+            "en": "2.5 cm fresh ginger, thinly sliced",
+            "zh": "2.5厘米新鲜生姜，切薄片"
+          },
+          {
+            "id": "500 ml air",
+            "en": "500 ml water",
+            "zh": "500毫升水"
+          },
+          {
+            "id": "1 sdt madu (opsional)",
+            "en": "1 tsp honey (optional)",
+            "zh": "1茶匙蜂蜜（可选）"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Didihkan air dalam panci kecil.",
+            "en": "Bring the water to a boil in a small saucepan.",
+            "zh": "在小锅中把水烧开。"
+          },
+          {
+            "id": "Masukkan jahe, lalu rebus perlahan selama 5 menit.",
+            "en": "Add the ginger and simmer gently for 5 minutes.",
+            "zh": "加入生姜，小火煮5分钟。"
+          },
+          {
+            "id": "Tuang ke cangkir dan tambahkan madu bila suka.",
+            "en": "Pour into cups and stir in honey if desired.",
+            "zh": "倒入杯中，喜欢的话加入蜂蜜。"
+          }
+        ],
+        "allergens": []
+      }
     },
     {
-      "id": "placeholder-herb-b",
-      "tier": "B",
+      "id": "culinary_garlic",
+      "tier": "A",
       "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
       "names": {
-        "id": "PLACEHOLDER - not real data",
-        "zh": "PLACEHOLDER - not real data",
-        "en": "PLACEHOLDER - not real data",
-        "latin": "PLACEHOLDER - not real data"
+        "en": "Garlic",
+        "id": "Bawang putih",
+        "zh": "大蒜"
       },
-      "look": "PLACEHOLDER - not real data",
-      "whereToBuy": "PLACEHOLDER - not real data",
-      "preparation": "PLACEHOLDER - not real data",
-      "amountPerServing": "PLACEHOLDER - not real data",
-      "goodIn": [],
-      "substitutes": "PLACEHOLDER - not real data",
-      "sources": ["PLACEHOLDER - not real data", "PLACEHOLDER - not real data"],
-      "checkedOn": "PLACEHOLDER - not real data"
-    }
-  ],
-  "dishes": [
+      "look": {
+        "en": "Compact layered bulb or edible bulb pieces, usually sold fresh or dried.",
+        "id": "Umbi berlapis atau potongan umbi yang dapat dimakan, biasanya dijual segar atau kering.",
+        "zh": "???????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Peel away the dry outer layer if present, rinse, and chop or crush for a recipe.",
+        "id": "Jika ada, kupas lapisan luar yang kering, bilas, lalu cincang atau haluskan untuk resep.",
+        "zh": "???????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Tumis Jahe dan Bawang Putih",
+          "en": "Ginger Garlic Stir-Fry",
+          "zh": "姜蒜炒菜"
+        },
+        "serves": 4,
+        "minutes": 25,
+        "ingredients": [
+          {
+            "id": "400 g tahu padat, potong dadu",
+            "en": "400 g firm tofu, cubed",
+            "zh": "400克硬豆腐，切块"
+          },
+          {
+            "id": "2 cm jahe segar, cincang halus",
+            "en": "2 cm fresh ginger, finely chopped",
+            "zh": "2厘米新鲜生姜，切末"
+          },
+          {
+            "id": "3 siung bawang putih, cincang halus",
+            "en": "3 garlic cloves, finely chopped",
+            "zh": "3瓣大蒜，切末"
+          },
+          {
+            "id": "1 paprika merah (sekitar 180 g), iris",
+            "en": "1 red bell pepper (about 180 g), sliced",
+            "zh": "1个红甜椒（约180克），切片"
+          },
+          {
+            "id": "200 g kuntum brokoli",
+            "en": "200 g broccoli florets",
+            "zh": "200克西兰花小朵"
+          },
+          {
+            "id": "2 sdm kecap asin",
+            "en": "2 tbsp soy sauce",
+            "zh": "2汤匙酱油"
+          },
+          {
+            "id": "1 sdm minyak goreng",
+            "en": "1 tbsp cooking oil",
+            "zh": "1汤匙食用油"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Panaskan minyak dalam wajan dengan api sedang-besar.",
+            "en": "Heat the oil in a wok over medium-high heat.",
+            "zh": "炒锅中火加热食用油。"
+          },
+          {
+            "id": "Masukkan jahe dan bawang putih, tumis 30 detik, lalu masukkan paprika dan brokoli; tumis 4 menit.",
+            "en": "Add ginger and garlic; stir-fry for 30 seconds, then add the pepper and broccoli and stir-fry for 4 minutes.",
+            "zh": "加入生姜和大蒜炒30秒，再加入甜椒和西兰花炒4分钟。"
+          },
+          {
+            "id": "Tambahkan tahu dan kecap asin; aduk perlahan dan masak 5 menit hingga brokoli hijau cerah dan masih renyah serta tahu panas merata.",
+            "en": "Add tofu and soy sauce; toss gently and cook for 5 minutes, until the broccoli is bright green and tender-crisp and the tofu is hot throughout.",
+            "zh": "加入豆腐和酱油，轻轻翻炒5分钟，直到西兰花颜色鲜亮、口感爽脆，豆腐也完全热透。"
+          },
+          {
+            "id": "Sajikan dengan nasi.",
+            "en": "Serve with rice.",
+            "zh": "搭配米饭食用。"
+          }
+        ],
+        "allergens": [
+          "soy"
+        ]
+      }
+    },
     {
-      "id": "placeholder-dish",
+      "id": "culinary_turmeric",
+      "tier": "A",
       "status": "draft",
-      "name": "PLACEHOLDER - not real data",
-      "type": "PLACEHOLDER - not real data",
-      "serves": "PLACEHOLDER - not real data",
-      "minutes": "PLACEHOLDER - not real data",
-      "steps": ["PLACEHOLDER - not real data"]
-    }
-  ],
-  "links": [
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Turmeric",
+        "id": "Kunyit",
+        "zh": "姜黄"
+      },
+      "look": {
+        "en": "A firm, aromatic rhizome, usually sold fresh or dried.",
+        "id": "Rimpang padat dan beraroma, biasanya dijual segar atau kering.",
+        "zh": "?????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse and slice or grate; peel if desired, then use as the recipe directs.",
+        "id": "Bilas lalu iris atau parut; kupas bila diinginkan, kemudian gunakan sesuai resep.",
+        "zh": "??????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Nasi Kunyit",
+          "en": "Turmeric Rice",
+          "zh": "姜黄饭"
+        },
+        "serves": 4,
+        "minutes": 35,
+        "ingredients": [
+          {
+            "id": "300 g beras melati, cuci",
+            "en": "300 g jasmine rice, rinsed",
+            "zh": "300克茉莉香米，洗净"
+          },
+          {
+            "id": "400 ml air",
+            "en": "400 ml water",
+            "zh": "400毫升水"
+          },
+          {
+            "id": "1 sdt kunyit bubuk",
+            "en": "1 tsp ground turmeric",
+            "zh": "1茶匙姜黄粉"
+          },
+          {
+            "id": "1 lembar daun pandan, simpulkan",
+            "en": "1 pandan leaf, knotted",
+            "zh": "1片香兰叶，打结"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Campur beras, air, kunyit, dan garam dalam panci; aduk sekali.",
+            "en": "Combine the rice, water, turmeric and salt in a saucepan; stir once.",
+            "zh": "将米、水、姜黄粉和盐放入锅中，搅拌一次。"
+          },
+          {
+            "id": "Masukkan daun pandan, tutup, lalu didihkan.",
+            "en": "Add the pandan leaf, cover and bring to a boil.",
+            "zh": "加入香兰叶，盖上锅盖煮沸。"
+          },
+          {
+            "id": "Kecilkan api dan masak tertutup selama 15 menit; diamkan 10 menit di luar api, lalu aduk perlahan dan sajikan.",
+            "en": "Turn heat to low and cook covered for 15 minutes; rest off heat for 10 minutes, then fluff and serve.",
+            "zh": "转小火盖盖煮15分钟；离火焖10分钟，再把米饭拨松后食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
     {
-      "herbId": "placeholder-herb-a",
-      "dishId": "placeholder-dish",
-      "amount": "PLACEHOLDER - not real data",
-      "step": 1
+      "id": "cinnamon",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "cinnamon",
+      "names": {
+        "en": "Cinnamon",
+        "id": "Kayu manis",
+        "zh": "桂枝 / 肉桂"
+      },
+      "look": {
+        "en": "Aromatic bark sold as curled sticks, chips, or ground powder.",
+        "id": "Kulit kayu aromatik yang dijual dalam bentuk batang gulung, serpihan, atau bubuk.",
+        "zh": "????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Add a food-grade stick, chip, or powder as the recipe directs; remove whole bark before serving if needed.",
+        "id": "??????????????????????????????",
+        "zh": "????????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "MSK About Herbs ? Cinnamon"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Teh Apel Kayu Manis",
+          "en": "Cinnamon Apple Tea",
+          "zh": "肉桂苹果茶"
+        },
+        "serves": 2,
+        "minutes": 20,
+        "ingredients": [
+          {
+            "id": "1 buah apel sedang, buang biji dan iris",
+            "en": "1 medium apple, cored and sliced",
+            "zh": "1个中等大小苹果，去核切片"
+          },
+          {
+            "id": "1 batang kayu manis (sekitar 7 cm)",
+            "en": "1 cinnamon stick (about 7 cm)",
+            "zh": "1根肉桂棒（约7厘米）"
+          },
+          {
+            "id": "600 ml air",
+            "en": "600 ml water",
+            "zh": "600毫升水"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Masukkan apel, kayu manis, dan air ke panci.",
+            "en": "Put the apple, cinnamon and water in a saucepan.",
+            "zh": "将苹果、肉桂和水放入锅中。"
+          },
+          {
+            "id": "Didihkan, lalu tutup dan rebus perlahan selama 12 menit.",
+            "en": "Bring to a boil, then cover and simmer for 12 minutes.",
+            "zh": "煮沸后盖上锅盖，小火煮12分钟。"
+          },
+          {
+            "id": "Saring ke mug dan sajikan hangat.",
+            "en": "Strain into mugs and serve warm.",
+            "zh": "过滤到马克杯中，趁热饮用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "bo_he",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "bo_he",
+      "names": {
+        "en": "Mint",
+        "id": "Daun mint",
+        "zh": "薄荷"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki ? Bo He"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Teh Mint",
+          "en": "Mint Tea",
+          "zh": "薄荷茶"
+        },
+        "serves": 2,
+        "minutes": 10,
+        "ingredients": [
+          {
+            "id": "2 sdm daun mint segar",
+            "en": "2 tbsp fresh mint leaves",
+            "zh": "2汤匙新鲜薄荷叶"
+          },
+          {
+            "id": "500 ml air",
+            "en": "500 ml water",
+            "zh": "500毫升水"
+          },
+          {
+            "id": "1 sdt madu (opsional)",
+            "en": "1 tsp honey (optional)",
+            "zh": "1茶匙蜂蜜（可选）"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Cuci daun mint lalu masukkan ke teko tahan panas.",
+            "en": "Rinse the mint leaves and place them in a heatproof pot.",
+            "zh": "洗净薄荷叶，放入耐热壶中。"
+          },
+          {
+            "id": "Tuangkan air yang baru mendidih, tutup, dan seduh selama 5 menit.",
+            "en": "Pour over freshly boiled water, cover and steep for 5 minutes.",
+            "zh": "倒入刚烧开的水，盖上盖子浸泡5分钟。"
+          },
+          {
+            "id": "Saring ke cangkir dan beri pemanis bila suka.",
+            "en": "Strain into cups and sweeten if desired.",
+            "zh": "过滤到杯中，喜欢的话加些甜味。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "culinary_basil",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Basil",
+        "id": "Kemangi",
+        "zh": "罗勒"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_oregano",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Oregano",
+        "id": "Oregano",
+        "zh": "牛至"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_thyme",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Thyme",
+        "id": "Timian",
+        "zh": "百里香"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_rosemary",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Rosemary",
+        "id": "Rosemary",
+        "zh": "迷迭香"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_cumin",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Cumin",
+        "id": "Jintan putih",
+        "zh": "孜然"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_coriander_seed",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Coriander seed",
+        "id": "Biji ketumbar",
+        "zh": "香菜籽"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "xiao_hui_xiang",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "xiao_hui_xiang",
+      "names": {
+        "en": "Fennel",
+        "id": "Adas",
+        "zh": "小茴香"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki - 小茴香"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_cardamom",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Cardamom",
+        "id": "Kapulaga",
+        "zh": "小豆蔻"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "ding_xiang",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "ding_xiang",
+      "names": {
+        "en": "Clove",
+        "id": "Cengkih",
+        "zh": "丁香"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki - 丁香"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "rou_dou_kou",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "rou_dou_kou",
+      "names": {
+        "en": "Nutmeg",
+        "id": "Pala",
+        "zh": "肉豆蔻"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Poison Control - Kitchen Surprises and Cautions"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only ordinary seasoning amounts; large amounts can cause poisoning.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya takaran bumbu biasa; jumlah besar dapat menyebabkan keracunan.",
+        "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_star_anise",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Star anise",
+        "id": "Bunga lawang",
+        "zh": "八角"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only labeled food-grade Chinese star anise from a reputable seller; do not use unknown or foraged star anise.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya bunga lawang Cina berlabel layak pangan dari penjual tepercaya; jangan gunakan adas bintang yang tidak dikenal atau hasil mencari sendiri.",
+        "zh": "??????????????????????????????????????????????????????????????????? ????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_lemongrass",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Lemongrass stalk",
+        "id": "Batang serai",
+        "zh": "香茅"
+      },
+      "look": {
+        "en": "Long, fibrous, pale-green stalks with a thicker base.",
+        "id": "Batang panjang berserat berwarna hijau pucat dengan pangkal lebih tebal.",
+        "zh": "????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse, trim the dry end, then slice, bruise, or add a whole piece as the recipe directs.",
+        "id": "Bilas, potong ujung yang kering, lalu iris, memarkan, atau masukkan utuh sesuai resep.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Sup Serai",
+          "en": "Lemongrass Soup",
+          "zh": "香茅汤"
+        },
+        "serves": 4,
+        "minutes": 35,
+        "ingredients": [
+          {
+            "id": "2 batang serai, memarkan",
+            "en": "2 lemongrass stalks, bruised",
+            "zh": "2根香茅，拍裂"
+          },
+          {
+            "id": "1 wortel (sekitar 150 g), iris",
+            "en": "1 carrot (about 150 g), sliced",
+            "zh": "1根胡萝卜（约150克），切片"
+          },
+          {
+            "id": "200 g tahu padat, potong dadu",
+            "en": "200 g firm tofu, cubed",
+            "zh": "200克硬豆腐，切块"
+          },
+          {
+            "id": "1,2 L kaldu sayur",
+            "en": "1.2 L vegetable stock",
+            "zh": "1.2升蔬菜高汤"
+          },
+          {
+            "id": "1 sdm kecap asin",
+            "en": "1 tbsp soy sauce",
+            "zh": "1汤匙酱油"
+          },
+          {
+            "id": "1 sdt minyak goreng",
+            "en": "1 tsp cooking oil",
+            "zh": "1茶匙食用油"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Panaskan minyak dalam panci, lalu tumis serai selama 2 menit.",
+            "en": "Warm the oil in a pot and cook the lemongrass for 2 minutes.",
+            "zh": "锅中加热食用油，放入香茅炒2分钟。"
+          },
+          {
+            "id": "Tuang kaldu dan masukkan wortel; didihkan lalu rebus perlahan 12 menit hingga wortel mudah ditusuk garpu.",
+            "en": "Add the stock and carrot; bring to a boil, then simmer for 12 minutes until the carrot is tender when pierced.",
+            "zh": "倒入高汤并加入胡萝卜，煮沸后小火煮12分钟，直到胡萝卜能轻松被筷子戳透。"
+          },
+          {
+            "id": "Masukkan tahu dan kecap asin; rebus perlahan 5 menit lalu sajikan panas.",
+            "en": "Add tofu and soy sauce; simmer for 5 minutes and serve hot.",
+            "zh": "加入豆腐和酱油，小火煮5分钟，趁热享用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "gao_liang_jiang",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "gao_liang_jiang",
+      "names": {
+        "en": "Galangal",
+        "id": "Lengkuas",
+        "zh": "高良姜"
+      },
+      "look": {
+        "en": "A firm, aromatic rhizome, usually sold fresh or dried.",
+        "id": "Rimpang padat dan beraroma, biasanya dijual segar atau kering.",
+        "zh": "?????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse and slice or grate; peel if desired, then use as the recipe directs.",
+        "id": "Bilas lalu iris atau parut; kupas bila diinginkan, kemudian gunakan sesuai resep.",
+        "zh": "??????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki - 高良姜"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_black_pepper",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Black pepper",
+        "id": "Lada hitam",
+        "zh": "黑胡椒"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_white_pepper",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "White pepper",
+        "id": "Lada putih",
+        "zh": "白胡椒"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_sichuan_pepper",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Sichuan pepper",
+        "id": "Lada Sichuan",
+        "zh": "花椒"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_dill",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Dill",
+        "id": "Dill",
+        "zh": "莳萝"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_parsley",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Parsley",
+        "id": "Peterseli",
+        "zh": "欧芹"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Salad Herba Segar",
+          "en": "Fresh Herb Salad",
+          "zh": "鲜香草沙拉"
+        },
+        "serves": 4,
+        "minutes": 20,
+        "ingredients": [
+          {
+            "id": "100 g selada, sobek",
+            "en": "100 g lettuce, torn",
+            "zh": "100克生菜，撕成小片"
+          },
+          {
+            "id": "30 g daun peterseli",
+            "en": "30 g parsley leaves",
+            "zh": "30克欧芹叶"
+          },
+          {
+            "id": "20 g daun ketumbar",
+            "en": "20 g cilantro leaves",
+            "zh": "20克香菜叶"
+          },
+          {
+            "id": "1 mentimun (sekitar 250 g), potong dadu",
+            "en": "1 cucumber (about 250 g), diced",
+            "zh": "1根黄瓜（约250克），切丁"
+          },
+          {
+            "id": "2 sdm air lemon",
+            "en": "2 tbsp lemon juice",
+            "zh": "2汤匙柠檬汁"
+          },
+          {
+            "id": "1 sdm minyak zaitun",
+            "en": "1 tbsp olive oil",
+            "zh": "1汤匙橄榄油"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Cuci selada dan herba di bawah air mengalir lalu keringkan.",
+            "en": "Wash the lettuce and herbs under running water and dry them well.",
+            "zh": "用流动水洗净生菜和香草，并充分沥干。"
+          },
+          {
+            "id": "Aduk air lemon, minyak zaitun, dan garam dalam mangkuk besar.",
+            "en": "Whisk lemon juice, olive oil and salt in a large bowl.",
+            "zh": "在大碗中搅匀柠檬汁、橄榄油和盐。"
+          },
+          {
+            "id": "Masukkan sayuran dan herba, aduk perlahan, lalu segera sajikan.",
+            "en": "Add the vegetables and herbs, toss gently, and serve right away.",
+            "zh": "加入蔬菜和香草轻轻拌匀，立即食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "culinary_cilantro",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Cilantro",
+        "id": "Daun ketumbar",
+        "zh": "香菜"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Salad Herba Segar",
+          "en": "Fresh Herb Salad",
+          "zh": "鲜香草沙拉"
+        },
+        "serves": 4,
+        "minutes": 20,
+        "ingredients": [
+          {
+            "id": "100 g selada, sobek",
+            "en": "100 g lettuce, torn",
+            "zh": "100克生菜，撕成小片"
+          },
+          {
+            "id": "30 g daun peterseli",
+            "en": "30 g parsley leaves",
+            "zh": "30克欧芹叶"
+          },
+          {
+            "id": "20 g daun ketumbar",
+            "en": "20 g cilantro leaves",
+            "zh": "20克香菜叶"
+          },
+          {
+            "id": "1 mentimun (sekitar 250 g), potong dadu",
+            "en": "1 cucumber (about 250 g), diced",
+            "zh": "1根黄瓜（约250克），切丁"
+          },
+          {
+            "id": "2 sdm air lemon",
+            "en": "2 tbsp lemon juice",
+            "zh": "2汤匙柠檬汁"
+          },
+          {
+            "id": "1 sdm minyak zaitun",
+            "en": "1 tbsp olive oil",
+            "zh": "1汤匙橄榄油"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Cuci selada dan herba di bawah air mengalir lalu keringkan.",
+            "en": "Wash the lettuce and herbs under running water and dry them well.",
+            "zh": "用流动水洗净生菜和香草，并充分沥干。"
+          },
+          {
+            "id": "Aduk air lemon, minyak zaitun, dan garam dalam mangkuk besar.",
+            "en": "Whisk lemon juice, olive oil and salt in a large bowl.",
+            "zh": "在大碗中搅匀柠檬汁、橄榄油和盐。"
+          },
+          {
+            "id": "Masukkan sayuran dan herba, aduk perlahan, lalu segera sajikan.",
+            "en": "Add the vegetables and herbs, toss gently, and serve right away.",
+            "zh": "加入蔬菜和香草轻轻拌匀，立即食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "culinary_bay_leaf",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Bay leaf",
+        "id": "Daun salam",
+        "zh": "香叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_sage",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Sage",
+        "id": "Sage",
+        "zh": "鼠尾草"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_tarragon",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Tarragon",
+        "id": "Tarragon",
+        "zh": "龙蒿"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_chili",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Chili pepper",
+        "id": "Cabai",
+        "zh": "辣椒"
+      },
+      "look": {
+        "en": "Edible fruit or berries, sold fresh or dried depending on the ingredient.",
+        "id": "Buah atau beri yang dapat dimakan, dijual segar atau kering sesuai bahannya.",
+        "zh": "????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Wash fresh fruit and prepare edible portions according to the recipe and package.",
+        "id": "Cuci buah segar dan siapkan bagian yang dapat dimakan sesuai resep dan kemasan.",
+        "zh": "????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Chili can irritate skin and eyes; wash hands after handling and avoid touching the eyes.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Cabai dapat mengiritasi kulit dan mata; cuci tangan setelah memegangnya dan jangan menyentuh mata.",
+        "zh": "??????????????????????????????????????????????????????????????????? ????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_paprika",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Paprika",
+        "id": "Paprika",
+        "zh": "红椒粉"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_cayenne",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Cayenne pepper",
+        "id": "Cabai cayenne",
+        "zh": "卡宴辣椒"
+      },
+      "look": {
+        "en": "Aromatic culinary spice, sold whole or ground depending on the ingredient.",
+        "id": "Rempah aromatik untuk masakan, dijual utuh atau bubuk sesuai bahannya.",
+        "zh": "??????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use a food-grade whole or ground form in an ordinary recipe, following the package directions.",
+        "id": "Gunakan bentuk utuh atau bubuk yang layak pangan dalam resep biasa, sesuai petunjuk kemasan.",
+        "zh": "?????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_makrut_lime_leaves",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Makrut lime leaves (kaffir lime leaves)",
+        "id": "Daun jeruk purut",
+        "zh": "泰国柠檬叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Ayam Daun Jeruk",
+          "en": "Kaffir Lime Chicken",
+          "zh": "泰国柠檬叶鸡"
+        },
+        "serves": 4,
+        "minutes": 45,
+        "ingredients": [
+          {
+            "id": "600 g paha ayam tanpa tulang",
+            "en": "600 g boneless chicken thighs",
+            "zh": "600克去骨鸡腿肉"
+          },
+          {
+            "id": "4 lembar daun jeruk, iris halus",
+            "en": "4 makrut lime leaves, finely sliced",
+            "zh": "4片泰国柠檬叶，切细丝"
+          },
+          {
+            "id": "3 siung bawang putih, cincang",
+            "en": "3 garlic cloves, minced",
+            "zh": "3瓣大蒜，切末"
+          },
+          {
+            "id": "2 sdm air jeruk nipis",
+            "en": "2 tbsp lime juice",
+            "zh": "2汤匙青柠汁"
+          },
+          {
+            "id": "1 sdm kecap asin",
+            "en": "1 tbsp soy sauce",
+            "zh": "1汤匙酱油"
+          },
+          {
+            "id": "1 sdm minyak goreng",
+            "en": "1 tbsp cooking oil",
+            "zh": "1汤匙食用油"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Campur daun jeruk, bawang putih, air jeruk nipis, kecap asin, dan garam; lumuri ayam lalu simpan di kulkas selama 20 menit.",
+            "en": "Mix lime leaves, garlic, lime juice, soy sauce and salt; coat the chicken and refrigerate for 20 minutes.",
+            "zh": "将泰国柠檬叶、大蒜、青柠汁、酱油和盐拌匀，涂抹鸡肉后冷藏20分钟。"
+          },
+          {
+            "id": "Panaskan minyak di wajan dengan api sedang.",
+            "en": "Heat the oil in a skillet over medium heat.",
+            "zh": "平底锅中火加热食用油。"
+          },
+          {
+            "id": "Masak ayam 6–8 menit per sisi, balik sekali, hingga kecokelatan dan bagian terdalam mencapai 74°C.",
+            "en": "Cook the chicken for 6–8 minutes per side, turning once, until browned and the thickest part reaches 74°C internally.",
+            "zh": "鸡肉每面煎6–8分钟，中途翻面一次，直到表面金黄且最厚处内部温度达到74°C。"
+          },
+          {
+            "id": "Diamkan 3 menit, iris, lalu sajikan.",
+            "en": "Rest for 3 minutes, slice and serve.",
+            "zh": "静置3分钟，切片后食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "culinary_pandan",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Pandan leaf",
+        "id": "Daun pandan",
+        "zh": "香兰叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Nasi Pandan",
+          "en": "Pandan Rice",
+          "zh": "香兰饭"
+        },
+        "serves": 4,
+        "minutes": 35,
+        "ingredients": [
+          {
+            "id": "300 g beras melati, cuci",
+            "en": "300 g jasmine rice, rinsed",
+            "zh": "300克茉莉香米，洗净"
+          },
+          {
+            "id": "400 ml air",
+            "en": "400 ml water",
+            "zh": "400毫升水"
+          },
+          {
+            "id": "2 lembar daun pandan, simpulkan",
+            "en": "2 pandan leaves, knotted",
+            "zh": "2片香兰叶，打结"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Masukkan beras, air, dan garam ke panci lalu aduk sekali.",
+            "en": "Put rice, water and salt in a saucepan and stir once.",
+            "zh": "将米、水和盐放入锅中，搅拌一次。"
+          },
+          {
+            "id": "Tambahkan daun pandan, tutup, dan didihkan.",
+            "en": "Add the pandan leaves, cover and bring to a boil.",
+            "zh": "加入香兰叶，盖上锅盖煮沸。"
+          },
+          {
+            "id": "Kecilkan api dan masak tertutup selama 15 menit; diamkan 10 menit di luar api, buang daun, aduk perlahan, lalu sajikan.",
+            "en": "Lower the heat and cook covered for 15 minutes; rest off heat for 10 minutes, remove the leaves, fluff and serve.",
+            "zh": "转小火盖盖煮15分钟；离火焖10分钟，取出香兰叶，拨松后食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "culinary_candlenut",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Candlenut",
+        "id": "Kemiri",
+        "zh": "石栗"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Never eat raw candlenut. Use only food-grade kernels and cook thoroughly as part of a dish.",
+        "id": "Jangan pernah makan kemiri mentah. Gunakan hanya inti layak pangan dan masak hingga matang dalam hidangan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "Indonesian Regional Food and Cookery",
+        "Heart Block Initiated by Candlenut Ingestion (PMC)"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Never eat raw candlenut. Use only food-grade kernels and cook thoroughly as part of a dish.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Jangan pernah makan kemiri mentah. Gunakan hanya inti layak pangan dan masak hingga matang dalam hidangan.",
+        "zh": "??????????????????????????????????????????????????????????????????? ???????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Soto Ayam Indonesia",
+          "en": "Indonesian Soto Ayam",
+          "zh": "印尼黄姜鸡汤"
+        },
+        "serves": 4,
+        "minutes": 75,
+        "ingredients": [
+          {
+            "id": "600 g ayam bertulang",
+            "en": "600 g bone-in chicken",
+            "zh": "600克带骨鸡肉"
+          },
+          {
+            "id": "2 L air",
+            "en": "2 L water",
+            "zh": "2升水"
+          },
+          {
+            "id": "4 bawang merah, kupas",
+            "en": "4 shallots, peeled",
+            "zh": "4颗红葱头，去皮"
+          },
+          {
+            "id": "3 siung bawang putih, kupas",
+            "en": "3 garlic cloves, peeled",
+            "zh": "3瓣大蒜，去皮"
+          },
+          {
+            "id": "3 cm kunyit segar, kupas",
+            "en": "3 cm fresh turmeric, peeled",
+            "zh": "3厘米新鲜姜黄，去皮"
+          },
+          {
+            "id": "2 cm jahe segar, kupas",
+            "en": "2 cm fresh ginger, peeled",
+            "zh": "2厘米新鲜生姜，去皮"
+          },
+          {
+            "id": "3 kemiri",
+            "en": "3 candlenuts",
+            "zh": "3颗烛果"
+          },
+          {
+            "id": "2 batang serai, memarkan",
+            "en": "2 lemongrass stalks, bruised",
+            "zh": "2根香茅，拍裂"
+          },
+          {
+            "id": "3 lembar daun jeruk",
+            "en": "3 makrut lime leaves",
+            "zh": "3片泰国柠檬叶"
+          },
+          {
+            "id": "2 sdm minyak goreng",
+            "en": "2 tbsp cooking oil",
+            "zh": "2汤匙食用油"
+          },
+          {
+            "id": "1 sdt garam",
+            "en": "1 tsp salt",
+            "zh": "1茶匙盐"
+          },
+          {
+            "id": "200 g nasi matang",
+            "en": "200 g cooked rice",
+            "zh": "200克熟米饭"
+          },
+          {
+            "id": "2 sdm daun bawang iris",
+            "en": "2 tbsp sliced scallions",
+            "zh": "2汤匙小葱段"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Rebus ayam dalam air selama 35 menit sambil membuang buih; pastikan bagian terdalam mencapai 74°C. Angkat ayam dan sisihkan kaldu.",
+            "en": "Simmer the chicken in the water for 35 minutes, skimming the broth; confirm the thickest part reaches 74°C. Remove the chicken and reserve the broth.",
+            "zh": "将鸡肉放入水中小火煮35分钟并撇去浮沫；确认最厚处内部温度达到74°C。取出鸡肉，留下汤底。"
+          },
+          {
+            "id": "Haluskan bawang merah, bawang putih, kunyit, jahe, dan kemiri hingga menjadi bumbu.",
+            "en": "Blend the shallots, garlic, turmeric, ginger and candlenuts into a paste.",
+            "zh": "把红葱头、大蒜、姜黄、生姜和烛果打成细腻的香料酱。"
+          },
+          {
+            "id": "Panaskan minyak dan tumis bumbu selama 5 menit sambil diaduk hingga harum dan agak keemasan.",
+            "en": "Heat the oil and fry the paste for 5 minutes, stirring, until fragrant and lightly golden.",
+            "zh": "锅中加油，将香料酱炒5分钟，边炒边搅拌，直到香气出来并略呈金黄色。"
+          },
+          {
+            "id": "Masukkan bumbu, serai, dan daun jeruk ke kaldu; rebus perlahan selama 15 menit.",
+            "en": "Add the paste, lemongrass and lime leaves to the broth; simmer for 15 minutes.",
+            "zh": "把香料酱、香茅和泰国柠檬叶加入汤底，小火煮15分钟。"
+          },
+          {
+            "id": "Suwir ayam, masukkan kembali ke kaldu, lalu rebus 5 menit. Sajikan di atas nasi dengan daun bawang.",
+            "en": "Shred the chicken, return it to the broth and simmer for 5 minutes. Serve over rice with scallions.",
+            "zh": "将鸡肉撕成细丝，放回汤中再煮5分钟。盛在米饭上，撒上小葱。"
+          }
+        ],
+        "allergens": [
+          "tree_nut"
+        ]
+      }
+    },
+    {
+      "id": "goji_berry",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "goji_berry",
+      "names": {
+        "en": "Goji berries",
+        "id": "Buah goji",
+        "zh": "枸杞子"
+      },
+      "look": {
+        "en": "Edible fruit or berries, sold fresh or dried depending on the ingredient.",
+        "id": "Buah atau beri yang dapat dimakan, dijual segar atau kering sesuai bahannya.",
+        "zh": "????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Wash fresh fruit and prepare edible portions according to the recipe and package.",
+        "id": "Cuci buah segar dan siapkan bagian yang dapat dimakan sesuai resep dan kemasan.",
+        "zh": "????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "MSK About Herbs - Goji Berry",
+        "USDA FoodData Central"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Goji berries may interact with warfarin; ask a pharmacist if you take it.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Buah goji dapat berinteraksi dengan warfarin; tanyakan kepada apoteker jika Anda menggunakannya.",
+        "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Sup Kurma Merah dan Goji",
+          "en": "Red Date and Goji Soup",
+          "zh": "红枣枸杞汤"
+        },
+        "serves": 4,
+        "minutes": 45,
+        "ingredients": [
+          {
+            "id": "8 buah kurma merah, buang bijinya",
+            "en": "8 red dates, pitted",
+            "zh": "8颗红枣，去核"
+          },
+          {
+            "id": "2 sdm goji berry",
+            "en": "2 tbsp goji berries",
+            "zh": "2汤匙枸杞"
+          },
+          {
+            "id": "1,2 L air",
+            "en": "1.2 L water",
+            "zh": "1.2升水"
+          },
+          {
+            "id": "2 sdm gula batu (opsional)",
+            "en": "2 tbsp rock sugar (optional)",
+            "zh": "2汤匙冰糖（可选）"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Cuci kurma merah dan goji berry di bawah air mengalir.",
+            "en": "Rinse the dates and goji berries under running water.",
+            "zh": "用流动水洗净红枣和枸杞。"
+          },
+          {
+            "id": "Masukkan ke panci bersama air, lalu didihkan.",
+            "en": "Add them to a pot with the water and bring to a boil.",
+            "zh": "将它们与水一起放入锅中煮沸。"
+          },
+          {
+            "id": "Tutup dan rebus perlahan selama 30 menit; jika memakai gula batu, aduk hingga larut.",
+            "en": "Cover and simmer gently for 30 minutes; stir in rock sugar until dissolved if using.",
+            "zh": "盖上锅盖小火煮30分钟；如使用冰糖，搅拌至融化。"
+          },
+          {
+            "id": "Sajikan hangat dalam mangkuk.",
+            "en": "Serve warm in bowls.",
+            "zh": "盛入碗中趁热享用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "jujube",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "jujube",
+      "names": {
+        "en": "Red dates (jujube)",
+        "id": "Kurma merah Cina (jujube)",
+        "zh": "大枣"
+      },
+      "look": {
+        "en": "Edible fruit or berries, sold fresh or dried depending on the ingredient.",
+        "id": "Buah atau beri yang dapat dimakan, dijual segar atau kering sesuai bahannya.",
+        "zh": "????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Wash fresh fruit and prepare edible portions according to the recipe and package.",
+        "id": "Cuci buah segar dan siapkan bagian yang dapat dimakan sesuai resep dan kemasan.",
+        "zh": "????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Local TCM database entry: jujube"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Pasta Kurma Merah",
+          "en": "Red Date Paste",
+          "zh": "红枣泥"
+        },
+        "serves": 8,
+        "minutes": 70,
+        "ingredients": [
+          {
+            "id": "300 g kurma merah kering, buang bijinya",
+            "en": "300 g dried red dates, pitted",
+            "zh": "300克干红枣，去核"
+          },
+          {
+            "id": "750 ml air",
+            "en": "750 ml water",
+            "zh": "750毫升水"
+          },
+          {
+            "id": "1 sdm air lemon",
+            "en": "1 tbsp lemon juice",
+            "zh": "1汤匙柠檬汁"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Cuci kurma, masukkan ke panci bersama air, lalu didihkan.",
+            "en": "Rinse the dates, place them in a saucepan with water and bring to a boil.",
+            "zh": "洗净红枣，放入锅中加水煮沸。"
+          },
+          {
+            "id": "Tutup dan rebus perlahan selama 40 menit hingga kurma sangat lunak dan mudah hancur.",
+            "en": "Cover and simmer for 40 minutes, until the dates are very soft and split easily.",
+            "zh": "盖上锅盖小火煮40分钟，直到红枣非常软、轻轻一压就散开。"
+          },
+          {
+            "id": "Tiriskan dan sisihkan 100 ml air rebusan; blender kurma dengan air lemon, lalu tambahkan air rebusan sedikit demi sedikit hingga halus.",
+            "en": "Drain, reserving 100 ml cooking liquid; blend dates with lemon juice and add reserved liquid a little at a time until smooth.",
+            "zh": "沥干并留出100毫升煮枣水；将红枣和柠檬汁打成泥，再逐次加入留出的水，直到细滑。"
+          },
+          {
+            "id": "Dinginkan, tutup, dan simpan di kulkas; habiskan dalam 5 hari.",
+            "en": "Cool, cover and refrigerate; use within 5 days.",
+            "zh": "放凉后加盖冷藏，并在5天内食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "chrysanthemum",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "chrysanthemum",
+      "names": {
+        "en": "Chrysanthemum",
+        "id": "Bunga krisan",
+        "zh": "菊花"
+      },
+      "look": {
+        "en": "Food-grade flower buds, petals, or flower pieces, sold fresh or dried.",
+        "id": "Kuncup, kelopak, atau bagian bunga layak pangan, dijual segar atau kering.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use only food-grade flowers; rinse fresh petals or steep dried flowers as the recipe directs.",
+        "id": "Gunakan hanya bunga layak pangan; bilas kelopak segar atau seduh bunga kering sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "MSK About Herbs - Chrysanthemum",
+        "USDA FoodData Central"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use food-grade flowers only. Avoid if allergic to ragweed or related daisies, and ask a pharmacist about medicine interactions.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya bunga layak pangan. Hindari jika alergi terhadap ragweed atau bunga sejenis, dan tanyakan kepada apoteker tentang interaksi obat.",
+        "zh": "??????????????????????????????????????????????????????????????????? ??????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Teh Krisan",
+          "en": "Chrysanthemum Tea",
+          "zh": "菊花茶"
+        },
+        "serves": 2,
+        "minutes": 10,
+        "ingredients": [
+          {
+            "id": "2 sdm bunga krisan kering",
+            "en": "2 tbsp dried chrysanthemum flowers",
+            "zh": "2汤匙干菊花"
+          },
+          {
+            "id": "500 ml air",
+            "en": "500 ml water",
+            "zh": "500毫升水"
+          },
+          {
+            "id": "1 sdt gula batu (opsional)",
+            "en": "1 tsp rock sugar (optional)",
+            "zh": "1茶匙冰糖（可选）"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Bilas bunga kering sebentar lalu masukkan ke teko.",
+            "en": "Rinse the dried flowers briefly and place them in a teapot.",
+            "zh": "稍微冲洗干菊花后放入茶壶。"
+          },
+          {
+            "id": "Tuangkan air yang baru mendidih, tutup, dan seduh selama 5 menit.",
+            "en": "Pour in freshly boiled water, cover and steep for 5 minutes.",
+            "zh": "倒入刚烧开的水，盖上盖子浸泡5分钟。"
+          },
+          {
+            "id": "Saring ke cangkir; tambahkan gula batu dan aduk hingga larut bila suka.",
+            "en": "Strain into cups; add rock sugar and stir until dissolved if desired.",
+            "zh": "过滤到杯中；喜欢的话加入冰糖并搅拌至融化。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "lian_zi",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "lian_zi",
+      "names": {
+        "en": "Lotus seeds",
+        "id": "Biji teratai",
+        "zh": "莲子"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki - Lotus Seed"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Nasi Biji Teratai",
+          "en": "Lotus Seed Rice",
+          "zh": "莲子饭"
+        },
+        "serves": 4,
+        "minutes": 40,
+        "ingredients": [
+          {
+            "id": "250 g beras melati, cuci",
+            "en": "250 g jasmine rice, rinsed",
+            "zh": "250克茉莉香米，洗净"
+          },
+          {
+            "id": "100 g biji teratai kering, rendam 4 jam lalu tiriskan",
+            "en": "100 g dried lotus seeds, soaked for 4 hours and drained",
+            "zh": "100克干莲子，浸泡4小时后沥干"
+          },
+          {
+            "id": "450 ml air",
+            "en": "450 ml water",
+            "zh": "450毫升水"
+          },
+          {
+            "id": "1/2 sdt garam",
+            "en": "1/2 tsp salt",
+            "zh": "1/2茶匙盐"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Tiriskan biji teratai yang direndam, lalu rebus dalam air baru selama 15 menit hingga mudah ditusuk garpu; tiriskan.",
+            "en": "Drain the soaked lotus seeds and simmer them in fresh water for 15 minutes, until a fork pierces them easily; drain.",
+            "zh": "沥干泡好的莲子，换清水小火煮15分钟，直到筷子能轻松戳透；沥干。"
+          },
+          {
+            "id": "Campur beras, biji teratai matang, air, dan garam dalam panci.",
+            "en": "Combine rice, cooked lotus seeds, water and salt in a saucepan.",
+            "zh": "将米、煮好的莲子、水和盐放入锅中。"
+          },
+          {
+            "id": "Tutup dan didihkan, lalu masak dengan api kecil selama 15 menit. Diamkan tertutup 10 menit, aduk perlahan, dan sajikan.",
+            "en": "Cover and bring to a boil, then cook on low for 15 minutes. Rest covered for 10 minutes, fluff and serve.",
+            "zh": "盖上锅盖煮沸后转小火煮15分钟。关火焖10分钟，拨松后食用。"
+          }
+        ],
+        "allergens": []
+      }
+    },
+    {
+      "id": "lily_bulb",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "lily_bulb",
+      "names": {
+        "en": "Lily bulb",
+        "id": "Umbi lili",
+        "zh": "百合"
+      },
+      "look": {
+        "en": "Compact layered bulb or edible bulb pieces, usually sold fresh or dried.",
+        "id": "Umbi berlapis atau potongan umbi yang dapat dimakan, biasanya dijual segar atau kering.",
+        "zh": "???????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Peel away the dry outer layer if present, rinse, and chop or crush for a recipe.",
+        "id": "Jika ada, kupas lapisan luar yang kering, bilas, lalu cincang atau haluskan untuk resep.",
+        "zh": "???????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Local TCM database entry: lily_bulb"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_black_sesame",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Black sesame",
+        "id": "Wijen hitam",
+        "zh": "黑芝麻"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_white_sesame",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "White sesame",
+        "id": "Wijen putih",
+        "zh": "白芝麻"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Onde-onde Wijen",
+          "en": "Sesame Balls",
+          "zh": "芝麻球"
+        },
+        "serves": 12,
+        "minutes": 50,
+        "ingredients": [
+          {
+            "id": "200 g tepung ketan",
+            "en": "200 g glutinous rice flour",
+            "zh": "200克糯米粉"
+          },
+          {
+            "id": "150 ml air hangat",
+            "en": "150 ml warm water",
+            "zh": "150毫升温水"
+          },
+          {
+            "id": "80 g pasta kacang merah manis",
+            "en": "80 g sweet red bean paste",
+            "zh": "80克甜红豆沙"
+          },
+          {
+            "id": "60 g biji wijen putih",
+            "en": "60 g white sesame seeds",
+            "zh": "60克白芝麻"
+          },
+          {
+            "id": "500 ml minyak goreng untuk menggoreng",
+            "en": "500 ml cooking oil for frying",
+            "zh": "500毫升炸用食用油"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Campur tepung ketan dengan air hangat dan uleni 3 menit hingga adonan lembut dan tidak lengket; tutup selama 10 menit.",
+            "en": "Mix the rice flour with warm water and knead for 3 minutes into a soft, non-sticky dough; cover for 10 minutes.",
+            "zh": "将糯米粉和温水混合，揉3分钟至柔软不粘手，盖好静置10分钟。"
+          },
+          {
+            "id": "Bagi menjadi 12 bola. Pipihkan, isi masing-masing sekitar 1 sdt pasta kacang merah, rapatkan, lalu bulatkan.",
+            "en": "Divide into 12 balls. Flatten each, add about 1 tsp red bean paste, seal and roll smooth.",
+            "zh": "分成12份搓圆。每份压扁，放入约1茶匙红豆沙，收口后搓圆。"
+          },
+          {
+            "id": "Gulingkan setiap bola di wijen sambil ditekan ringan agar menempel.",
+            "en": "Roll each ball in sesame seeds, pressing lightly so they stick.",
+            "zh": "把每个糯米球滚上白芝麻，轻轻按压让芝麻粘牢。"
+          },
+          {
+            "id": "Goreng dalam minyak bersuhu 160°C selama 8–10 menit sambil sering dibalik hingga kuning keemasan merata dan mengembang. Tiriskan di rak dan dinginkan 5 menit sebelum disajikan.",
+            "en": "Fry in oil at 160°C for 8–10 minutes, turning often, until evenly golden and puffed. Drain on a rack and cool for 5 minutes before serving.",
+            "zh": "油温升至160°C后炸8–10分钟，勤翻动，直到颜色均匀金黄并膨起。放在架子上沥油，冷却5分钟后食用。"
+          }
+        ],
+        "allergens": [
+          "sesame"
+        ]
+      }
+    },
+    {
+      "id": "culinary_walnut",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Walnuts",
+        "id": "Kacang walnut",
+        "zh": "核桃"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_almond",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Sweet almonds",
+        "id": "Almond manis",
+        "zh": "杏仁"
+      },
+      "look": {
+        "en": "Edible seeds or kernels, usually sold whole, hulled, or ground.",
+        "id": "Biji atau inti yang dapat dimakan, biasanya dijual utuh, dikupas, atau digiling.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use edible food-grade seeds or kernels as sold; toast or grind only as the recipe directs.",
+        "id": "Gunakan biji atau inti layak pangan sesuai bentuk jualnya; sangrai atau giling hanya sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "U.S. FDA - Natural Toxins in Food"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only food-grade sweet almonds; avoid bitter almonds and kernels from fruit pits.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya almond manis layak pangan; hindari almond pahit dan biji dari lubang buah.",
+        "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_star_fruit",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Star fruit",
+        "id": "Belimbing",
+        "zh": "杨桃"
+      },
+      "look": {
+        "en": "Edible fruit or berries, sold fresh or dried depending on the ingredient.",
+        "id": "Buah atau beri yang dapat dimakan, dijual segar atau kering sesuai bahannya.",
+        "zh": "????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Wash fresh fruit and prepare edible portions according to the recipe and package.",
+        "id": "Cuci buah segar dan siapkan bagian yang dapat dimakan sesuai resep dan kemasan.",
+        "zh": "????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "National Kidney Foundation - Starfruit",
+        "USDA FoodData Central"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. People with kidney disease should avoid star fruit because it can cause toxic effects.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Penderita penyakit ginjal sebaiknya menghindari belimbing karena dapat menimbulkan efek toksik.",
+        "zh": "??????????????????????????????????????????????????????????????????? ???????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_makrut_lime",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Makrut lime (kaffir lime)",
+        "id": "Jeruk purut",
+        "zh": "泰国柠檬"
+      },
+      "look": {
+        "en": "Edible fruit or berries, sold fresh or dried depending on the ingredient.",
+        "id": "Buah atau beri yang dapat dimakan, dijual segar atau kering sesuai bahannya.",
+        "zh": "????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Wash fresh fruit and prepare edible portions according to the recipe and package.",
+        "id": "Cuci buah segar dan siapkan bagian yang dapat dimakan sesuai resep dan kemasan.",
+        "zh": "????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_turmeric_leaf",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Turmeric leaf",
+        "id": "Daun kunyit",
+        "zh": "姜黄叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_curry_leaf",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Curry leaf",
+        "id": "Daun kari",
+        "zh": "咖喱叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_ginger_flower",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Ginger flower (torch ginger)",
+        "id": "Kecombrang",
+        "zh": "姜花"
+      },
+      "look": {
+        "en": "Food-grade flower buds, petals, or flower pieces, sold fresh or dried.",
+        "id": "Kuncup, kelopak, atau bagian bunga layak pangan, dijual segar atau kering.",
+        "zh": "???????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Use only food-grade flowers; rinse fresh petals or steep dried flowers as the recipe directs.",
+        "id": "Gunakan hanya bunga layak pangan; bilas kelopak segar atau seduh bunga kering sesuai resep.",
+        "zh": "????????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_fingerroot",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Fingerroot",
+        "id": "Temu kunci",
+        "zh": "山柰"
+      },
+      "look": {
+        "en": "A firm, aromatic rhizome, usually sold fresh or dried.",
+        "id": "Rimpang padat dan beraroma, biasanya dijual segar atau kering.",
+        "zh": "?????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse and slice or grate; peel if desired, then use as the recipe directs.",
+        "id": "Bilas lalu iris atau parut; kupas bila diinginkan, kemudian gunakan sesuai resep.",
+        "zh": "??????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_shallot",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Shallot",
+        "id": "Bawang merah",
+        "zh": "红葱头"
+      },
+      "look": {
+        "en": "Compact layered bulb or edible bulb pieces, usually sold fresh or dried.",
+        "id": "Umbi berlapis atau potongan umbi yang dapat dimakan, biasanya dijual segar atau kering.",
+        "zh": "???????????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Peel away the dry outer layer if present, rinse, and chop or crush for a recipe.",
+        "id": "Jika ada, kupas lapisan luar yang kering, bilas, lalu cincang atau haluskan untuk resep.",
+        "zh": "???????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": {
+        "status": "draft",
+        "title": {
+          "id": "Soto Ayam Indonesia",
+          "en": "Indonesian Soto Ayam",
+          "zh": "印尼黄姜鸡汤"
+        },
+        "serves": 4,
+        "minutes": 75,
+        "ingredients": [
+          {
+            "id": "600 g ayam bertulang",
+            "en": "600 g bone-in chicken",
+            "zh": "600克带骨鸡肉"
+          },
+          {
+            "id": "2 L air",
+            "en": "2 L water",
+            "zh": "2升水"
+          },
+          {
+            "id": "4 bawang merah, kupas",
+            "en": "4 shallots, peeled",
+            "zh": "4颗红葱头，去皮"
+          },
+          {
+            "id": "3 siung bawang putih, kupas",
+            "en": "3 garlic cloves, peeled",
+            "zh": "3瓣大蒜，去皮"
+          },
+          {
+            "id": "3 cm kunyit segar, kupas",
+            "en": "3 cm fresh turmeric, peeled",
+            "zh": "3厘米新鲜姜黄，去皮"
+          },
+          {
+            "id": "2 cm jahe segar, kupas",
+            "en": "2 cm fresh ginger, peeled",
+            "zh": "2厘米新鲜生姜，去皮"
+          },
+          {
+            "id": "3 kemiri",
+            "en": "3 candlenuts",
+            "zh": "3颗烛果"
+          },
+          {
+            "id": "2 batang serai, memarkan",
+            "en": "2 lemongrass stalks, bruised",
+            "zh": "2根香茅，拍裂"
+          },
+          {
+            "id": "3 lembar daun jeruk",
+            "en": "3 makrut lime leaves",
+            "zh": "3片泰国柠檬叶"
+          },
+          {
+            "id": "2 sdm minyak goreng",
+            "en": "2 tbsp cooking oil",
+            "zh": "2汤匙食用油"
+          },
+          {
+            "id": "1 sdt garam",
+            "en": "1 tsp salt",
+            "zh": "1茶匙盐"
+          },
+          {
+            "id": "200 g nasi matang",
+            "en": "200 g cooked rice",
+            "zh": "200克熟米饭"
+          },
+          {
+            "id": "2 sdm daun bawang iris",
+            "en": "2 tbsp sliced scallions",
+            "zh": "2汤匙小葱段"
+          }
+        ],
+        "steps": [
+          {
+            "id": "Rebus ayam dalam air selama 35 menit sambil membuang buih; pastikan bagian terdalam mencapai 74°C. Angkat ayam dan sisihkan kaldu.",
+            "en": "Simmer the chicken in the water for 35 minutes, skimming the broth; confirm the thickest part reaches 74°C. Remove the chicken and reserve the broth.",
+            "zh": "将鸡肉放入水中小火煮35分钟并撇去浮沫；确认最厚处内部温度达到74°C。取出鸡肉，留下汤底。"
+          },
+          {
+            "id": "Haluskan bawang merah, bawang putih, kunyit, jahe, dan kemiri hingga menjadi bumbu.",
+            "en": "Blend the shallots, garlic, turmeric, ginger and candlenuts into a paste.",
+            "zh": "把红葱头、大蒜、姜黄、生姜和烛果打成细腻的香料酱。"
+          },
+          {
+            "id": "Panaskan minyak dan tumis bumbu selama 5 menit sambil diaduk hingga harum dan agak keemasan.",
+            "en": "Heat the oil and fry the paste for 5 minutes, stirring, until fragrant and lightly golden.",
+            "zh": "锅中加油，将香料酱炒5分钟，边炒边搅拌，直到香气出来并略呈金黄色。"
+          },
+          {
+            "id": "Masukkan bumbu, serai, dan daun jeruk ke kaldu; rebus perlahan selama 15 menit.",
+            "en": "Add the paste, lemongrass and lime leaves to the broth; simmer for 15 minutes.",
+            "zh": "把香料酱、香茅和泰国柠檬叶加入汤底，小火煮15分钟。"
+          },
+          {
+            "id": "Suwir ayam, masukkan kembali ke kaldu, lalu rebus 5 menit. Sajikan di atas nasi dengan daun bawang.",
+            "en": "Shred the chicken, return it to the broth and simmer for 5 minutes. Serve over rice with scallions.",
+            "zh": "将鸡肉撕成细丝，放回汤中再煮5分钟。盛在米饭上，撒上小葱。"
+          }
+        ],
+        "allergens": [
+          "tree_nut"
+        ]
+      }
+    },
+    {
+      "id": "culinary_scallion",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Scallion",
+        "id": "Daun bawang",
+        "zh": "小葱"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "culinary_garlic_chives",
+      "tier": "A",
+      "status": "draft",
+      "origin": "culinary_only",
+      "tcmHerbId": null,
+      "names": {
+        "en": "Garlic chives",
+        "id": "Kucai",
+        "zh": "韭菜"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Food-grade culinary reference"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "zi_su_ye",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "zi_su_ye",
+      "names": {
+        "en": "Perilla leaf",
+        "id": "Daun perilla (shiso)",
+        "zh": "紫苏叶"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "Local TCM database entry: zi_su_ye"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
+    },
+    {
+      "id": "yu_xing_cao",
+      "tier": "A",
+      "status": "draft",
+      "origin": "tcm_database",
+      "tcmHerbId": "yu_xing_cao",
+      "names": {
+        "en": "Fish mint (Houttuynia)",
+        "id": "Daun ikan (Houttuynia)",
+        "zh": "鱼腥草"
+      },
+      "look": {
+        "en": "Green leafy herb, sold fresh or dried depending on the ingredient.",
+        "id": "Herba berdaun hijau, dijual segar atau kering sesuai bahannya.",
+        "zh": "?????????????????????"
+      },
+      "whereToBuy": {
+        "en": "Buy a food-grade product from a grocery produce or spice section, Asian market, or reputable food supplier; check its label.",
+        "id": "Pilih produk layak pangan dari bagian sayur atau bumbu di toko, pasar Asia, atau pemasok tepercaya; periksa labelnya.",
+        "zh": "????????????????????????????????????"
+      },
+      "preparation": {
+        "en": "Rinse fresh leaves and chop or tear as the recipe directs; use dried leaves according to the package.",
+        "id": "Bilas daun segar lalu cincang atau sobek sesuai resep; gunakan daun kering menurut petunjuk kemasan.",
+        "zh": "???????????????????????????"
+      },
+      "amountPerServing": {
+        "en": "Add a small culinary amount to taste as part of an ordinary recipe; no medicinal dose is provided.",
+        "id": "Tambahkan sedikit sesuai selera sebagai bagian dari resep biasa; takaran pengobatan tidak diberikan.",
+        "zh": "?????????????????????????"
+      },
+      "substitutes": [],
+      "sources": [
+        "USDA FoodData Central",
+        "TCM Wiki - 鱼腥草"
+      ],
+      "checkedOn": "",
+      "caution": {
+        "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
+        "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
+        "zh": "???????????????????????????????????????????????????????????????????"
+      },
+      "recipe": null
     }
   ]
 }

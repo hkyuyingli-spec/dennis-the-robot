@@ -1,41 +1,85 @@
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Leaf } from "lucide-react";
+import { ArrowLeft, Leaf } from "lucide-react";
 import data from "./data/herbal_kitchen.json";
 import strings from "./data/herbal_kitchen_strings.json";
 import type { Language } from "./api";
+import { isHerbalKitchenRecordVisible } from "./HerbalKitchenConfig";
 
-const SHOW_DRAFTS = true;
-const ACCEPTED_KEY = "nutribot-herbal-kitchen-welcome";
+const ACCEPTED_KEY = "herbal_kitchen_welcome_accepted_v1";
 
-type NameSet = { id: string; zh: string; en: string; latin: string };
-type Herb = {
-  id: string; tier: "A" | "B"; status: string; names: NameSet; look: string;
-  whereToBuy: string; preparation: string; amountPerServing: string;
-  goodIn: string[]; substitutes: string; sources: string[]; checkedOn: string;
+type LanguageText = { en?: string; id?: string; zh?: string };
+type RecipeLine = LanguageText;
+type Recipe = {
+  status: string;
+  title: LanguageText;
+  serves: string | number;
+  minutes: string | number;
+  ingredients: RecipeLine[];
+  steps: RecipeLine[];
+  allergens: string[];
 };
-type Dish = { id: string; status: string; name: string; type: string; serves: string | number; minutes: string | number; steps: string[] };
+type Herb = {
+  id: string;
+  tier: "A" | "B";
+  status: string;
+  names: LanguageText & { latin?: string };
+  preparation: LanguageText;
+  amountPerServing: LanguageText;
+  caution: LanguageText;
+  sources: string[];
+  checkedOn: string;
+  recipe: Recipe | null;
+};
 type KitchenCopy = typeof strings.en;
-type View = { kind: "list" } | { kind: "herb"; herbId: string } | { kind: "dish"; dishId: string };
+type View = { kind: "list" } | { kind: "herb"; herbId: string };
 
-const herbs = (data.herbs as Herb[]).filter((herb) => herb.status === "published" || SHOW_DRAFTS && herb.status === "draft");
-const dishes = (data.dishes as Dish[]).filter((dish) => dish.status === "published" || SHOW_DRAFTS && dish.status === "draft");
-const links = data.links;
+function localize(field: LanguageText | undefined, lang: string): string {
+  if (!field) return "";
+  const selected = field[lang as keyof LanguageText];
+  if (typeof selected === "string" && selected.trim() && !selected.includes("??")) return selected;
+  return typeof field.en === "string" && !field.en.includes("??") ? field.en : "";
+}
+
+const herbs = (data.herbs as Herb[]).filter((herb) => isHerbalKitchenRecordVisible(herb.status));
 
 function readAcceptance(): boolean {
   try { return localStorage.getItem(ACCEPTED_KEY) === "yes"; } catch { return false; }
 }
 
 export default function HerbalKitchen({ language }: { language: Language }) {
-  const [view, setView] = useState<View>({ kind: "list" });
+  const [history, setHistory] = useState<View[]>([{ kind: "list" }]);
   const [accepted, setAccepted] = useState(readAcceptance);
+  const [search, setSearch] = useState("");
   const copy: KitchenCopy = strings[language] ?? strings.en;
+  const view = history[history.length - 1] ?? { kind: "list" as const };
   const selectedHerb = view.kind === "herb" ? herbs.find((herb) => herb.id === view.herbId) : undefined;
-  const selectedDish = view.kind === "dish" ? dishes.find((dish) => dish.id === view.dishId) : undefined;
-  const label = (names: NameSet) => names[language] || names.en;
+  const selectedRecipe = selectedHerb?.recipe && isHerbalKitchenRecordVisible(selectedHerb.recipe.status)
+    ? selectedHerb.recipe
+    : null;
+  const visibleHerbs = herbs.filter((herb) => {
+    const query = search.trim().toLocaleLowerCase();
+    return !query || [herb.names.en, herb.names.id, herb.names.zh, herb.names.latin ?? ""]
+      .filter((name): name is string => typeof name === "string")
+      .some((name) => name.toLocaleLowerCase().includes(query));
+  });
+
+  function navigate(herbId: string) {
+    if (!herbs.some((herb) => herb.id === herbId)) return;
+    setHistory((current) => [...current, { kind: "herb", herbId }]);
+  }
+
+  function goBack() {
+    setHistory((current) => current.length > 1 ? current.slice(0, -1) : [{ kind: "list" }]);
+  }
 
   function acceptWelcome() {
-    try { localStorage.setItem(ACCEPTED_KEY, "yes"); } catch { /* The notice remains dismissible for this session. */ }
+    try { localStorage.setItem(ACCEPTED_KEY, "yes"); } catch { /* Keep the notice dismissible for this session. */ }
     setAccepted(true);
+  }
+
+  function allergenName(code: string): string {
+    const translated = copy.allergenNames[code as keyof typeof copy.allergenNames];
+    return translated ?? code;
   }
 
   return (
@@ -50,8 +94,8 @@ export default function HerbalKitchen({ language }: { language: Language }) {
         </div>
       )}
 
-      {view.kind !== "list" && (
-        <button className="secondary-button herbal-back herbal-tap-target" onClick={() => setView({ kind: "list" })} type="button">
+      {view.kind === "herb" && (
+        <button className="secondary-button herbal-back herbal-tap-target" onClick={goBack} type="button">
           <ArrowLeft size={18} />{copy.back}
         </button>
       )}
@@ -59,69 +103,73 @@ export default function HerbalKitchen({ language }: { language: Language }) {
       {view.kind === "list" && (
         <>
           <div className="screen-heading herbal-heading"><p className="eyebrow">{copy.tab}</p><h1>{copy.tab}</h1></div>
+          <input
+            className="herbal-search"
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder={copy.searchPlaceholder}
+            aria-label={copy.searchPlaceholder}
+          />
           <div className="herbal-card-list">
-            {herbs.map((herb) => (
-              <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => setView({ kind: "herb", herbId: herb.id })} type="button">
-                <span className="herbal-card-title"><Leaf size={18} />{label(herb.names)}</span>
-                {SHOW_DRAFTS && herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
-                <span className="herbal-card-date">{copy.checkedOn}: {herb.checkedOn}</span>
+            {visibleHerbs.map((herb) => (
+              <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => navigate(herb.id)} type="button">
+                <span className="herbal-card-title"><Leaf size={18} />{localize(herb.names, language)}</span>
+                <span className="herbal-tier">{herb.tier === "A" ? copy.tierA : copy.tierB}</span>
+                {herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
               </button>
             ))}
+            {visibleHerbs.length === 0 && <p className="herbal-muted">{copy.noSearchResults}</p>}
           </div>
         </>
       )}
 
       {view.kind === "herb" && selectedHerb && (
         <>
-          <div className="screen-heading herbal-heading"><h1>{label(selectedHerb.names)}</h1><p className="herbal-latin">{selectedHerb.names.latin}</p>
-            {SHOW_DRAFTS && selectedHerb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
-            <p className="herbal-card-date">{copy.checkedOn}: {selectedHerb.checkedOn}</p>
+          <div className="screen-heading herbal-heading">
+            <h1>{localize(selectedHerb.names, language)}</h1>
+            <span className="herbal-tier">{selectedHerb.tier === "A" ? copy.tierA : copy.tierB}</span>
+            {selectedHerb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
           </div>
-          <p className="herbal-caution">{copy.caution}</p>
-          {selectedHerb.tier === "B" && <p className="herbal-notice">{copy.infoOnly}</p>}
           <dl className="herbal-details">
-            <Detail label={copy.look} value={selectedHerb.look} />
-            <Detail label={copy.whereToBuy} value={selectedHerb.whereToBuy} />
-            <Detail label={copy.preparation} value={selectedHerb.preparation} />
-            <Detail label={copy.amountPerServing} value={selectedHerb.amountPerServing} />
-            <Detail label={copy.substitutes} value={selectedHerb.substitutes} />
-            <Detail label={copy.sources} value={selectedHerb.sources.join(" · ")} />
+            <Detail label={copy.englishName} value={localize({ en: selectedHerb.names.en }, "en")} />
+            <Detail label={copy.indonesianName} value={localize({ en: selectedHerb.names.id || selectedHerb.names.en }, "en")} />
+            <Detail label={copy.chineseName} value={localize({ en: selectedHerb.names.zh || selectedHerb.names.en }, "en")} />
+            <Detail label={copy.latinName} value={selectedHerb.names.latin || "—"} />
+            <Detail label={copy.preparation} value={localize(selectedHerb.preparation, language)} />
+            <Detail label={copy.amountPerServing} value={localize(selectedHerb.amountPerServing, language)} />
           </dl>
-          {selectedHerb.tier === "A" && (
+
+          {selectedHerb.tier === "B" && <p className="herbal-notice">{copy.infoOnly}</p>}
+          <h2 className="herbal-section-title">{copy.recipe}</h2>
+          {selectedHerb.tier === "B" || !selectedRecipe ? (
+            <p className="herbal-muted">{copy.noRecipeYet}</p>
+          ) : (
             <>
-              <h2 className="herbal-section-title">{copy.tab}</h2>
-              <div className="herbal-card-list">
-                {dishes.filter((dish) => links.some((link) => link.herbId === selectedHerb.id && link.dishId === dish.id)).map((dish) => (
-                  <button className="herbal-card herbal-tap-target" key={dish.id} onClick={() => setView({ kind: "dish", dishId: dish.id })} type="button">
-                    <span className="herbal-card-title">{dish.name}<ArrowRight size={18} /></span>
-                    {SHOW_DRAFTS && dish.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
-                  </button>
+              <h3 className="herbal-recipe-title">{localize(selectedRecipe.title, language)}</h3>
+              {selectedRecipe.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
+              <p className="herbal-meta">{copy.serves}: {selectedRecipe.serves} · {copy.minutes}: {selectedRecipe.minutes}</p>
+              <h3 className="herbal-section-title">{copy.ingredients}</h3>
+              <ul className="herbal-steps">
+                {selectedRecipe.ingredients.map((ingredient, index) => (
+                  <li key={`${index}-${ingredient.en}`}>{localize(ingredient, language)}</li>
                 ))}
-                {selectedHerb.goodIn.length === 0 && <p className="herbal-muted">{copy.noDishes}</p>}
-              </div>
+              </ul>
+              <h3 className="herbal-section-title">{copy.steps}</h3>
+              <ol className="herbal-steps">
+                {selectedRecipe.steps.map((step, index) => (
+                  <li key={`${index}-${step.en}`}>{localize(step, language)}</li>
+                ))}
+              </ol>
+              <p className="herbal-allergens"><strong>{copy.allergens}:</strong> {selectedRecipe.allergens.length
+                ? selectedRecipe.allergens.map(allergenName).join(", ")
+                : copy.noKnownAllergens}</p>
             </>
           )}
-        </>
-      )}
-
-      {view.kind === "dish" && selectedDish && (
-        <>
-          <div className="screen-heading herbal-heading"><h1>{selectedDish.name}</h1>
-            {SHOW_DRAFTS && selectedDish.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
-            <p className="herbal-card-date">{copy.checkedOn}: {herbs.find((herb) => links.some((link) => link.dishId === selectedDish.id && link.herbId === herb.id))?.checkedOn}</p>
-          </div>
-          <p className="herbal-caution">{copy.caution}</p>
-          <p className="herbal-meta">{selectedDish.type} · {copy.serves}: {selectedDish.serves} · {copy.minutes}: {selectedDish.minutes}</p>
-          <h2 className="herbal-section-title">{copy.ingredients}</h2>
-          <div className="herbal-card-list">
-            {links.filter((link) => link.dishId === selectedDish.id).map((link) => {
-              const herb = herbs.find((item) => item.id === link.herbId);
-              if (!herb || herb.tier === "B") return null;
-              return <article className="herbal-info-card" key={link.herbId}><strong>{label(herb.names)}</strong><p>{link.amount}</p></article>;
-            })}
-          </div>
-          <h2 className="herbal-section-title">{copy.steps}</h2>
-          <ol className="herbal-steps">{selectedDish.steps.map((step, index) => <li key={`${index}-${step}`}>{step}</li>)}</ol>
+          <button className="secondary-button herbal-ask-ai" type="button" disabled>
+            {copy.askAI} <span>{copy.comingSoon}</span>
+          </button>
+          <p className="herbal-caution">{localize(selectedHerb.caution, language)}</p>
         </>
       )}
 
