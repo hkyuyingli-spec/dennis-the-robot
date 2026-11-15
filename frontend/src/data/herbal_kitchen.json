@@ -4,7 +4,7 @@
   "dishes": [
     {
       "id": "ginger_tea",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Teh Jahe",
         "en": "Ginger Tea",
@@ -82,7 +82,7 @@
     },
     {
       "id": "ginger_garlic_stir_fry",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Tumis Jahe dan Bawang Putih",
         "en": "Ginger Garlic Stir-Fry",
@@ -203,7 +203,7 @@
     },
     {
       "id": "turmeric_rice",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Nasi Kunyit",
         "en": "Turmeric Rice",
@@ -299,7 +299,7 @@
     },
     {
       "id": "cinnamon_apple_tea",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Teh Apel Kayu Manis",
         "en": "Cinnamon Apple Tea",
@@ -377,7 +377,7 @@
     },
     {
       "id": "mint_tea",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Teh Mint",
         "en": "Mint Tea",
@@ -455,7 +455,7 @@
     },
     {
       "id": "lemongrass_soup",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Sup Serai",
         "en": "Lemongrass Soup",
@@ -562,7 +562,7 @@
     },
     {
       "id": "fresh_herb_salad",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Salad Herba Segar",
         "en": "Fresh Herb Salad",
@@ -676,7 +676,7 @@
     },
     {
       "id": "fresh_herb_salad_culinary_cilantro",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Salad Herba Segar",
         "en": "Fresh Herb Salad",
@@ -790,7 +790,7 @@
     },
     {
       "id": "kaffir_lime_chicken",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Ayam Daun Jeruk",
         "en": "Kaffir Lime Chicken",
@@ -911,7 +911,7 @@
     },
     {
       "id": "pandan_rice",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Nasi Pandan",
         "en": "Pandan Rice",
@@ -998,7 +998,7 @@
     },
     {
       "id": "indonesian_soto_ayam",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Soto Ayam Indonesia",
         "en": "Indonesian Soto Ayam",
@@ -1183,7 +1183,7 @@
     },
     {
       "id": "red_date_and_goji_soup",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Sup Kurma Merah dan Goji",
         "en": "Red Date and Goji Soup",
@@ -1275,7 +1275,7 @@
     },
     {
       "id": "red_date_paste",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Pasta Kurma Merah",
         "en": "Red Date Paste",
@@ -1358,7 +1358,7 @@
     },
     {
       "id": "chrysanthemum_tea",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Teh Krisan",
         "en": "Chrysanthemum Tea",
@@ -1436,7 +1436,7 @@
     },
     {
       "id": "lotus_seed_rice",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Nasi Biji Teratai",
         "en": "Lotus Seed Rice",
@@ -1523,7 +1523,7 @@
     },
     {
       "id": "sesame_balls",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Onde-onde Wijen",
         "en": "Sesame Balls",
@@ -1626,7 +1626,7 @@
     },
     {
       "id": "indonesian_soto_ayam_culinary_shallot",
-      "status": "draft",
+      "status": "published",
       "name": {
         "id": "Soto Ayam Indonesia",
         "en": "Indonesian Soto Ayam",
@@ -1811,7 +1811,7 @@
     },
     {
       "id": "black_sesame_porridge",
-      "status": "draft",
+      "status": "published",
       "name": {
         "en": "Black Sesame Porridge",
         "id": "Bubur Wijen Hitam",
