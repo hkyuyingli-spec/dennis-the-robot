@@ -69,11 +69,11 @@ function HerbAvatar({ image, alt }: { image?: string; alt: string }) {
           width={40}
           height={40}
           onError={() => setImageFailed(true)}
-          style={{ width: 40, height: 40 }}
-          className="rounded-full object-cover shrink-0"
+          style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+          className="w-10 h-10 rounded-full object-cover shrink-0"
         />
       ) : (
-        <Leaf size={40} />
+        <Leaf size={40} className="w-10 h-10 shrink-0" style={{ width: 40, height: 40, flexShrink: 0 }} />
       )}
     </span>
   );
@@ -168,9 +168,14 @@ export default function HerbalKitchen({
             {visibleHerbs.map((herb) => (
               <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => navigate(herb.id)} type="button">
                 <span className="herbal-card-title">
-                  <span className="flex items-center gap-3 flex-1 min-w-0">
+                  <span
+                    className="flex items-center gap-3 flex-1 min-w-0"
+                    style={{ display: "flex", alignItems: "center", gap: 12, flex: "1 1 0%", minWidth: 0 }}
+                  >
                     <HerbAvatar image={herb.image} alt={localize(herb.names, language)} />
-                    <span className="min-w-0">{localize(herb.names, language)}</span>
+                    <span className="min-w-0" style={{ minWidth: 0, overflowWrap: "anywhere" }}>
+                      {localize(herb.names, language)}
+                    </span>
                   </span>
                 </span>
                 {herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
