@@ -8,15 +8,25 @@ import { isHerbalKitchenRecordVisible } from "./HerbalKitchenConfig";
 const ACCEPTED_KEY = "herbal_kitchen_welcome_accepted_v1";
 
 type LanguageText = { en?: string; id?: string; zh?: string };
-type RecipeLine = LanguageText;
-type Recipe = {
+type Ingredient = { qty: number | null; unit: string | null; text: LanguageText; herbId?: string };
+type Dish = {
+  id: string;
   status: string;
-  title: LanguageText;
-  serves: string | number;
-  minutes: string | number;
-  ingredients: RecipeLine[];
-  steps: RecipeLine[];
+  name: LanguageText;
+  type: "drink" | "soup" | "rice" | "main" | "side" | "dessert";
+  serves: number;
+  minutes: number;
+  diet: string[];
   allergens: string[];
+  intro: LanguageText;
+  ingredients: Ingredient[];
+  steps: LanguageText[];
+  tips: LanguageText[];
+  variations: LanguageText[];
+  storage: LanguageText;
+  cookingSafety?: LanguageText;
+  sources: string[];
+  checkedOn: string;
 };
 type Herb = {
   id: string;
@@ -27,8 +37,6 @@ type Herb = {
   amountPerServing: LanguageText;
   caution: LanguageText;
   sources: string[];
-  checkedOn: string;
-  recipe: Recipe | null;
 };
 type KitchenCopy = typeof strings.en;
 type View = { kind: "list" } | { kind: "herb"; herbId: string };
@@ -36,11 +44,13 @@ type View = { kind: "list" } | { kind: "herb"; herbId: string };
 function localize(field: LanguageText | undefined, lang: string): string {
   if (!field) return "";
   const selected = field[lang as keyof LanguageText];
-  if (typeof selected === "string" && selected.trim() && !selected.includes("??")) return selected;
+  const hasChineseText = typeof selected === "string" && /[\u3400-\u9fff]/.test(selected);
+  if (typeof selected === "string" && selected.trim() && !selected.includes("??") && (lang !== "zh" || hasChineseText)) return selected;
   return typeof field.en === "string" && !field.en.includes("??") ? field.en : "";
 }
 
 const herbs = (data.herbs as Herb[]).filter((herb) => isHerbalKitchenRecordVisible(herb.status));
+const dishes = (data.dishes as Dish[]).filter((dish) => isHerbalKitchenRecordVisible(dish.status));
 
 function readAcceptance(): boolean {
   try { return localStorage.getItem(ACCEPTED_KEY) === "yes"; } catch { return false; }
@@ -53,9 +63,9 @@ export default function HerbalKitchen({ language }: { language: Language }) {
   const copy: KitchenCopy = strings[language] ?? strings.en;
   const view = history[history.length - 1] ?? { kind: "list" as const };
   const selectedHerb = view.kind === "herb" ? herbs.find((herb) => herb.id === view.herbId) : undefined;
-  const selectedRecipe = selectedHerb?.recipe && isHerbalKitchenRecordVisible(selectedHerb.recipe.status)
-    ? selectedHerb.recipe
-    : null;
+  const selectedRecipe = selectedHerb?.tier === "A"
+    ? dishes.find((dish) => dish.ingredients.some((ingredient) => ingredient.herbId === selectedHerb.id))
+    : undefined;
   const visibleHerbs = herbs.filter((herb) => {
     const query = search.trim().toLocaleLowerCase();
     return !query || [herb.names.en, herb.names.id, herb.names.zh, herb.names.latin ?? ""]
@@ -115,7 +125,6 @@ export default function HerbalKitchen({ language }: { language: Language }) {
             {visibleHerbs.map((herb) => (
               <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => navigate(herb.id)} type="button">
                 <span className="herbal-card-title"><Leaf size={18} />{localize(herb.names, language)}</span>
-                <span className="herbal-tier">{herb.tier === "A" ? copy.tierA : copy.tierB}</span>
                 {herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
               </button>
             ))}
@@ -128,13 +137,12 @@ export default function HerbalKitchen({ language }: { language: Language }) {
         <>
           <div className="screen-heading herbal-heading">
             <h1>{localize(selectedHerb.names, language)}</h1>
-            <span className="herbal-tier">{selectedHerb.tier === "A" ? copy.tierA : copy.tierB}</span>
             {selectedHerb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
           </div>
           <dl className="herbal-details">
             <Detail label={copy.englishName} value={localize({ en: selectedHerb.names.en }, "en")} />
-            <Detail label={copy.indonesianName} value={localize({ en: selectedHerb.names.id || selectedHerb.names.en }, "en")} />
-            <Detail label={copy.chineseName} value={localize({ en: selectedHerb.names.zh || selectedHerb.names.en }, "en")} />
+            <Detail label={copy.indonesianName} value={localize({ id: selectedHerb.names.id, en: selectedHerb.names.en }, "id")} />
+            <Detail label={copy.chineseName} value={localize({ zh: selectedHerb.names.zh, en: selectedHerb.names.en }, "zh")} />
             <Detail label={copy.latinName} value={selectedHerb.names.latin || "—"} />
             <Detail label={copy.preparation} value={localize(selectedHerb.preparation, language)} />
             <Detail label={copy.amountPerServing} value={localize(selectedHerb.amountPerServing, language)} />
@@ -146,13 +154,13 @@ export default function HerbalKitchen({ language }: { language: Language }) {
             <p className="herbal-muted">{copy.noRecipeYet}</p>
           ) : (
             <>
-              <h3 className="herbal-recipe-title">{localize(selectedRecipe.title, language)}</h3>
+              <h3 className="herbal-recipe-title">{localize(selectedRecipe.name, language)}</h3>
               {selectedRecipe.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
               <p className="herbal-meta">{copy.serves}: {selectedRecipe.serves} · {copy.minutes}: {selectedRecipe.minutes}</p>
               <h3 className="herbal-section-title">{copy.ingredients}</h3>
               <ul className="herbal-steps">
                 {selectedRecipe.ingredients.map((ingredient, index) => (
-                  <li key={`${index}-${ingredient.en}`}>{localize(ingredient, language)}</li>
+                  <li key={`${index}-${ingredient.text.en}`}>{localize(ingredient.text, language)}</li>
                 ))}
               </ul>
               <h3 className="herbal-section-title">{copy.steps}</h3>
@@ -164,6 +172,7 @@ export default function HerbalKitchen({ language }: { language: Language }) {
               <p className="herbal-allergens"><strong>{copy.allergens}:</strong> {selectedRecipe.allergens.length
                 ? selectedRecipe.allergens.map(allergenName).join(", ")
                 : copy.noKnownAllergens}</p>
+              {selectedRecipe.cookingSafety && <p className="herbal-caution">{localize(selectedRecipe.cookingSafety, language)}</p>}
             </>
           )}
           <button className="secondary-button herbal-ask-ai" type="button" disabled>
