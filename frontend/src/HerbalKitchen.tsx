@@ -11,6 +11,7 @@ type LanguageText = { en?: string; id?: string; zh?: string };
 type Ingredient = { qty: number | null; unit: string | null; text: LanguageText; herbId?: string };
 type Dish = {
   id: string;
+  image?: string;
   status: string;
   name: LanguageText;
   type: "drink" | "soup" | "rice" | "main" | "side" | "dessert";
@@ -30,6 +31,7 @@ type Dish = {
 };
 type Herb = {
   id: string;
+  image?: string;
   tier: "A" | "B";
   status: string;
   names: LanguageText & { latin?: string };
@@ -47,6 +49,31 @@ function localize(field: LanguageText | undefined, lang: string): string {
   const hasChineseText = typeof selected === "string" && /[\u3400-\u9fff]/.test(selected);
   if (typeof selected === "string" && selected.trim() && !selected.includes("??") && (lang !== "zh" || hasChineseText)) return selected;
   return typeof field.en === "string" && !field.en.includes("??") ? field.en : "";
+}
+
+const imgSrc = (p?: string) =>
+  p ? `${import.meta.env.BASE_URL}${p.replace(/^\//, "")}` : undefined;
+
+function HerbAvatar({ image, alt }: { image?: string; alt: string }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  return (
+    <span
+      aria-hidden={image && !imageFailed ? undefined : true}
+      style={{ alignItems: "center", display: "inline-flex", flex: "0 0 40px", height: 40, justifyContent: "center", width: 40 }}
+    >
+      {image && !imageFailed ? (
+        <img
+          src={imgSrc(image)}
+          alt={alt}
+          loading="lazy"
+          onError={() => setImageFailed(true)}
+          className="w-10 h-10 rounded-full object-cover shrink-0"
+        />
+      ) : (
+        <Leaf size={18} />
+      )}
+    </span>
+  );
 }
 
 const herbs = (data.herbs as Herb[]).filter((herb) => isHerbalKitchenRecordVisible(herb.status));
@@ -137,7 +164,10 @@ export default function HerbalKitchen({
           <div className="herbal-card-list">
             {visibleHerbs.map((herb) => (
               <button className="herbal-card herbal-tap-target" key={herb.id} onClick={() => navigate(herb.id)} type="button">
-                <span className="herbal-card-title"><Leaf size={18} />{localize(herb.names, language)}</span>
+                <span className="herbal-card-title">
+                  <HerbAvatar image={herb.image} alt={localize(herb.names, language)} />
+                  {localize(herb.names, language)}
+                </span>
                 {herb.status === "draft" && <span className="draft-badge">{copy.draftBadge}</span>}
               </button>
             ))}

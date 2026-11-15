@@ -78,7 +78,8 @@
         "USDA FoodData Central",
         "MSK About Herbs ? Ginger"
       ],
-      "checkedOn": ""
+      "checkedOn": "",
+      "image": "/images/ginger.jpg"
     },
     {
       "id": "ginger_garlic_stir_fry",
@@ -451,7 +452,8 @@
         "USDA FoodData Central",
         "TCM Wiki ? Bo He"
       ],
-      "checkedOn": ""
+      "checkedOn": "",
+      "image": "/images/mint.jpg"
     },
     {
       "id": "lemongrass_soup",
@@ -558,7 +560,8 @@
         "USDA FoodData Central",
         "Food-grade culinary reference"
       ],
-      "checkedOn": ""
+      "checkedOn": "",
+      "image": "/images/lemongrass.jpg"
     },
     {
       "id": "fresh_herb_salad",
@@ -1354,7 +1357,8 @@
         "USDA FoodData Central",
         "Local TCM database entry: jujube"
       ],
-      "checkedOn": ""
+      "checkedOn": "",
+      "image": "/images/red_date.jpg"
     },
     {
       "id": "chrysanthemum_tea",
@@ -1432,7 +1436,8 @@
         "MSK About Herbs - Chrysanthemum",
         "USDA FoodData Central"
       ],
-      "checkedOn": ""
+      "checkedOn": "",
+      "image": "/images/chrysanthemum.png"
     },
     {
       "id": "lotus_seed_rice",
@@ -1960,7 +1965,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/ginger.jpg"
     },
     {
       "id": "garlic",
@@ -2003,7 +2009,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/garlic.jpg"
     },
     {
       "id": "turmeric",
@@ -2046,7 +2053,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/turmeric.jpg"
     },
     {
       "id": "cinnamon",
@@ -2089,7 +2097,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/cinnamon.jpg"
     },
     {
       "id": "mint",
@@ -2132,7 +2141,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/mint.jpg"
     },
     {
       "id": "basil",
@@ -2175,7 +2185,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/basil.jpg"
     },
     {
       "id": "oregano",
@@ -2218,7 +2229,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/oregano.jpg"
     },
     {
       "id": "thyme",
@@ -2261,7 +2273,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/thyme.jpg"
     },
     {
       "id": "rosemary",
@@ -2304,7 +2317,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/rosemary.jpg"
     },
     {
       "id": "cumin",
@@ -2347,7 +2361,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/cumin.jpg"
     },
     {
       "id": "coriander_seed",
@@ -2433,7 +2448,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/fennel.jpg"
     },
     {
       "id": "cardamom",
@@ -2476,7 +2492,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/cardamom.jpg"
     },
     {
       "id": "clove",
@@ -2562,7 +2579,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only ordinary seasoning amounts; large amounts can cause poisoning.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya takaran bumbu biasa; jumlah besar dapat menyebabkan keracunan.",
         "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????"
-      }
+      },
+      "image": "/images/nutmeg.jpg"
     },
     {
       "id": "star_anise",
@@ -2605,7 +2623,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only labeled food-grade Chinese star anise from a reputable seller; do not use unknown or foraged star anise.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya bunga lawang Cina berlabel layak pangan dari penjual tepercaya; jangan gunakan adas bintang yang tidak dikenal atau hasil mencari sendiri.",
         "zh": "??????????????????????????????????????????????????????????????????? ????????????????????????????????????"
-      }
+      },
+      "image": "/images/star_anise.jpg"
     },
     {
       "id": "lemongrass",
@@ -2648,7 +2667,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/lemongrass.jpg"
     },
     {
       "id": "gao_liang_jiang",
@@ -2691,7 +2711,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/gao_liang_jiang.jpg"
     },
     {
       "id": "black_pepper",
@@ -2777,7 +2798,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/white_pepper.jpg"
     },
     {
       "id": "sichuan_pepper",
@@ -2820,7 +2842,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/sichuan_pepper.jpg"
     },
     {
       "id": "dill",
@@ -2863,7 +2886,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/dill.jpg"
     },
     {
       "id": "parsley",
@@ -2906,7 +2930,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/parsley.jpg"
     },
     {
       "id": "cilantro",
@@ -2992,7 +3017,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/bay_leaf.jpg"
     },
     {
       "id": "sage",
@@ -3035,7 +3061,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/sage.jpg"
     },
     {
       "id": "tarragon",
@@ -3121,7 +3148,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Chili can irritate skin and eyes; wash hands after handling and avoid touching the eyes.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Cabai dapat mengiritasi kulit dan mata; cuci tangan setelah memegangnya dan jangan menyentuh mata.",
         "zh": "??????????????????????????????????????????????????????????????????? ????????????????????????"
-      }
+      },
+      "image": "/images/chili.jpg"
     },
     {
       "id": "paprika",
@@ -3207,7 +3235,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/cayenne.jpg"
     },
     {
       "id": "makrut_lime_leaf",
@@ -3250,7 +3279,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/makrut_lime_leaf.jpg"
     },
     {
       "id": "pandan",
@@ -3293,7 +3323,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/pandan.jpg"
     },
     {
       "id": "candlenut",
@@ -3336,7 +3367,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Never eat raw candlenut. Use only food-grade kernels and cook thoroughly as part of a dish.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Jangan pernah makan kemiri mentah. Gunakan hanya inti layak pangan dan masak hingga matang dalam hidangan.",
         "zh": "??????????????????????????????????????????????????????????????????? ???????????????????????????"
-      }
+      },
+      "image": "/images/candlenut.jpg"
     },
     {
       "id": "goji",
@@ -3379,7 +3411,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Goji berries may interact with warfarin; ask a pharmacist if you take it.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Buah goji dapat berinteraksi dengan warfarin; tanyakan kepada apoteker jika Anda menggunakannya.",
         "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????????"
-      }
+      },
+      "image": "/images/goji.jpg"
     },
     {
       "id": "red_date",
@@ -3422,7 +3455,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/red_date.jpg"
     },
     {
       "id": "chrysanthemum",
@@ -3465,7 +3499,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use food-grade flowers only. Avoid if allergic to ragweed or related daisies, and ask a pharmacist about medicine interactions.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya bunga layak pangan. Hindari jika alergi terhadap ragweed atau bunga sejenis, dan tanyakan kepada apoteker tentang interaksi obat.",
         "zh": "??????????????????????????????????????????????????????????????????? ??????????????????????????????????????"
-      }
+      },
+      "image": "/images/chrysanthemum.png"
     },
     {
       "id": "lotus_seed",
@@ -3508,7 +3543,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/lotus_seed.jpg"
     },
     {
       "id": "lily_bulb",
@@ -3551,7 +3587,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/lily_bulb.jpg"
     },
     {
       "id": "black_sesame",
@@ -3680,7 +3717,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/walnut.jpg"
     },
     {
       "id": "almond",
@@ -3723,7 +3761,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts. Use only food-grade sweet almonds; avoid bitter almonds and kernels from fruit pits.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa. Gunakan hanya almond manis layak pangan; hindari almond pahit dan biji dari lubang buah.",
         "zh": "??????????????????????????????????????????????????????????????????? ?????????????????????????"
-      }
+      },
+      "image": "/images/almond.jpg"
     },
     {
       "id": "makrut_lime",
@@ -3766,7 +3805,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/makrut_lime.jpg"
     },
     {
       "id": "turmeric_leaf",
@@ -3809,7 +3849,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/turmeric_leaf.jpg"
     },
     {
       "id": "curry_leaf",
@@ -3852,7 +3893,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/curry_leaf.jpg"
     },
     {
       "id": "ginger_flower",
@@ -3895,7 +3937,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/ginger_flower.jpg"
     },
     {
       "id": "fingerroot",
@@ -3981,7 +4024,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/shallot.jpg"
     },
     {
       "id": "scallion",
@@ -4024,7 +4068,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/scallion.jpg"
     },
     {
       "id": "garlic_chives",
@@ -4067,7 +4112,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/garlic_chives.jpg"
     },
     {
       "id": "perilla",
@@ -4110,7 +4156,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/perilla.jpg"
     },
     {
       "id": "fish_mint",
@@ -4153,7 +4200,8 @@
         "en": "Use only food-grade forms in ordinary cooking amounts. Avoid if allergic. If pregnant, breastfeeding, taking medicines, or managing a health condition, ask a doctor or pharmacist before using more than normal food amounts.",
         "id": "Gunakan hanya bentuk layak pangan dalam takaran memasak biasa. Hindari jika alergi. Jika hamil, menyusui, minum obat, atau memiliki kondisi kesehatan, tanyakan kepada dokter atau apoteker sebelum menggunakan lebih dari takaran makanan biasa.",
         "zh": "???????????????????????????????????????????????????????????????????"
-      }
+      },
+      "image": "/images/fish_mint.jpg"
     }
   ]
 }
