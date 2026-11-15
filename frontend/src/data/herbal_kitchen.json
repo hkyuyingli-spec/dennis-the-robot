@@ -127,7 +127,7 @@
             "en": "3 garlic cloves, finely chopped",
             "zh": "3瓣大蒜，切末"
           },
-          "herbId": "culinary_garlic"
+          "herbId": "garlic"
         },
         {
           "qty": null,
@@ -246,7 +246,7 @@
             "en": "1 tsp ground turmeric",
             "zh": "1茶匙姜黄粉"
           },
-          "herbId": "culinary_turmeric"
+          "herbId": "turmeric"
         },
         {
           "qty": null,
@@ -402,7 +402,7 @@
             "en": "2 tbsp fresh mint leaves",
             "zh": "2汤匙新鲜薄荷叶"
           },
-          "herbId": "bo_he"
+          "herbId": "mint"
         },
         {
           "qty": null,
@@ -482,7 +482,7 @@
             "en": "2 lemongrass stalks, bruised",
             "zh": "2根香茅，拍裂"
           },
-          "herbId": "culinary_lemongrass"
+          "herbId": "lemongrass"
         },
         {
           "qty": null,
@@ -596,7 +596,7 @@
             "en": "30 g parsley leaves",
             "zh": "30克欧芹叶"
           },
-          "herbId": "culinary_parsley"
+          "herbId": "parsley"
         },
         {
           "qty": null,
@@ -719,7 +719,7 @@
             "en": "20 g cilantro leaves",
             "zh": "20克香菜叶"
           },
-          "herbId": "culinary_cilantro"
+          "herbId": "cilantro"
         },
         {
           "qty": null,
@@ -826,7 +826,7 @@
             "en": "4 makrut lime leaves, finely sliced",
             "zh": "4片泰国柠檬叶，切细丝"
           },
-          "herbId": "culinary_makrut_lime_leaves"
+          "herbId": "makrut_lime_leaf"
         },
         {
           "qty": null,
@@ -954,7 +954,7 @@
             "en": "2 pandan leaves, knotted",
             "zh": "2片香兰叶，打结"
           },
-          "herbId": "culinary_pandan"
+          "herbId": "pandan"
         },
         {
           "qty": null,
@@ -1079,7 +1079,7 @@
             "en": "3 candlenuts",
             "zh": "3颗烛果"
           },
-          "herbId": "culinary_candlenut"
+          "herbId": "candlenut"
         },
         {
           "qty": null,
@@ -1217,7 +1217,7 @@
             "en": "2 tbsp goji berries",
             "zh": "2汤匙枸杞"
           },
-          "herbId": "goji_berry"
+          "herbId": "goji"
         },
         {
           "qty": null,
@@ -1300,7 +1300,7 @@
             "en": "300 g dried red dates, pitted",
             "zh": "300克干红枣，去核"
           },
-          "herbId": "jujube"
+          "herbId": "red_date"
         },
         {
           "qty": null,
@@ -1470,7 +1470,7 @@
             "en": "100 g dried lotus seeds, soaked for 4 hours and drained",
             "zh": "100克干莲子，浸泡4小时后沥干"
           },
-          "herbId": "lian_zi"
+          "herbId": "lotus_seed"
         },
         {
           "qty": null,
@@ -1577,7 +1577,7 @@
             "en": "60 g white sesame seeds",
             "zh": "60克白芝麻"
           },
-          "herbId": "culinary_white_sesame"
+          "herbId": "white_sesame"
         },
         {
           "qty": null,
@@ -1671,7 +1671,7 @@
             "en": "4 shallots, peeled",
             "zh": "4颗红葱头，去皮"
           },
-          "herbId": "culinary_shallot"
+          "herbId": "shallot"
         },
         {
           "qty": null,
@@ -1855,7 +1855,7 @@
       }
     },
     {
-      "id": "culinary_garlic",
+      "id": "garlic",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -1898,7 +1898,7 @@
       }
     },
     {
-      "id": "culinary_turmeric",
+      "id": "turmeric",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -1984,7 +1984,7 @@
       }
     },
     {
-      "id": "bo_he",
+      "id": "mint",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -2027,7 +2027,7 @@
       }
     },
     {
-      "id": "culinary_basil",
+      "id": "basil",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2070,7 +2070,7 @@
       }
     },
     {
-      "id": "culinary_oregano",
+      "id": "oregano",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2113,7 +2113,7 @@
       }
     },
     {
-      "id": "culinary_thyme",
+      "id": "thyme",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2156,7 +2156,7 @@
       }
     },
     {
-      "id": "culinary_rosemary",
+      "id": "rosemary",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2199,7 +2199,7 @@
       }
     },
     {
-      "id": "culinary_cumin",
+      "id": "cumin",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2242,7 +2242,7 @@
       }
     },
     {
-      "id": "culinary_coriander_seed",
+      "id": "coriander_seed",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2285,7 +2285,7 @@
       }
     },
     {
-      "id": "xiao_hui_xiang",
+      "id": "fennel",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -2328,7 +2328,7 @@
       }
     },
     {
-      "id": "culinary_cardamom",
+      "id": "cardamom",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2371,7 +2371,7 @@
       }
     },
     {
-      "id": "ding_xiang",
+      "id": "clove",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -2414,7 +2414,7 @@
       }
     },
     {
-      "id": "rou_dou_kou",
+      "id": "nutmeg",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -2457,7 +2457,7 @@
       }
     },
     {
-      "id": "culinary_star_anise",
+      "id": "star_anise",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2500,7 +2500,7 @@
       }
     },
     {
-      "id": "culinary_lemongrass",
+      "id": "lemongrass",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2586,7 +2586,7 @@
       }
     },
     {
-      "id": "culinary_black_pepper",
+      "id": "black_pepper",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2629,7 +2629,7 @@
       }
     },
     {
-      "id": "culinary_white_pepper",
+      "id": "white_pepper",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2672,7 +2672,7 @@
       }
     },
     {
-      "id": "culinary_sichuan_pepper",
+      "id": "sichuan_pepper",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2715,7 +2715,7 @@
       }
     },
     {
-      "id": "culinary_dill",
+      "id": "dill",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2758,7 +2758,7 @@
       }
     },
     {
-      "id": "culinary_parsley",
+      "id": "parsley",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2801,7 +2801,7 @@
       }
     },
     {
-      "id": "culinary_cilantro",
+      "id": "cilantro",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2844,7 +2844,7 @@
       }
     },
     {
-      "id": "culinary_bay_leaf",
+      "id": "bay_leaf",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2887,7 +2887,7 @@
       }
     },
     {
-      "id": "culinary_sage",
+      "id": "sage",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2930,7 +2930,7 @@
       }
     },
     {
-      "id": "culinary_tarragon",
+      "id": "tarragon",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -2973,7 +2973,7 @@
       }
     },
     {
-      "id": "culinary_chili",
+      "id": "chili",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3016,7 +3016,7 @@
       }
     },
     {
-      "id": "culinary_paprika",
+      "id": "paprika",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3059,7 +3059,7 @@
       }
     },
     {
-      "id": "culinary_cayenne",
+      "id": "cayenne",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3102,7 +3102,7 @@
       }
     },
     {
-      "id": "culinary_makrut_lime_leaves",
+      "id": "makrut_lime_leaf",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3145,7 +3145,7 @@
       }
     },
     {
-      "id": "culinary_pandan",
+      "id": "pandan",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3188,7 +3188,7 @@
       }
     },
     {
-      "id": "culinary_candlenut",
+      "id": "candlenut",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3231,7 +3231,7 @@
       }
     },
     {
-      "id": "goji_berry",
+      "id": "goji",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -3274,7 +3274,7 @@
       }
     },
     {
-      "id": "jujube",
+      "id": "red_date",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -3360,7 +3360,7 @@
       }
     },
     {
-      "id": "lian_zi",
+      "id": "lotus_seed",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -3446,7 +3446,7 @@
       }
     },
     {
-      "id": "culinary_black_sesame",
+      "id": "black_sesame",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3489,7 +3489,7 @@
       }
     },
     {
-      "id": "culinary_white_sesame",
+      "id": "white_sesame",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3532,7 +3532,7 @@
       }
     },
     {
-      "id": "culinary_walnut",
+      "id": "walnut",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3575,7 +3575,7 @@
       }
     },
     {
-      "id": "culinary_almond",
+      "id": "almond",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3618,7 +3618,7 @@
       }
     },
     {
-      "id": "culinary_makrut_lime",
+      "id": "makrut_lime",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3661,7 +3661,7 @@
       }
     },
     {
-      "id": "culinary_turmeric_leaf",
+      "id": "turmeric_leaf",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3704,7 +3704,7 @@
       }
     },
     {
-      "id": "culinary_curry_leaf",
+      "id": "curry_leaf",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3747,7 +3747,7 @@
       }
     },
     {
-      "id": "culinary_ginger_flower",
+      "id": "ginger_flower",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3790,7 +3790,7 @@
       }
     },
     {
-      "id": "culinary_fingerroot",
+      "id": "fingerroot",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3833,7 +3833,7 @@
       }
     },
     {
-      "id": "culinary_shallot",
+      "id": "shallot",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3876,7 +3876,7 @@
       }
     },
     {
-      "id": "culinary_scallion",
+      "id": "scallion",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3919,7 +3919,7 @@
       }
     },
     {
-      "id": "culinary_garlic_chives",
+      "id": "garlic_chives",
       "tier": "A",
       "status": "draft",
       "origin": "culinary_only",
@@ -3962,7 +3962,7 @@
       }
     },
     {
-      "id": "zi_su_ye",
+      "id": "perilla",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",
@@ -4005,7 +4005,7 @@
       }
     },
     {
-      "id": "yu_xing_cao",
+      "id": "fish_mint",
       "tier": "A",
       "status": "draft",
       "origin": "tcm_database",

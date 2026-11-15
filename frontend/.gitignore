@@ -29,3 +29,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Herbal Kitchen validation report
+/tools/last_report.txt
